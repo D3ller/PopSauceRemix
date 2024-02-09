@@ -7,7 +7,7 @@ import { messages } from './i18n'
 
 const i18n = createI18n({
     legacy: false,
-    locale: "en",
+    locale: "fr",
     globalInjection: true,
     messages,
 });
