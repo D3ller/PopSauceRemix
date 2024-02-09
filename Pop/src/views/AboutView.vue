@@ -1,15 +1,24 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div>
+    {{ t('message.hello') }}
+    <button @click="changeLanguage('en')">English</button>
+    <button @click="changeLanguage('fr')">Français</button>
   </div>
 </template>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
+<script>
+import { useI18n } from 'vue-i18n';
+
+export default {
+  setup() {
+    const { t, locale } = useI18n({
+    });
+
+    const changeLanguage = (lang) => {
+      locale.value = lang;
+    };
+
+    return { t, changeLanguage };
+  },
 }
-</style>
+</script>
