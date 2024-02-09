@@ -56,7 +56,7 @@ import WelcomeItem from './WelcomeItem.vue'
 
     Got stuck? Ask your question on
     <a href="https://chat.vuejs.org" target="_blank" rel="noopener">Vue Land</a>, our official
-    Discord server, or
+    Discord index, or
     <a href="https://stackoverflow.com/questions/tagged/vue.js" target="_blank" rel="noopener"
       >StackOverflow</a
     >. You should also subscribe to

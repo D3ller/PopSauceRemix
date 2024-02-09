@@ -7,7 +7,7 @@ const messages = {
             navbar: {
                 home: 'Home',
                 account: 'Account',
-                find: 'Find a party',
+                find: 'Find a game',
 
             }
         }
