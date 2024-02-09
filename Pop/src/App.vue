@@ -5,6 +5,7 @@ import HelloWorld from './components/HelloWorld.vue'
 import {onMounted, onUnmounted, ref} from 'vue';
 import socket from './socket';
 import {io} from "socket.io-client";
+import Navbar from "@/components/Navbar.vue";
 let roomName = ref('');
 let inviteCode = ref('');
 let message = ref('');
@@ -92,6 +93,9 @@ function togglePrivacy() {
 </script>
 
 <template>
+
+  <Navbar />
+
 <button @click="socket.emit('message', 'Hello, world!')">Envoyer un message</button>
   <button @click="socket.emit('createRoom', roomName, Privacy)">Créer un salon</button>
   <input type="checkbox" checked id="private" @change="togglePrivacy" />
