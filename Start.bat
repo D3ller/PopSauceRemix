@@ -14,9 +14,10 @@ echo "   \ \_____  \ \__\    \ \_______\ \_______\"
 echo "    \|___| \__\|__|     \|_______|\|_______|"
 echo "          \|__|                             "
 
+
 start cmd /k "cd Pop && npm run dev"
 
-cd API && nodemon server.js
+cd API && nodemon serv.js
 
 
 
