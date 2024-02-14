@@ -1,6 +1,5 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 
 import {onMounted, onUnmounted, ref} from 'vue';
 import socket from './socket';
