@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import socket from "@/socket.js";
 import PlanetImage from "@/components/icons/planetImage.vue";
 
@@ -8,6 +8,28 @@ let roomName = ref('');
 let inviteCode = ref('');
 let username = ref('');
 let privacy = ref(false);
+
+function createRoom() {
+
+  if(roomName.value.length < 3) {
+    alert('Le nom du salon doit contenir au moins 3 caractères');
+    return;
+  } else {
+    socket.emit('createRoom', roomName.value, privacy.value);
+    console.log(roomName.value, privacy.value)
+  }
+
+
+
+
+}
+
+onMounted(() => {
+  socket.on('roomCreated', (room, code) => {
+    alert(`Salon créé: ${room}`)
+  });
+})
+
 </script>
 
 <template>

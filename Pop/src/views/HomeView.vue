@@ -22,23 +22,15 @@ onMounted(() => {
 
   socket.on('publicRooms', function(publicRoom) {
     publicRooms.value = publicRoom;
+    console.log(publicRooms.value);
   })
 
   socket.on('connect', () => {
     console.log('Connecté au serveur Socket.IO');
   });
 
-  socket.on('roomCreated', (room, code) => {
-    alert(`Salon créé: ${room}`)
-    shareCode.value = code;
-  });
-
   socket.on('joinedRoom', (room) => {
     alert(`Salon rejoint: ${room}`)
-  });
-
-  socket.on('alreadyInRoom', (room) => {
-    alert(`Vous êtes déjà dans le salon: ${room}`)
   });
 
   socket.on('roomJoined', (room) => {
