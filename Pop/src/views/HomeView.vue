@@ -6,6 +6,7 @@ import {onMounted, onUnmounted, ref} from 'vue';
 import {io} from "socket.io-client";
 import Navbar from "@/components/Navbar.vue";
 import RoomCard from "@/components/RoomCard.vue";
+import RoomArea from "@/components/RoomArea.vue";
 let roomName = ref('');
 let inviteCode = ref('');
 let message = ref('');
@@ -120,6 +121,9 @@ function togglePrivacy() {
     <div v-for="room in publicRooms" :key="room">
       <router-link :to="`/room/${room}`">{{ room }}</router-link>
     </div>
+
+    <RoomArea></RoomArea>
+
     <RoomCard :roomName="'nom de la room'" :creatorName="'nom du créateur'" :types="'test'" />
   </main>
 </template>
