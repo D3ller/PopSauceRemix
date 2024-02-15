@@ -42,9 +42,22 @@ let privacy = ref(false);
     <button class="create_room" @click="socket.emit('createRoom', roomName, privacy)">Créer un salon</button>
   </form>
 
+  <form @submit.prevent="joinRoom" v-else>
+    <div class="room_area_input_container">
+    <label for="inviteCode">Code d'invitation</label>
+    <input v-model="inviteCode" maxlength="9" placeholder="Ex: 123456" />
+    </div>
+    <div class="room_area_input_container">
+      <label for="username">Nom d'utilisateur</label>
+      <input v-model="username" placeholder="Ex: John Doe" />
+    </div>
+    <button class="create_room join_room" @click="socket.emit('joinRoom', inviteCode)">Rejoindre un salon</button>
+  </form>
+
 
 </div>
   <div class="room_area_second">
+    <img src="@/assets/images/planet.png" alt="planet" />
   </div>
 </div>
   </div>
@@ -59,17 +72,18 @@ let privacy = ref(false);
 
 .room_area_first {
   width: 480px;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .room_area {
-  width:1200px;
-  background-color: #ffffff;
-  display: grid;
-  grid-template-columns: 60% 40%;
+background-color: #ffffff;
+  display: flex;
   box-shadow: -1px 13px 20px 0px #d9d9d9;
   border-radius: 10px;
   padding: 40px;
+  gap: 60px;
 }
 
 .room_area_select {
@@ -97,7 +111,9 @@ let privacy = ref(false);
 .room_area_input_container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   margin-bottom: 20px;
+  height:96px;
 }
 
 .room_area_input_container label {
@@ -133,7 +149,7 @@ let privacy = ref(false);
   grid-template-columns: repeat(2, 1fr);
   width: fit-content;
   border: 3px solid #343434;
-  border-radius: 20px;
+  border-radius: 50px;
   background: #343434;
   font-weight: bold;
   color: #343434;
@@ -190,7 +206,7 @@ let privacy = ref(false);
 }
 
 .create_room {
-  padding: 10px 15px;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
   font-size: 16px;
@@ -200,7 +216,17 @@ let privacy = ref(false);
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-top: 20px;
 }
 
+
+
+.room_area_second {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.room_area_second img {
+width: 300px;
+}
 </style>

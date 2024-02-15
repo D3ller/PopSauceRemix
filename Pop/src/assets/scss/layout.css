@@ -5,6 +5,12 @@
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  
 }
 .nav_area .navbar {
   display: flex;

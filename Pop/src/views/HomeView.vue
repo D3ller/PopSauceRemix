@@ -95,35 +95,51 @@ function togglePrivacy() {
 
 <template>
   <main>
-    <button @click="socket.emit('message', 'Hello, world!')">Envoyer un message</button>
-    <button @click="socket.emit('createRoom', roomName, Privacy)">Créer un salon</button>
-    <input type="checkbox" checked id="private" @change="togglePrivacy" />
-    <label for="private">{{ Privacy ? 'Privé' : 'Public' }}</label>
+    <div class="flat_header">
 
-    <button @click="socket.emit('leaveRoom')">Quitter le salon</button>
-
-    <div v-for="player in players" :key="player">
-      <router-link :to="`/room/${player}`">{{ player }}</router-link>
-    </div>
-
-    <p>Code d'invitation: {{ shareCode }}</p>
-
-    <input v-model="roomName" placeholder="Nom du salon" />
-    <input v-model="inviteCode" placeholder="Code d'invitation" />
-    <button @click="socket.emit('joinRoom', {inviteCode})">Rejoindre un salon</button>
-
-    <input v-model="message" @keyup.enter="sendMessage" placeholder="Message" />
-
-    <div>
-      <p v-for="chat in chats" :key="chat.id">{{ chat }}</p>
-    </div>
-
-    <div v-for="room in publicRooms" :key="room">
-      <router-link :to="`/room/${room}`">{{ room }}</router-link>
     </div>
 
     <RoomArea></RoomArea>
 
     <RoomCard :roomName="'nom de la room'" :creatorName="'nom du créateur'" :types="'test'" />
   </main>
+
+
+
+
+
+  <button @click="socket.emit('message', 'Hello, world!')">Envoyer un message</button>
+  <button @click="socket.emit('createRoom', roomName, Privacy)">Créer un salon</button>
+  <input type="checkbox" checked id="private" @change="togglePrivacy" />
+  <label for="private">{{ Privacy ? 'Privé' : 'Public' }}</label>
+
+  <button @click="socket.emit('leaveRoom')">Quitter le salon</button>
+
+  <div v-for="player in players" :key="player">
+    <router-link :to="`/room/${player}`">{{ player }}</router-link>
+  </div>
+
+  <p>Code d'invitation: {{ shareCode }}</p>
+
+  <input v-model="roomName" placeholder="Nom du salon" />
+  <input v-model="inviteCode" placeholder="Code d'invitation" />
+  <button @click="socket.emit('joinRoom', {inviteCode})">Rejoindre un salon</button>
+
+  <input v-model="message" @keyup.enter="sendMessage" placeholder="Message" />
+
+  <div>
+    <p v-for="chat in chats" :key="chat.id">{{ chat }}</p>
+  </div>
+
+  <div v-for="room in publicRooms" :key="room">
+    <router-link :to="`/room/${room}`">{{ room }}</router-link>
+  </div>
+
 </template>
+
+<style scoped>
+.flat_header {
+  height: 90vh;
+  background: url('../assets/images/flat.webp') no-repeat center center/cover;
+}
+</style>
