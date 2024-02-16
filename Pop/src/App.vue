@@ -41,12 +41,10 @@ onMounted(() => {
     console.log('Connecté au serveur Socket.IO');
   });
 
-  socket.on('joinedRoom', (room) => {
+  socket.on('roomJoined', (room, code) => {
     alert(`Salon rejoint: ${room}`)
-  });
+    router.push({ name: 'Room', params: { id: code } });
 
-  socket.on('roomJoined', (room) => {
-    alert(`Salon rejoint: ${room}`)
   });
 
   socket.on('roomClosed', (room) => {

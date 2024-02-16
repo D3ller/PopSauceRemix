@@ -92,6 +92,8 @@ io.on('connection', (socket) => {
     })
 
     socket.on('joinRoom', (inviteCode, username) => {
+        console.log('inviteCode:', inviteCode);
+
         let foundRoom = Object.keys(rooms).find(room => rooms[room].id === inviteCode);
         console.log('Le client:', socket.id, 'a demandé à rejoindre la room:', inviteCode);
 
@@ -108,7 +110,7 @@ io.on('connection', (socket) => {
                 socket.join(foundRoom);
                 console.log(`Le client: ${socket.id} a rejoint la room: ${foundRoom} avec le code: ${inviteCode}`);
                 console.log(`Room status:`, rooms);
-                socket.emit('roomJoined', foundRoom);
+                socket.emit('roomJoined', foundRoom, inviteCode);
                 console.log("rooms[foundRoom].players");
                 socket.emit('roomUpdated', rooms[foundRoom].players);
                 socket.to(foundRoom).emit('roomUpdated', rooms[foundRoom].players);
