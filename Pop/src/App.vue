@@ -9,7 +9,6 @@ const roomStore = useRoomStore();
 
 let publicRooms = ref([]);
 let message = ref('');
-let Privacy = ref(false);
 let players = ref([]);
 
 onMounted(() => {
@@ -37,7 +36,8 @@ onMounted(() => {
   socket.emit('getPublicRooms');
 
   socket.on('publicRooms', function(publicRoom) {
-roomStore.updatePublicRooms(publicRoom);
+
+roomStore.updatePublicRooms([publicRoom]);
   })
 
   socket.on('connect', () => {

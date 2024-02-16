@@ -1,6 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
-import router from '@/router';
+import { ref } from 'vue';
 import {useRoomStore} from "@/stores/counter.js";
 const roomStore = useRoomStore();
 

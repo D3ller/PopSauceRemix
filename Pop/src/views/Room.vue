@@ -1,13 +1,9 @@
 <script setup>
-import {onMounted} from "vue";
-import {onBeforeRouteLeave, onBeforeRouteUpdate} from "vue-router";
 import router from "@/router/index.js";
 import {useRoomStore} from "@/stores/counter.js";
 const roomStore = useRoomStore();
 const id = router.currentRoute.value.params.id;
 console.log(id);
-
-
 </script>
 
 <template>

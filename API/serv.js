@@ -26,7 +26,6 @@ io.on('connection', (socket) => {
 //Récupérer les rooms publiques
     socket.on('getPublicRooms', () => {
         let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
-        console.log('publicRooms:', publicRooms);
         socket.emit('publicRooms', publicRooms);
 
     })
@@ -40,13 +39,13 @@ io.on('connection', (socket) => {
                     io.to(room).emit('roomClosed', room);
                     delete rooms[room];
                     let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
-                    io.emit('publicRooms', publicRooms);
+                    io.emit('publicRooms', rooms[publicRooms]);
                 } else {
                     rooms[room].players = rooms[room].players.filter(playerId => playerId !== socket.id);
                     if (rooms[room].players.length === 0) {
                         delete rooms[room];
                         let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
-                        io.emit('publicRooms', publicRooms);
+                        io.emit('publicRooms', rooms[publicRooms]);
 
                     } else {
                         socket.to(room).emit('roomUpdated', rooms[room].players);
@@ -88,6 +87,7 @@ io.on('connection', (socket) => {
         }
 
         rooms[room] = {
+            name: room,
             id: Math.random().toString(36).substr(2, 9),
             players: [],
             creator: socket.id,
@@ -110,9 +110,8 @@ io.on('connection', (socket) => {
 
         } else {
             let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
-            //Envoyer un message à tous les clients pour leur dire qu'une nouvelle room a été créée
-            io.emit('publicRooms', publicRooms);
-            console.log('publicRooms:', publicRooms);
+            io.emit('publicRooms', rooms[publicRooms]);
+            console.log('publicRooms:', rooms[publicRooms]);
         }
     });
 
@@ -169,7 +168,7 @@ io.on('connection', (socket) => {
                 delete rooms[findRoom];
                 socket.emit('roomClosed', findRoom);
                 let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
-                io.emit('publicRooms', publicRooms);
+                io.emit('publicRooms', rooms[publicRooms]);
             } else {
                 socket.to(findRoom).emit('roomUpdated', rooms[findRoom].players);
             }
