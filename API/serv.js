@@ -106,7 +106,8 @@ io.on('connection', (socket) => {
             }
 
             if (!rooms[foundRoom].players.includes(socket.id)) {
-                rooms[foundRoom].players.push(socket.id);
+                let you = {id: socket.id, username: username};
+                rooms[foundRoom].players.push(you);
                 socket.join(foundRoom);
                 console.log(`Le client: ${socket.id} a rejoint la room: ${foundRoom} avec le code: ${inviteCode}`);
                 console.log(`Room status:`, rooms);

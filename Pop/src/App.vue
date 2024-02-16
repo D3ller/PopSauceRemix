@@ -19,7 +19,7 @@ onMounted(() => {
       socket.emit('createRoom', newState.roomName, newState.privacy);
     } else {
       console.log(newState.inviteCode);
-      socket.emit('joinRoom', newState.inviteCode);
+      socket.emit('joinRoom', newState.inviteCode, 'username');
     }
   }, {
     deep: true
