@@ -63,10 +63,4 @@ nodemon server.js
 
 ## Technologies utilisées
 
-- HTML5
-- CSS3
-- SCSS
-- JavaScript
-- Vue.js
-- Socket.io
-- Express.js
+HTML5, CSS3, SCSS, JavaScript, Vue.js, Socket.io, Pinia, Express.js
