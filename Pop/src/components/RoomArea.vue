@@ -1,30 +1,21 @@
 <script setup>
-import {onMounted, ref} from "vue";
-import socket from "@/socket.js";
-import PlanetImage from "@/components/icons/planetImage.vue";
+import { onMounted, onUnmounted, ref } from 'vue';
+import router from '@/router';
+import {useRoomStore} from "@/stores/counter.js";
 
-let createorjoin = ref(true);
 let roomName = ref('');
+let privacy = ref(false);
 let inviteCode = ref('');
 let username = ref('');
-let privacy = ref(false);
+let createorjoin = ref(true);
 
 function createRoom() {
-if(roomName.value.length < 3) {
-  alert('Le nom du salon doit contenir au moins 3 caractères');
-  return;
-} else {
-  socket.emit('createRoom', roomName.value, privacy.value);
-}
-}
+  const roomStore = useRoomStore();
+  roomStore.createRoom(roomName.value, privacy.value, 'zozi')
 
-onMounted(() => {
-  socket.on('roomCreated', (room, code) => {
-    alert(`Salon créé: ${room}`)
-  });
-})
-
+}
 </script>
+
 
 <template>
   <div class="room_container">
@@ -46,8 +37,8 @@ onMounted(() => {
       <div class="toogle_container">
         <input v-model="privacy" type="checkbox" id="toggle" class="toggleCheckbox" />
         <label for="toggle" class='toggleContainer'>
-          <div :class="{room_selected: !privacy}">Privée</div>
-          <div :class="{room_selected: privacy}">Publique</div>
+          <div :class="{room_selected: !privacy}">Public</div>
+          <div :class="{room_selected: privacy}">Privée</div>
         </label>
 
       </div>
@@ -55,7 +46,7 @@ onMounted(() => {
 
 
 
-    <button class="create_room" @click="socket.emit('createRoom', roomName, privacy)">Créer un salon</button>
+    <button class="create_room">Créer un salon</button>
   </form>
 
   <form @submit.prevent="joinRoom" v-else>
@@ -243,6 +234,6 @@ background-color: #ffffff;
 }
 
 .room_area_second img {
-width: 300px;
+width: 00px;
 }
 </style>

@@ -23,35 +23,17 @@ let rooms = {};
 io.on('connection', (socket) => {
     console.log('Un client est connecté', socket.id);
 
+
     socket.on('getPublicRooms', () => {
         let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
+        console.log('publicRooms:', publicRooms);
         socket.emit('publicRooms', publicRooms);
 
     })
 
     socket.on('disconnect', () => {
         console.log('Un client s\'est déconnecté', socket.id);
-        for (let room in rooms) {
-            if (rooms[room].players.includes(socket.id)) {
-                if (rooms[room].creator === socket.id) {
-                    io.to(room).emit('roomClosed', room);
-                    delete rooms[room];
-                    let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
-                    io.emit('publicRooms', publicRooms);
-                } else {
-                    rooms[room].players = rooms[room].players.filter(playerId => playerId !== socket.id);
-                    if (rooms[room].players.length === 0) {
-                        delete rooms[room];
-                        let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
-                        io.emit('publicRooms', publicRooms);
 
-                    } else {
-                        socket.to(room).emit('roomUpdated', rooms[room].players);
-                    }
-                }
-                break;
-            }
-        }
     });
 
     socket.on('message', (message, room) => {
@@ -59,9 +41,19 @@ io.on('connection', (socket) => {
         socket.to(room).emit('message', message);
     });
 
-    socket.on('createRoom', (room, privacy) => {
+    socket.on('createRoom', (room, privacy, username) => {
         console.log(room);
         console.log('Le client:', socket.id, 'a créé la room:', room);
+
+        if(room === '') {
+            socket.emit('roomNameEmpty');
+            return;
+        }
+
+        if(room.length < 3) {
+            socket.emit('roomNameTooShort');
+            return;
+        }
 
         let findRoom = Object.keys(rooms).find(room => rooms[room].players.includes(socket.id));
         if (findRoom) {
@@ -69,14 +61,17 @@ io.on('connection', (socket) => {
             return;
         }
 
-        if (!rooms[room]) {
-            rooms[room] = { players: [], category: [], creator: socket.id, privacy: privacy};
-        }
+        rooms[room] = {
+            id: Math.random().toString(36).substr(2, 9),
+            players: [],
+            creator: socket.id,
+            privacy: privacy
+        };
 
-        rooms[room].id = Math.random().toString(36).substr(2, 9);
-        rooms[room].players.push(socket.id);
-
+        let you = {id: socket.id, username: username};
         socket.join(room);
+
+        rooms[room].players.push(you);
 
         console.log(`Room status:`, rooms);
 
@@ -88,10 +83,15 @@ io.on('connection', (socket) => {
         } else {
             let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
             io.emit('publicRooms', publicRooms);
+            console.log('publicRooms:', publicRooms);
         }
     });
 
-    socket.on('joinRoom', (inviteCode) => {
+    socket.on('getSocketId', () => {
+        socket.emit('socketId', socket.id);
+    })
+
+    socket.on('joinRoom', (inviteCode, username) => {
         let foundRoom = Object.keys(rooms).find(room => rooms[room].id === inviteCode.inviteCode);
         console.log('Le client:', socket.id, 'a demandé à rejoindre la room:', inviteCode);
 
@@ -109,6 +109,7 @@ io.on('connection', (socket) => {
                 console.log(`Le client: ${socket.id} a rejoint la room: ${foundRoom} avec le code: ${inviteCode.inviteCode}`);
                 console.log(`Room status:`, rooms);
                 socket.emit('roomJoined', foundRoom);
+                console.log("rooms[foundRoom].players");
                 socket.emit('roomUpdated', rooms[foundRoom].players);
                 socket.to(foundRoom).emit('roomUpdated', rooms[foundRoom].players);
             } else {

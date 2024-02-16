@@ -1,4 +1,6 @@
 <script setup>
+import {onMounted} from "vue";
+import {onBeforeRouteLeave, onBeforeRouteUpdate} from "vue-router";
 
 </script>
 
