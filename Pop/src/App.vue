@@ -5,11 +5,12 @@ import {onMounted, onUnmounted, ref, watch, watchEffect} from "vue";
 import socket from "@/socket.js";
 import router from "@/router/index.js";
 import {useRoomStore} from "@/stores/counter.js";
+const roomStore = useRoomStore();
+
 let publicRooms = ref([]);
 let message = ref('');
 let Privacy = ref(false);
 let players = ref([]);
-const roomStore = useRoomStore();
 
 onMounted(() => {
 
@@ -17,7 +18,8 @@ onMounted(() => {
     if (newState.createorjoin) {
       socket.emit('createRoom', newState.roomName, newState.privacy);
     } else {
-      console.log("Une salle a été rejoins");
+      console.log(newState.inviteCode);
+      socket.emit('joinRoom', newState.inviteCode);
     }
   }, {
     deep: true
@@ -84,10 +86,7 @@ function sendMessage() {
   message.value = '';
 }
 
-function togglePrivacy() {
-  console.log(Privacy.value);
-  Privacy.value = !Privacy.value;
-}
+
 </script>
 
 <template>

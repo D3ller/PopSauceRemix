@@ -2,6 +2,7 @@
 import { onMounted, onUnmounted, ref } from 'vue';
 import router from '@/router';
 import {useRoomStore} from "@/stores/counter.js";
+const roomStore = useRoomStore();
 
 let roomName = ref('');
 let privacy = ref(false);
@@ -10,10 +11,16 @@ let username = ref('');
 let createorjoin = ref(true);
 
 function createRoom() {
-  const roomStore = useRoomStore();
   roomStore.createRoom(roomName.value, privacy.value, 'zozi')
 
 }
+
+function joinRoom() {
+  console.log(inviteCode.value, username.value);
+  roomStore.joinRoom(inviteCode.value, username.value)
+}
+
+
 </script>
 
 
@@ -58,7 +65,7 @@ function createRoom() {
       <label for="username">Nom d'utilisateur</label>
       <input v-model="username" placeholder="Ex: John Doe" />
     </div>
-    <button class="create_room join_room" @click="socket.emit('joinRoom', inviteCode)">Rejoindre un salon</button>
+    <button class="create_room join_room">Rejoindre un salon</button>
   </form>
 
 

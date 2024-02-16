@@ -15,6 +15,13 @@ createRoom(roomName, privacy, username) {
     this.privacy = privacy
     this.username = username
     this.createorjoin = true
-    }
+    },
+
+joinRoom(inviteCode, username) {
+    this.inviteCode = inviteCode
+    this.username = username
+    this.createorjoin = false
+    console.log('inviteCode:', inviteCode)
+}
   },
 });
