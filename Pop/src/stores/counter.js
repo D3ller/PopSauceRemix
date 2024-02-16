@@ -9,6 +9,7 @@ export const useRoomStore = defineStore('room', {
     username: ref(''),
     createorjoin: ref(''),
       publicRooms: ref([]),
+      players: ref([]),
   }),
   actions: {
       createRoom(roomName, privacy, username) {

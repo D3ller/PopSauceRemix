@@ -34,7 +34,27 @@ io.on('connection', (socket) => {
     //Lorsqu'un client se déconnecte
     socket.on('disconnect', () => {
         console.log('Un client s\'est déconnecté', socket.id);
+        for (let room in rooms) {
+            if (rooms[room].players.includes(socket.id)) {
+                if (rooms[room].creator === socket.id) {
+                    io.to(room).emit('roomClosed', room);
+                    delete rooms[room];
+                    let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
+                    io.emit('publicRooms', publicRooms);
+                } else {
+                    rooms[room].players = rooms[room].players.filter(playerId => playerId !== socket.id);
+                    if (rooms[room].players.length === 0) {
+                        delete rooms[room];
+                        let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
+                        io.emit('publicRooms', publicRooms);
 
+                    } else {
+                        socket.to(room).emit('roomUpdated', rooms[room].players);
+                    }
+                }
+                break;
+            }
+        }
     });
 
     //Lorsqu'un client envoie un message
@@ -118,6 +138,7 @@ io.on('connection', (socket) => {
 
             if (!rooms[foundRoom].players.includes(socket.id)) {
                 let you = {id: socket.id, username: username};
+                console.log(you)
                 rooms[foundRoom].players.push(you);
                 socket.join(foundRoom);
                 console.log(`Le client: ${socket.id} a rejoint la room: ${foundRoom} avec le code: ${inviteCode}`);

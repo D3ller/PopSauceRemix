@@ -16,13 +16,13 @@ onMounted(() => {
 
   watch(() => roomStore.$state, (newState, oldState) => {
     if (newState.createorjoin === true) {
-      socket.emit('createRoom', newState.roomName, newState.privacy);
+      socket.emit('createRoom', newState.roomName, newState.privacy, 'kora');
       roomStore.createorjoin = '';
     }
 
     if(newState.createorjoin === false){
       console.log(newState.inviteCode);
-      socket.emit('joinRoom', newState.inviteCode, 'username');
+      socket.emit('joinRoom', newState.inviteCode, newState.username);
       roomStore.createorjoin = '';
     }
   }, {
@@ -46,6 +46,7 @@ roomStore.updatePublicRooms(publicRoom);
 
   socket.on('roomJoined', (room, code) => {
     alert(`Salon rejoint: ${room}`)
+    roomStore.roomName = room;
     router.push({ name: 'Room', params: { id: code } });
 
   });
@@ -75,6 +76,11 @@ roomStore.updatePublicRooms(publicRoom);
     chats.value = [];
     shareCode.value = '';
   })
+
+  socket.on('roomUpdated', (room) => {
+    console.log(room);
+    roomStore.players = room;
+  });
 
 
   onUnmounted(() => {
