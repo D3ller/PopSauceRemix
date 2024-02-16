@@ -15,11 +15,15 @@ let players = ref([]);
 onMounted(() => {
 
   watch(() => roomStore.$state, (newState, oldState) => {
-    if (newState.createorjoin) {
+    if (newState.createorjoin === true) {
       socket.emit('createRoom', newState.roomName, newState.privacy);
-    } else {
+      roomStore.createorjoin = '';
+    }
+
+    if(newState.createorjoin === false){
       console.log(newState.inviteCode);
       socket.emit('joinRoom', newState.inviteCode, 'username');
+      roomStore.createorjoin = '';
     }
   }, {
     deep: true
@@ -33,8 +37,7 @@ onMounted(() => {
   socket.emit('getPublicRooms');
 
   socket.on('publicRooms', function(publicRoom) {
-    publicRooms.value = publicRoom;
-    console.log(publicRooms.value);
+roomStore.updatePublicRooms(publicRoom);
   })
 
   socket.on('connect', () => {

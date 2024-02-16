@@ -80,6 +80,7 @@ io.on('connection', (socket) => {
         rooms[room].players.push(you);
 
         console.log(`Room status:`, rooms);
+        console.log(rooms[room].players);
 
         //Envoyer un message au client pour lui dire que la room a été créée
         socket.emit('roomCreated', room, rooms[room].id);

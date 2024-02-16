@@ -12,8 +12,8 @@ let shareCode = ref('');
 let Privacy = ref(false);
 let players = ref([]);
 let chats = ref([]);
-let publicRooms = ref([]);
-
+import {useRoomStore} from "@/stores/counter.js";
+const roomStore = useRoomStore();
 
 </script>
 
@@ -25,7 +25,8 @@ let publicRooms = ref([]);
 
     <RoomArea></RoomArea>
 
-    <RoomCard :roomName="'nom de la room'" :creatorName="'nom du créateur'" :types="'test'" />
+
+    <RoomCard v-for="room in roomStore.publicRooms" :roomName="room" :creatorName="'nom du créateur'" :types="'test'" />
   </main>
 
 
