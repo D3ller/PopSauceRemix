@@ -54,6 +54,13 @@ npm run dev
 nodemon server.js
 ```
 
+## Bugs
+
+- [x] Rejoindre des rooms et en crée
+- [ ] Gestions des questions
+- [ ] Base de donnée NoSQL
+- [ ] Gestion complète des sockets  
+
 ## Technologies utilisées
 
 - HTML5
