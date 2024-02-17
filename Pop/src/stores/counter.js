@@ -3,6 +3,7 @@ import {ref} from "vue";
 
 export const useRoomStore = defineStore('room', {
   state: () => ({
+      userId: ref(''),
     roomName: ref(''),
     privacy: ref(''),
     inviteCode: ref(''),
@@ -10,6 +11,8 @@ export const useRoomStore = defineStore('room', {
     createorjoin: ref(''),
       publicRooms: ref([]),
       players: ref([]),
+      roomInfo: ref(null),
+      roomOwner: ref('')
   }),
   actions: {
       createRoom(roomName, privacy, username) {
@@ -27,6 +30,16 @@ export const useRoomStore = defineStore('room', {
       },
       updatePublicRooms(rooms) {
           this.publicRooms = rooms
+      },
+      resetRoom() {
+          this.roomName = ''
+          this.privacy = ''
+          this.inviteCode = ''
+          this.username = ''
+          this.createorjoin = ''
+          this.publicRooms = []
+          this.players = []
+          this.roomInfo = null
       }
   }
 })

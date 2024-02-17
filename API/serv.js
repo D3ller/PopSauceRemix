@@ -103,7 +103,7 @@ io.on('connection', (socket) => {
         console.log(rooms[room].players);
 
         //Envoyer un message au client pour lui dire que la room a été créée
-        socket.emit('roomCreated', room, rooms[room].id);
+        socket.emit('roomCreated', room, rooms[room].id, socket.id);
         socket.emit('roomUpdated', rooms[room].players);
 
         if(privacy) {
@@ -119,6 +119,19 @@ io.on('connection', (socket) => {
         //Envoyer le socketId au client
         socket.emit('socketId', socket.id);
     })
+
+    socket.on('getRoomInfo', (inviteCode) => {
+        console.log('getRoomInfo:', inviteCode);
+
+        let foundRoomKey = Object.keys(rooms).find(roomKey => rooms[roomKey].id === inviteCode);
+
+        if (foundRoomKey) {
+            console.log('Room found:', rooms[foundRoomKey]);
+            socket.emit('roomInfo', rooms[foundRoomKey]);
+        } else {
+            socket.emit('roomNotFound', inviteCode);
+        }
+    });
 
     socket.on('joinRoom', (inviteCode, username) => {
         console.log('inviteCode:', inviteCode);
@@ -143,7 +156,7 @@ io.on('connection', (socket) => {
                 console.log(`Le client: ${socket.id} a rejoint la room: ${foundRoom} avec le code: ${inviteCode}`);
                 console.log(`Room status:`, rooms);
                 //Envoyer un message au client pour lui dire qu'il a rejoint la room
-                socket.emit('roomJoined', foundRoom, inviteCode);
+                socket.emit('roomJoined', foundRoom, inviteCode, socket.id);
                 console.log("rooms[foundRoom].players");
                 socket.emit('roomUpdated', rooms[foundRoom].players);
                 //Envoyer un message à tous les clients pour leur dire que la room a été mise à jour

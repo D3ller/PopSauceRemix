@@ -13,6 +13,11 @@ let players = ref([]);
 
 onMounted(() => {
 
+  //si la personne n'a pas de usrname dans le localstorage cree un guest username
+  if (!localStorage.getItem('username')) {
+    localStorage.setItem('username', `guest${Math.floor(Math.random() * 1000)}`);
+  }
+
   watch(() => roomStore.$state, (newState, oldState) => {
     if (newState.createorjoin === true) {
       socket.emit('createRoom', newState.roomName, newState.privacy, 'kora');
@@ -28,8 +33,24 @@ onMounted(() => {
     deep: true
   });
 
-  socket.on('roomCreated', (room, code) => {
+  watch(() => roomStore.roomInfo, (newState, oldState) => {
+    if (newState) {
+      socket.emit('getRoomInfo', newState);
+      roomStore.roomInfo = null;
+    }
+
+  });
+
+  socket.on('roomInfo', (room) => {
+    console.log(room);
+    roomStore.roomOwner = room.creator;
+    roomStore.roomName = room.name;
+    roomStore.players = room.players;
+  });
+
+  socket.on('roomCreated', (room, code, userid) => {
     console.log(room, code);
+    roomStore.userId = userid;
     router.push({ name: 'Room', params: { id: code } });
   });
 
@@ -44,21 +65,20 @@ roomStore.updatePublicRooms([publicRoom]);
     console.log('Connecté au serveur Socket.IO');
   });
 
-  socket.on('roomJoined', (room, code) => {
-    alert(`Salon rejoint: ${room}`)
+  socket.on('roomJoined', (room, code, userid) => {
     roomStore.roomName = room;
+    roomStore.userId = userid;
     router.push({ name: 'Room', params: { id: code } });
 
   });
 
   socket.on('roomClosed', (room) => {
-    alert(`Salon fermé: ${room}`)
     players.value = [];
     chats.value = [];
   })
 
   socket.on('roomNotFound', (room) => {
-    alert(`Aucun salon avec le code d'invitation: ${room.inviteCode}`)
+    router.push({ name: 'home' });
   })
 
   socket.on('chatEnter', (chat) => {
@@ -73,8 +93,7 @@ roomStore.updatePublicRooms([publicRoom]);
 
   socket.on('roomLeft', (room) => {
     players.value = [];
-    chats.value = [];
-    shareCode.value = '';
+    router.push({ name: 'home' });
   })
 
   socket.on('roomUpdated', (room) => {

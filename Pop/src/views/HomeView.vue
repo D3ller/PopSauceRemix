@@ -7,7 +7,7 @@ let chats = ref([]);
 import {useRoomStore} from "@/stores/counter.js";
 const roomStore = useRoomStore();
 
-console.log(roomStore.publicRooms.length)
+console.log(roomStore.publicRooms)
 </script>
 
 <template>
@@ -19,7 +19,7 @@ console.log(roomStore.publicRooms.length)
     <RoomArea></RoomArea>
 
 
-    <RoomCard v-for="room in roomStore.publicRooms" :roomName="room.name" :creatorName="'nom du créateur'" :types="'test'" />
+    <RoomCard v-for="room in roomStore.publicRooms" :roomName="room" :creatorName="'nom du créateur'" :types="'test'" />
   </main>
 
 
