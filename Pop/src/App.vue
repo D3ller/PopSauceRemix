@@ -13,9 +13,22 @@ let players = ref([]);
 
 onMounted(() => {
 
-  //si la personne n'a pas de usrname dans le localstorage cree un guest username
+  function generateToken(length) {
+    let token = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.-';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      token += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return token;
+  }
+
   if (!localStorage.getItem('username')) {
     localStorage.setItem('username', `guest${Math.floor(Math.random() * 1000)}`);
+  }
+
+  if(!localStorage.getItem('token')) {
+    localStorage.setItem('token', generateToken(30));
   }
 
   watch(() => roomStore.$state, (newState, oldState) => {
