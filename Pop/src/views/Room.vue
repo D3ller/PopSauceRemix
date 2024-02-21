@@ -30,6 +30,8 @@ Tu es dans la room {{roomStore.roomName}}
   <div v-for="players in roomStore.players">
     <p>{{players.username}}</p>
   </div>
+
+  <button>Quitter la room</button>
 </template>
 
 <style scoped>

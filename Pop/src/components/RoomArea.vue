@@ -6,7 +6,7 @@ const roomStore = useRoomStore();
 let roomName = ref('');
 let privacy = ref(false);
 let inviteCode = ref('');
-let username = ref('');
+let username = ref(localStorage.getItem('username'));
 let createorjoin = ref(true);
 
 function createRoom() {

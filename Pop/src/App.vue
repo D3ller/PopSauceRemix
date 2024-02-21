@@ -86,9 +86,11 @@ roomStore.updatePublicRooms([publicRoom]);
 
   });
 
+
   socket.on('roomClosed', (room) => {
     players.value = [];
     chats.value = [];
+    router.push({ name: 'home' });
   })
 
   socket.on('alreadyInRoom', (room) => {
@@ -97,18 +99,9 @@ roomStore.updatePublicRooms([publicRoom]);
   });
 
   socket.on('roomNotFound', (room) => {
+    alert('Le salon n\'existe pas');
     router.push({ name: 'home' });
   })
-
-  socket.on('chatEnter', (chat) => {
-    console.log(chat);
-    chats.value.push(chat);
-    console.log(chats.value)
-  });
-
-  socket.on('chatNotFound', () => {
-    console.log('Vous ne pouvez pas envoyer de message dans un salon que vous n\'avez pas rejoint');
-  });
 
   socket.on('roomLeft', (room) => {
     console.log(room)
