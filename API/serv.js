@@ -36,22 +36,23 @@ io.on('connection', (socket) => {
         let createdRoom = Object.keys(rooms).find(roomKey => String(rooms[roomKey].creator) === String(socket.id));
         console.log('createdRoom:', createdRoom)
         if (createdRoom) {
-            // Si le client déconnecté est le créateur, supprimer la room
+            console.log('La room:', createdRoom, 'a été fermée')
             let roomPlayers = rooms[createdRoom].players;
+            for (let i = 0; i < roomPlayers.length; i++) {
+                io.to(roomPlayers[i].id).emit('roomClosed', createdRoom);
+            }
             delete rooms[createdRoom];
-            // Informer tous les membres de la room que la room est fermée
-            roomPlayers.forEach(player => {
-                io.to(player.id).emit('roomClosed', createdRoom);
-            });
+            io.emit('publicRooms', rooms);
+
         } else {
-            // Sinon, simplement retirer le client de toutes les rooms où il se trouve
+            console.log('Je me supprime de toutes les rooms où je suis')
             let findRoom = Object.keys(rooms).find(roomKey => rooms[roomKey].players.find(player => player.id === socket.id));
             if (findRoom) {
                 rooms[findRoom].players = rooms[findRoom].players.filter(player => player.id !== socket.id);
                 // Si après le départ il n'y a plus de joueur dans la room, supprimer la room
                 if (rooms[findRoom].players.length === 0) {
+                    io.to(createdRoom).emit('roomClosed', createdRoom);
                     delete rooms[findRoom];
-                    io.emit('roomClosed', findRoom); // Informer tous les utilisateurs que la room est fermée
                 } else {
                     // Sinon, informer les autres membres de la room que la liste des joueurs a été mise à jour
                     io.to(findRoom).emit('roomUpdated', rooms[findRoom].players);
@@ -87,6 +88,7 @@ io.on('connection', (socket) => {
 
         if(room.length < 3) {
             //Le nom de la room est trop court
+            console.log('Le nom de la room est trop court');
             socket.emit('roomNameTooShort');
             return;
         }

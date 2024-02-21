@@ -9,11 +9,11 @@ const roomStore = useRoomStore();
 
 const id = route.params.id;
 
+
 onMounted(() => {
   roomStore.roomInfo = id;
 console.log(roomStore.players)
 
-  //regarde quand player se met à jour
   watch(() => roomStore.players, (newState, oldState) => {
     console.log(newState)
   }, {
@@ -31,7 +31,6 @@ Tu es dans la room {{roomStore.roomName}}
     <p>{{players.username}}</p>
   </div>
 
-  <button>Quitter la room</button>
 </template>
 
 <style scoped>
