@@ -99,8 +99,8 @@ roomStore.updatePublicRooms([publicRoom]);
   });
 
   socket.on('roomNotFound', (room) => {
-    alert('Le salon n\'existe pas');
-    router.push({ name: 'home' });
+    //alert('Le salon n\'existe pas');
+    router.push({ path: '/', query: { error: 'Le salon n\'existe pas' } });
   })
 
   socket.on('roomLeft', (room) => {
