@@ -9,8 +9,16 @@ let inviteCode = ref('');
 let username = ref(localStorage.getItem('username'));
 let createorjoin = ref(true);
 
+// gestion de l'erreur differente 
+
 function createRoom() {
-  roomStore.createRoom(roomName.value, privacy.value, 'zozi')
+  console.log(roomName.value.length)
+  if(roomName.value.length <= 3) {
+    alert('Le nom du salon est trop court');
+  } else {
+    roomStore.createRoom(roomName.value, privacy.value, 'zozi')
+  }
+  
 
 }
 

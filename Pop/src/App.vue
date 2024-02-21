@@ -119,10 +119,10 @@ roomStore.updatePublicRooms([publicRoom]);
     return;
   });
 
-  socket.on('roomNameTooShort', () => {
-    alert('Le nom du salon est trop court');
-    return;
-  });
+  // socket.on('roomNameTooShort', () => {
+  //   alert('Le nom du salon est trop court');
+  //   return;
+  // });
 
   onUnmounted(() => {
     socket.disconnect();

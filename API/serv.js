@@ -85,11 +85,11 @@ io.on('connection', (socket) => {
             return;
         }
 
-        if(room.length < 3) {
-            //Le nom de la room est trop court
-            socket.emit('roomNameTooShort');
-            return;
-        }
+        // if(room.length < 3) {
+        //     //Le nom de la room est trop court
+        //     socket.emit('roomNameTooShort');
+        //     return;
+        // }
 
         let findRoom = Object.keys(rooms).find(room => rooms[room].players.includes(socket.id));
         if (findRoom) {
