@@ -11,19 +11,14 @@ const id = route.params.id;
 
 onMounted(() => {
   roomStore.roomInfo = id;
+console.log(roomStore.players)
 
-  if (id) {
-watch(() => roomStore.roomOwner, (newState, oldState) => {
-  if(String(roomStore.userId) === String(newState)){
-  } else {
-    console.log('joining room')
-    roomStore.joinRoom(id, localStorage.getItem('username')); // Assurez-vous que `username` est défini ou récupéré d'une manière appropriée
-  }
-
-}, {
-  deep: true
-})
-  }
+  //regarde quand player se met à jour
+  watch(() => roomStore.players, (newState, oldState) => {
+    console.log(newState)
+  }, {
+    deep: true
+  });
 })
 
 </script>

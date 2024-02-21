@@ -40,12 +40,16 @@ io.on('connection', (socket) => {
                     delete rooms[room];
                     let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
                     io.emit('publicRooms', rooms[publicRooms]);
+                    socket.to(room).emit('roomUpdated', rooms[room].players);
+
                 } else {
                     rooms[room].players = rooms[room].players.filter(playerId => playerId !== socket.id);
                     if (rooms[room].players.length === 0) {
                         delete rooms[room];
                         let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
                         io.emit('publicRooms', rooms[publicRooms]);
+                        socket.to(room).emit('roomUpdated', rooms[room].players);
+
 
                     } else {
                         socket.to(room).emit('roomUpdated', rooms[room].players);
@@ -63,7 +67,7 @@ io.on('connection', (socket) => {
     });
 
     //Lorsqu'un client crée une room
-    socket.on('createRoom', (room, privacy, username) => {
+    socket.on('createRoom', (room, privacy, username, token) => {
         console.log(room);
         console.log('Le client:', socket.id, 'a créé la room:', room);
 
@@ -94,7 +98,7 @@ io.on('connection', (socket) => {
             privacy: privacy
         };
 
-        let you = {id: socket.id, username: username};
+        let you = {id: socket.id, username: username, token: token};
         socket.join(room);
 
         rooms[room].players.push(you);
@@ -102,7 +106,6 @@ io.on('connection', (socket) => {
         console.log(`Room status:`, rooms);
         console.log(rooms[room].players);
 
-        //Envoyer un message au client pour lui dire que la room a été créée
         socket.emit('roomCreated', room, rooms[room].id, socket.id);
         socket.emit('roomUpdated', rooms[room].players);
 
@@ -133,7 +136,7 @@ io.on('connection', (socket) => {
         }
     });
 
-    socket.on('joinRoom', (inviteCode, username) => {
+    socket.on('joinRoom', (inviteCode, username, token) => {
         console.log('inviteCode:', inviteCode);
 
         let foundRoom = Object.keys(rooms).find(room => rooms[room].id === inviteCode);
@@ -141,15 +144,15 @@ io.on('connection', (socket) => {
 
         if (foundRoom) {
 
-            let findRoom = Object.keys(rooms).find(room => rooms[room].players.includes(socket.id));
+            //voir si le client est déjà dans une room grace a son token
+            let findRoom = Object.keys(rooms).find(room => rooms[room].players.find(player => player.token === token));
             if (findRoom) {
-                //Le client est déjà dans une room
                 socket.emit('alreadyInRoom', findRoom);
                 return;
             }
 
-            if (!rooms[foundRoom].players.includes(socket.id)) {
-                let you = {id: socket.id, username: username};
+            if (!rooms[foundRoom].players.find(player => player.id === socket.id)) {
+                let you = {id: socket.id, username: username, token: token};
                 console.log(you)
                 rooms[foundRoom].players.push(you);
                 socket.join(foundRoom);
@@ -185,7 +188,7 @@ io.on('connection', (socket) => {
             } else {
                 socket.to(findRoom).emit('roomUpdated', rooms[findRoom].players);
             }
-            socket.emit('roomLeft', findRoom);
+            socket.emit('roomLeft', rooms[findRoom].players);
 
         } else {
             console.log('Le client:', socket.id, 'n\'est pas dans une room')

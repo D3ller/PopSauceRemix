@@ -33,13 +33,13 @@ onMounted(() => {
 
   watch(() => roomStore.$state, (newState, oldState) => {
     if (newState.createorjoin === true) {
-      socket.emit('createRoom', newState.roomName, newState.privacy, 'kora');
+      socket.emit('createRoom', newState.roomName, newState.privacy, localStorage.getItem('username'), localStorage.getItem('token'));
       roomStore.createorjoin = '';
     }
 
     if(newState.createorjoin === false){
       console.log(newState.inviteCode);
-      socket.emit('joinRoom', newState.inviteCode, newState.username);
+      socket.emit('joinRoom', newState.inviteCode, newState.username, localStorage.getItem('token'));
       roomStore.createorjoin = '';
     }
   }, {
@@ -55,7 +55,6 @@ onMounted(() => {
   });
 
   socket.on('roomInfo', (room) => {
-    console.log(room);
     roomStore.roomOwner = room.creator;
     roomStore.roomName = room.name;
     roomStore.players = room.players;
@@ -66,6 +65,8 @@ onMounted(() => {
     roomStore.userId = userid;
     router.push({ name: 'Room', params: { id: code } });
   });
+
+
 
   socket.emit('getPublicRooms');
 
@@ -90,6 +91,11 @@ roomStore.updatePublicRooms([publicRoom]);
     chats.value = [];
   })
 
+  socket.on('alreadyInRoom', (room) => {
+    alert('Vous êtes déjà dans ce salon');
+    return;
+  });
+
   socket.on('roomNotFound', (room) => {
     router.push({ name: 'home' });
   })
@@ -105,6 +111,7 @@ roomStore.updatePublicRooms([publicRoom]);
   });
 
   socket.on('roomLeft', (room) => {
+    console.log(room)
     players.value = [];
     router.push({ name: 'home' });
   })
