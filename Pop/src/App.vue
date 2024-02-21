@@ -1,10 +1,10 @@
 <script setup>
 
 import Navbar from "@/components/Navbar.vue";
-import {onMounted, onUnmounted, ref, watch, watchEffect} from "vue";
+import { onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
 import socket from "@/socket.js";
 import router from "@/router/index.js";
-import {useRoomStore} from "@/stores/counter.js";
+import { useRoomStore } from "@/stores/counter.js";
 const roomStore = useRoomStore();
 
 let publicRooms = ref([]);
@@ -27,7 +27,7 @@ onMounted(() => {
     localStorage.setItem('username', `guest${Math.floor(Math.random() * 1000)}`);
   }
 
-  if(!localStorage.getItem('token')) {
+  if (!localStorage.getItem('token')) {
     localStorage.setItem('token', generateToken(30));
   }
 
@@ -48,7 +48,7 @@ onMounted(() => {
       roomStore.createorjoin = '';
     }
 
-    if(newState.createorjoin === false){
+    if (newState.createorjoin === false) {
       console.log(newState.inviteCode);
       socket.emit('joinRoom', newState.inviteCode, newState.username, localStorage.getItem('token'));
       roomStore.createorjoin = '';
@@ -81,9 +81,9 @@ onMounted(() => {
 
   socket.emit('getPublicRooms');
 
-  socket.on('publicRooms', function(publicRoom) {
+  socket.on('publicRooms', function (publicRoom) {
 
-roomStore.updatePublicRooms([publicRoom]);
+    roomStore.updatePublicRooms([publicRoom]);
   })
 
   socket.on('connect', () => {
@@ -98,20 +98,18 @@ roomStore.updatePublicRooms([publicRoom]);
   });
 
 
-  socket.on('roomClosed', (room) => {
-    players.value = [];
-    chats.value = [];
-    router.push({ name: 'home' });
-  })
-
   socket.on('alreadyInRoom', (room) => {
     alert('Vous êtes déjà dans ce salon');
     return;
   });
-
   socket.on('roomNotFound', (room) => {
-    //alert('Le salon n\'existe pas');
-    router.push({ path: '/', query: { error: 'Le salon n\'existe pas' } });
+    alert('Le salon n\'existe pas');
+    router.push({ name: 'home' });
+  })
+  socket.on('roomClosed', (room) => {
+    console.log(room)
+    alert('ROOM FERME')
+    router.push({ name: 'home' });
   })
 
   socket.on('roomLeft', (room) => {
@@ -149,12 +147,10 @@ function sendMessage() {
 </script>
 
 <template>
-
   <Navbar />
 
 
   <RouterView />
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
