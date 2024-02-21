@@ -97,6 +97,23 @@ roomStore.updatePublicRooms([publicRoom]);
 
   });
 
+
+  socket.on('roomClosed', (room) => {
+    players.value = [];
+    chats.value = [];
+    router.push({ name: 'home' });
+  })
+
+  socket.on('alreadyInRoom', (room) => {
+    alert('Vous êtes déjà dans ce salon');
+    return;
+  });
+
+  socket.on('roomNotFound', (room) => {
+    //alert('Le salon n\'existe pas');
+    router.push({ path: '/', query: { error: 'Le salon n\'existe pas' } });
+  })
+
   socket.on('roomLeft', (room) => {
     console.log(room)
     players.value = [];
@@ -117,24 +134,6 @@ roomStore.updatePublicRooms([publicRoom]);
     alert('Le nom du salon est trop court');
     return;
   });
-
-  socket.on('alreadyInRoom', (room) => {
-    alert('Vous êtes déjà dans ce salon');
-    return;
-  });
-
-  socket.on('roomNotFound', (room) => {
-    alert('Le salon n\'existe pas');
-    router.push({ name: 'home' });
-  })
-
-
-  socket.on('roomClosed', (room) => {
-    console.log(room)
-    alert('ROOM FERME')
-    router.push({ name: 'home' });
-  })
-
 
   onUnmounted(() => {
     socket.disconnect();
