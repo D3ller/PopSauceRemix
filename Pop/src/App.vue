@@ -121,6 +121,15 @@ roomStore.updatePublicRooms([publicRoom]);
     roomStore.players = room;
   });
 
+  socket.on('cantCreateRoom', () => {
+    alert('Vous ne pouvez pas créer de salon car vous êtes déjà dans un salon');
+    return;
+  });
+
+  socket.on('roomNameTooShort', () => {
+    alert('Le nom du salon est trop court');
+    return;
+  });
 
   onUnmounted(() => {
     socket.disconnect();

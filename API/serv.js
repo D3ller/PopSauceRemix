@@ -77,6 +77,13 @@ io.on('connection', (socket) => {
             return;
         }
 
+        let findRooms = Object.keys(rooms).find(room => rooms[room].players.find(player => player.token === token));
+        if (findRooms) {
+
+            socket.emit('cantCreateRoom', findRooms);
+            return;
+        }
+
         if(room.length < 3) {
             //Le nom de la room est trop court
             socket.emit('roomNameTooShort');
