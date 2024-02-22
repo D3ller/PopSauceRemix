@@ -31,6 +31,7 @@ onMounted(() => {
     localStorage.setItem('token', generateToken(30));
   }
 
+
   watch(() => roomStore.leaveRoom, (newState, oldState) => {
     if (newState === true) {
       console.log(roomStore)
