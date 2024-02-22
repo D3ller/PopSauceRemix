@@ -115,7 +115,9 @@ io.on('connection', (socket) => {
         console.log(`Room status:`, rooms);
         console.log(rooms[room].players);
 
-        socket.emit('roomCreated', room, rooms[room].id, socket.id);
+        let roomId = rooms[room].id;
+
+        socket.emit('roomCreated', room, rooms[room].id, socket.id, roomId);
         socket.emit('roomUpdated', rooms[room].players);
 
         if(privacy) {
@@ -183,27 +185,40 @@ io.on('connection', (socket) => {
         }
     });
 
-    socket.on('leaveRoom', (room) => {
-        let findRoom = Object.keys(rooms).find(room => rooms[room].players.includes(socket.id));
+    socket.on('leaveRoom', (roomid, token) => {
+        console.log(`Le client: ${socket.id} demande à quitter la room: ${roomid}`);
 
-        if (findRoom) {
-            socket.leave(findRoom);
-            rooms[findRoom].players = rooms[findRoom].players.filter(playerId => playerId !== socket.id);
-            if (rooms[findRoom].players.length === 0) {
-                delete rooms[findRoom];
-                socket.emit('roomClosed', findRoom);
-                let publicRooms = Object.keys(rooms).filter(room => rooms[room].privacy === false);
-                io.emit('publicRooms', rooms[publicRooms]);
+        let room = Object.keys(rooms).find(room => rooms[room].players.find(player => player.token === token));
+        if(room) {
+            console.log("Je suis dans la room:", room)
+            if (rooms[room].creator === socket.id) {
+                console.log('La room:', room, 'a été fermée')
+                let roomPlayers = rooms[room].players;
+                for (let i = 0; i < roomPlayers.length; i++) {
+                    io.to(roomPlayers[i].id).emit('roomClosed', room);
+                }
+                delete rooms[room];
+                io.emit('publicRooms', rooms);
             } else {
-                socket.to(findRoom).emit('roomUpdated', rooms[findRoom].players);
+                rooms[room].players = rooms[room].players.filter(player => player.token !== token);
+                if (rooms[room].players.length === 0) {
+                    io.to(room).emit('roomClosed', room);
+                    delete rooms[room];
+                } else {
+                    console.log('QUITTE CETTE ROOM:', room);
+                    socket.emit('roomLeft', room);
+                    socket.leave(room);
+                    io.to(room).emit('roomUpdated', rooms[room].players);
+                }
             }
-            socket.emit('roomLeft', rooms[findRoom].players);
-
         } else {
-            console.log('Le client:', socket.id, 'n\'est pas dans une room')
-            socket.emit('notInRoom');
+            console.log('La room:', roomid, 'n\'existe pas');
+            socket.emit('roomNotFound', roomid);
         }
+
     });
+
+
 
     socket.on('chatEnter', (room) => {
         console.log(room)

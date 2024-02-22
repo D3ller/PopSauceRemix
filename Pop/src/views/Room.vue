@@ -31,6 +31,9 @@ Tu es dans la room {{roomStore.roomName}}
     <p>{{players.username}}</p>
   </div>
 
+
+  <button @click="roomStore.leave()">Quitter la room</button>
+
 </template>
 
 <style scoped>

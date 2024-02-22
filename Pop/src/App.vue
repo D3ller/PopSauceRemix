@@ -31,6 +31,14 @@ onMounted(() => {
     localStorage.setItem('token', generateToken(30));
   }
 
+  watch(() => roomStore.leaveRoom, (newState, oldState) => {
+    if (newState === true) {
+      console.log(roomStore)
+      roomStore.leaveRoom = false;
+      socket.emit('leaveRoom', roomStore.roomId, localStorage.getItem('token'));
+    }
+  });
+
   watch(() => roomStore.$state, (newState, oldState) => {
     if (newState.createorjoin === true) {
 
@@ -71,9 +79,10 @@ onMounted(() => {
     roomStore.players = room.players;
   });
 
-  socket.on('roomCreated', (room, code, userid) => {
+  socket.on('roomCreated', (room, code, userid, id) => {
     console.log(room, code);
     roomStore.userId = userid;
+    roomStore.roomId = id;
     router.push({ name: 'Room', params: { id: code } });
   });
 
@@ -82,7 +91,7 @@ onMounted(() => {
   socket.emit('getPublicRooms');
 
   socket.on('publicRooms', function (publicRoom) {
-
+console.log(publicRoom)
     roomStore.updatePublicRooms([publicRoom]);
   })
 
@@ -113,7 +122,7 @@ onMounted(() => {
   })
 
   socket.on('roomLeft', (room) => {
-    console.log(room)
+    alert('Vous avez quitté le salon')
     players.value = [];
     router.push({ name: 'home' });
   })
