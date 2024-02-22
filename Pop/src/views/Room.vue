@@ -2,6 +2,7 @@
 import { useRouter, useRoute } from "vue-router";
 import { useRoomStore } from "@/stores/counter.js";
 import {onMounted, watch} from "vue";
+import SideChatAndPlayers from "@/components/room/SideChatAndPlayers.vue";
 
 const router = useRouter();
 const route = useRoute(); // Utilisez useRoute pour accéder aux paramètres de l'URL
@@ -24,6 +25,8 @@ console.log(roomStore.players)
 </script>
 
 <template>
+  <div class="myroom_area">
+  <div>
 Tu es dans la room {{roomStore.roomName}}
   Code d'invitation: {{id}}
 
@@ -33,9 +36,14 @@ Tu es dans la room {{roomStore.roomName}}
 
 
   <button @click="roomStore.leave()">Quitter la room</button>
-
+  </div>
+  <side-chat-and-players :player="roomStore.players"></side-chat-and-players>
+  </div>
 </template>
 
 <style scoped>
-
+.myroom_area {
+  display: grid;
+  grid-template-columns: calc(100% - 360px) 360px;
+}
 </style>
