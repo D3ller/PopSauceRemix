@@ -1,22 +1,34 @@
 <script setup>
 import { ref } from 'vue';
 import {useRoomStore} from "@/stores/counter.js";
+import { useRoute } from 'vue-router';
+const route = useRoute();
 const roomStore = useRoomStore();
 
 let roomName = ref('');
 let privacy = ref(false);
 let inviteCode = ref('');
-let username = ref('');
+let username = ref(localStorage.getItem('username'));
 let createorjoin = ref(true);
+let error = ref('');
+
+// gestion de l'erreur differente 
 
 function createRoom() {
-  roomStore.createRoom(roomName.value, privacy.value, 'zozi')
-
+  console.log(roomName.value.length)
+  if(roomName.value.length <= 3) {
+    error.value = 'Le nom du salon est trop court, minimum 3 caractères';
+  } else {
+    roomStore.createRoom(roomName.value, privacy.value, 'zozi')
+  }
 }
 
 function joinRoom() {
+  error.value = '';
   console.log(inviteCode.value, username.value);
   roomStore.joinRoom(inviteCode.value, username.value)
+  error.value = route.query.error
+  console.log(error)
 }
 
 
@@ -37,6 +49,7 @@ function joinRoom() {
     <div class="room_area_input_container">
     <label for="roomName">Nom du salon</label>
     <input v-model="roomName" placeholder="Ex: Salon de jeux" />
+    <span class="error-message">{{ error }}</span>
     </div>
 
     <div class="room_area_input_container">
@@ -59,6 +72,7 @@ function joinRoom() {
     <div class="room_area_input_container">
     <label for="inviteCode">Code d'invitation</label>
     <input v-model="inviteCode" maxlength="9" placeholder="Ex: 123456" />
+    <span class="error-message">{{ error }}</span>
     </div>
     <div class="room_area_input_container">
       <label for="username">Nom d'utilisateur</label>
@@ -241,5 +255,10 @@ background-color: #ffffff;
 
 .room_area_second img {
 width: 00px;
+}
+
+.error-message {
+  color: red;
+  font-family: Raleway, sans-serif;
 }
 </style>

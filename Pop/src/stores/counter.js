@@ -12,7 +12,9 @@ export const useRoomStore = defineStore('room', {
       publicRooms: ref([]),
       players: ref([]),
       roomInfo: ref(null),
-      roomOwner: ref('')
+      roomId: ref(''),
+      roomOwner: ref(''),
+      leaveRoom: ref(false)
   }),
   actions: {
       createRoom(roomName, privacy, username) {
@@ -40,6 +42,11 @@ export const useRoomStore = defineStore('room', {
           this.publicRooms = []
           this.players = []
           this.roomInfo = null
+      },
+
+      leave() {
+            this.leaveRoom = true
       }
+
   }
 })

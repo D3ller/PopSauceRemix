@@ -1,10 +1,10 @@
 <script setup>
 
 import Navbar from "@/components/Navbar.vue";
-import {onMounted, onUnmounted, ref, watch, watchEffect} from "vue";
+import { onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
 import socket from "@/socket.js";
 import router from "@/router/index.js";
-import {useRoomStore} from "@/stores/counter.js";
+import { useRoomStore } from "@/stores/counter.js";
 const roomStore = useRoomStore();
 
 let publicRooms = ref([]);
@@ -27,17 +27,36 @@ onMounted(() => {
     localStorage.setItem('username', `guest${Math.floor(Math.random() * 1000)}`);
   }
 
-  if(!localStorage.getItem('token')) {
+  if (!localStorage.getItem('token')) {
     localStorage.setItem('token', generateToken(30));
   }
 
+  watch(() => roomStore.leaveRoom, (newState, oldState) => {
+    if (newState === true) {
+      console.log(roomStore)
+      roomStore.leaveRoom = false;
+      socket.emit('leaveRoom', roomStore.roomId, localStorage.getItem('token'));
+    }
+  });
+
   watch(() => roomStore.$state, (newState, oldState) => {
     if (newState.createorjoin === true) {
+
+      if (newState.roomName === '' || newState.privacy === '') {
+        alert('Veuillez remplir tous les champs')
+        return;
+      }
+
+      if (newState.roomName.length < 3) {
+        alert('Le nom du salon est trop court');
+        return;
+      }
+
       socket.emit('createRoom', newState.roomName, newState.privacy, localStorage.getItem('username'), localStorage.getItem('token'));
       roomStore.createorjoin = '';
     }
 
-    if(newState.createorjoin === false){
+    if (newState.createorjoin === false) {
       console.log(newState.inviteCode);
       socket.emit('joinRoom', newState.inviteCode, newState.username, localStorage.getItem('token'));
       roomStore.createorjoin = '';
@@ -60,9 +79,10 @@ onMounted(() => {
     roomStore.players = room.players;
   });
 
-  socket.on('roomCreated', (room, code, userid) => {
+  socket.on('roomCreated', (room, code, userid, id) => {
     console.log(room, code);
     roomStore.userId = userid;
+    roomStore.roomId = id;
     router.push({ name: 'Room', params: { id: code } });
   });
 
@@ -70,9 +90,9 @@ onMounted(() => {
 
   socket.emit('getPublicRooms');
 
-  socket.on('publicRooms', function(publicRoom) {
-
-roomStore.updatePublicRooms([publicRoom]);
+  socket.on('publicRooms', function (publicRoom) {
+console.log(publicRoom)
+    roomStore.updatePublicRooms([publicRoom]);
   })
 
   socket.on('connect', () => {
@@ -86,32 +106,23 @@ roomStore.updatePublicRooms([publicRoom]);
 
   });
 
-  socket.on('roomClosed', (room) => {
-    players.value = [];
-    chats.value = [];
-  })
 
   socket.on('alreadyInRoom', (room) => {
     alert('Vous êtes déjà dans ce salon');
     return;
   });
-
   socket.on('roomNotFound', (room) => {
+    alert('Le salon n\'existe pas');
+    router.push({ name: 'home' });
+  })
+  socket.on('roomClosed', (room) => {
+    console.log(room)
+    alert('ROOM FERME')
     router.push({ name: 'home' });
   })
 
-  socket.on('chatEnter', (chat) => {
-    console.log(chat);
-    chats.value.push(chat);
-    console.log(chats.value)
-  });
-
-  socket.on('chatNotFound', () => {
-    console.log('Vous ne pouvez pas envoyer de message dans un salon que vous n\'avez pas rejoint');
-  });
-
   socket.on('roomLeft', (room) => {
-    console.log(room)
+    alert('Vous avez quitté le salon')
     players.value = [];
     router.push({ name: 'home' });
   })
@@ -121,6 +132,15 @@ roomStore.updatePublicRooms([publicRoom]);
     roomStore.players = room;
   });
 
+  socket.on('cantCreateRoom', () => {
+    alert('Vous ne pouvez pas créer de salon car vous êtes déjà dans un salon');
+    return;
+  });
+
+  socket.on('roomNameTooShort', () => {
+    alert('Le nom du salon est trop court');
+    return;
+  });
 
   onUnmounted(() => {
     socket.disconnect();
@@ -136,12 +156,10 @@ function sendMessage() {
 </script>
 
 <template>
-
   <Navbar />
 
 
   <RouterView />
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
