@@ -13,7 +13,10 @@ console.log(props)
     <h3>Tableaux des scores</h3>
       <div class="players_container">
         <div class="player" v-for="player in props.player">
-          <p>{{ player.username }}</p>
+          <div id="player_contener">
+            <img id="player_contener_picture_player" src="@/assets/images/cirlce_user.png" alt="image_du_player">
+            <p id="player_contener_name_player">{{ player.username }}</p>
+          </div>
         </div>
   </div>
     </div>
@@ -52,5 +55,22 @@ console.log(props)
   font-size: 22px;
   color: white;
   text-align: center;
+}
+#player_contener{
+  background-color: #D9D9D9;
+  width: 95%;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  height: 50px;
+}
+#player_contener_name_player{
+ font-family: 'Courier New', Courier, monospace;
+ margin: 25px;
+}
+#player_contener_picture_player{
+  width: 15%;
+  margin: 10px;
 }
 </style>
