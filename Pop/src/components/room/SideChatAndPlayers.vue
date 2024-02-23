@@ -25,7 +25,6 @@ console.log(props)
     </div>
 
     <div class="side_chat">
-      <h3>Chat</h3>
       <div class="chat_container">
         <div class="chat_message">
       </div>

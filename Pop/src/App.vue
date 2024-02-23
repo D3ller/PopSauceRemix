@@ -23,13 +23,31 @@ onMounted(() => {
     return token;
   }
 
+  function isValidToken(token) {
+    const validCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.-';
+    if (token.length !== 30) {
+      return false;
+    }
+    for (let i = 0; i < token.length; i++) {
+      if (!validCharacters.includes(token[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   if (!localStorage.getItem('username')) {
     localStorage.setItem('username', `guest${Math.floor(Math.random() * 1000)}`);
   }
 
-  if (!localStorage.getItem('token')) {
+  if (!localStorage.getItem('token') || !isValidToken(localStorage.getItem('token'))) {
     localStorage.setItem('token', generateToken(30));
   }
+
+  if (!isValidToken(localStorage.getItem('token'))) {
+    localStorage.setItem('token', generateToken(30));
+  }
+
 
 
   watch(() => roomStore.leaveRoom, (newState, oldState) => {

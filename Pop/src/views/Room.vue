@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter, useRoute } from "vue-router";
 import { useRoomStore } from "@/stores/counter.js";
-import {onMounted, watch} from "vue";
+import {onMounted, onUnmounted, watch} from "vue";
 import SideChatAndPlayers from "@/components/room/SideChatAndPlayers.vue";
 
 const router = useRouter();
@@ -15,13 +15,25 @@ onMounted(() => {
   roomStore.roomInfo = id;
 console.log(roomStore.players)
 
+
   watch(() => roomStore.players, (newState, oldState) => {
     console.log(newState)
+
+    //regarde si le token est le même que celui d'un des joueurs
+    if (newState.some(player => player.token === localStorage.getItem('token'))) {
+      alert('tu es dans la room')
+    } else {
+alert('tu n\'es pas dans la room')
+    }
+
   }, {
     deep: true
   });
 })
 
+onUnmounted(() => {
+  roomStore.leave();
+})
 </script>
 
 <template>

@@ -153,6 +153,8 @@ io.on('connection', (socket) => {
         let foundRoom = Object.keys(rooms).find(room => rooms[room].id === inviteCode);
         console.log('Le client:', socket.id, 'a demandé à rejoindre la room:', inviteCode);
 
+        console.log(socket.id)
+
         if (foundRoom) {
 
             //voir si le client est déjà dans une room grace a son token
