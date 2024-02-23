@@ -38,7 +38,21 @@ function createRoom() {
 }
 
 function joinRoom() {
-  router.push(`/room/${roomID.value}`)
+
+  let room = {
+    id: roomID.value,
+    username: username.value
+  }
+
+  socket.emit('join-room', room, (res) => {
+    if(res.type === 'message'){
+      router.push(`/room/${res.room.id}`)
+    }
+
+    if(res.type === 'error'){
+      error.value = res.error
+    }
+  })
 }
 </script>
 
