@@ -1,0 +1,18 @@
+
+//Mixins pour les flexbox
+@mixin flex-container($direction: row, $wrap: nowrap, $justify: flex-start, $align-items: stretch, $align-content: stretch) {
+  display: flex;
+  flex-direction: $direction;
+  flex-wrap: $wrap;
+  justify-content: $justify;
+  align-items: $align-items;
+  align-content: $align-content;
+}
+
+//Mixins pour les polices
+@mixin font-style($font-family: 'Arial', $font-size: 16px, $font-weight: normal, $line-height: 1.5) {
+  font-family: $font-family;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  line-height: $line-height;
+}

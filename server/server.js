@@ -33,6 +33,11 @@ io.on("connection", (socket) => {
         callback(user)
     })
 
+    //deconnexion
+    socket.on('disconnect', () => {
+console.log(socket.id + ' disconnected');
+    });
+
     //creation du salon
     socket.on('create-room', (room, callback) => {
         const res = game.createRoom(room.name, room.creator, room.privacy)

@@ -49,14 +49,17 @@ class Game {
         let player = {
             name: user.name,
             token: user.token,
-            roomID: roomID
+            roomID: roomID.value
         }
+
+        console.log(player)
 
         this.players.push(player)
 
-        let room = this.rooms.find(y => y.id == roomID)
+        let room = this.rooms.find(x => x.id === roomID)
+        console.log(room)
 
-        let isExist = room.players.find(y => y.token == player.token)
+        let isExist = room.players.find(y => y.token === player.token)
 
         if(!isExist) {
             room.players.push(player)
