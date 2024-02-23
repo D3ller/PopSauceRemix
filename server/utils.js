@@ -36,11 +36,10 @@ class Game {
             privacy: privacy
         }
 
-        if (this.rooms.find(y => y.creator == room.creator)) {
+        if (this.rooms.find(y => y.creator === room.creator)) {
             return {type: 'error', error: 'you already have a room'}
         } else {
             this.rooms.push(room);
-            console.log("room created", this.rooms);
             return {type: 'message', message: 'congrat, room created', room: room};
         }
     }
@@ -49,15 +48,12 @@ class Game {
         let player = {
             name: user.name,
             token: user.token,
-            roomID: roomID.value
+            roomID: roomID
         }
-
-        console.log(player)
 
         this.players.push(player)
 
         let room = this.rooms.find(x => x.id === roomID)
-        console.log(room)
 
         let isExist = room.players.find(y => y.token === player.token)
 
@@ -66,9 +62,12 @@ class Game {
         } else {
             console.log("deja dans la room")
         }
-
-        console.log(room.players)
         return player;
+    }
+
+    getPlayers(roomID) {
+        let room = this.rooms.find(x => x.id === roomID)
+        return room.players;
     }
 }
 

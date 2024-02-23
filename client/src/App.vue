@@ -1,5 +1,6 @@
 <script setup>
 import socket from '@/socket'
+import Navbar from "@/components/Navbar.vue";
 
 let user = localStorage.getItem('user');
 
@@ -7,7 +8,9 @@ socket.on("connect", () => {
   console.log(socket.id);
 })
 
-if(user === undefined) {
+console.log(user)
+
+if(user === undefined || user === null){
   socket.emit('first-connexion', (user) => {
     console.log(user)
     localStorage.setItem('user', JSON.stringify(user))
@@ -17,6 +20,7 @@ if(user === undefined) {
 </script>
 
 <template>
+  <navbar></navbar>
   <RouterView/>
 </template>
 

@@ -22,7 +22,7 @@ function createRoom() {
     privacy: privacy.value
   }
 
-  if (room.name.value == '' || room.creator == undefined) {
+  if (room.name.value === '' || room.creator === undefined) {
     console.log('erreur', user)
   } else {
     socket.emit('create-room', room, (res) => {
@@ -38,7 +38,7 @@ function createRoom() {
 }
 
 function joinRoom() {
-  router.push(`/room/${roomID}`)
+  router.push(`/room/${roomID.value}`)
 }
 </script>
 
@@ -115,10 +115,12 @@ function joinRoom() {
 .room_area {
   background-color: #ffffff;
   display: flex;
-  box-shadow: -1px 13px 20px 0px #d9d9d9;
+  box-shadow: -1px 13px 20px 0px #bababa;
   border-radius: 10px;
   padding: 40px;
   gap: 60px;
+  margin-top: -100px;
+  margin-bottom: 40px;
 }
 
 .room_area_select {

@@ -26,7 +26,6 @@ const game = new Game();
 
 //socket
 io.on("connection", (socket) => {
-    // console.log(socket.id)
     socket.on('first-connexion', (callback) => {
         const user = game.createUser()
         console.log(user)
@@ -38,15 +37,15 @@ io.on("connection", (socket) => {
 console.log(socket.id + ' disconnected');
     });
 
-    //creation du salon
     socket.on('create-room', (room, callback) => {
         const res = game.createRoom(room.name, room.creator, room.privacy)
-        console.log(res)
         callback(res)
     })
 
     socket.on('add-player', (user, roomID) => {
         game.addPlayer(user, roomID)
+        socket.join(roomID)
+        io.to(roomID).emit('get-players', game.getPlayers(roomID))
     })
 
     socket.on('join-room', (roomID) => {
