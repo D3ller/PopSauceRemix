@@ -41,7 +41,8 @@ function joinRoom() {
 
   let room = {
     id: roomID.value,
-    username: username.value
+    username: username.value,
+    token: user.token
   }
 
   socket.emit('join-room', room, (res) => {

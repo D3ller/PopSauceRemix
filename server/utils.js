@@ -17,6 +17,7 @@ class Game {
             return token;
         }
 
+
         let name = `guest${Math.floor(Math.random() * 1000)}`;
 
         return user = {
@@ -63,6 +64,22 @@ class Game {
             console.log("deja dans la room")
         }
         return player;
+    }
+
+    joinRoom(room) {
+        let roomID = room.id;
+        let roomExist = this.rooms.find(x => x.id === roomID)
+
+        if (roomExist) {
+            let player = this.players.find(x => x.token === room.token)
+            if (player) {
+                return {type: 'error', error: 'you are already in a room'}
+            } else {
+                return {type: 'message', message: 'congrat, you are in the room', room: roomExist}
+            }
+        } else {
+            return {type: 'error', error: 'room does not exist'}
+        }
     }
 
     getPlayers(roomID) {

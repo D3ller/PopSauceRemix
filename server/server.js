@@ -48,7 +48,9 @@ console.log(socket.id + ' disconnected');
         io.to(roomID).emit('get-players', game.getPlayers(roomID))
     })
 
-    socket.on('join-room', (room) => {
+    socket.on('join-room', (room, callback) => {
+        const res = game.joinRoom(room, socket.id)
+        callback(res)
     })
 });
 
