@@ -4,7 +4,7 @@ import socket from '@/socket';
 import { useRoute } from "vue-router";
 import SideChatAndPlayers from "@/components/room/SideChatAndPlayers.vue";
 let roomID = useRoute().params.id
-let player = ref(null)
+let player = ref([])
 
 onMounted(async () => {
     const user = await JSON.parse(localStorage.getItem('user'))
@@ -30,6 +30,8 @@ socket.on('get-players', (players) => {
             <p>{{ p.name }}</p>
         </div>
     </div>
+
+      <button v-if="player.length > 1">Start Game</button>
     </div>
     <SideChatAndPlayers :player="player" />
   </div>
