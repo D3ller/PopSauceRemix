@@ -23,6 +23,10 @@ socket.on('owner', (isOwner) => {
     owner.value = true
 })
 
+function startGame() {
+    socket.emit('start-game', roomID)
+}
+
 </script>
 
 <template>

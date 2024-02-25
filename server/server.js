@@ -58,6 +58,11 @@ console.log(socket.id + ' disconnected');
         const res = game.joinRoom(room, socket.id)
         callback(res)
     })
+
+
+    socket.on('start-game', (roomID) => {
+      console.log('start-game', roomID)
+    })
 });
 
 const PORT = process.env.PORT || 3000;
