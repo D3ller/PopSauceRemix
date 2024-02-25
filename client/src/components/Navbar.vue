@@ -7,6 +7,10 @@ let navAccept = ref(true);
 
 const { t, locale } = useI18n();
 
+watch(() => router.currentRoute.value.name, (name) => {
+  navAccept.value = name !== 'room';
+})
+
 </script>
 
 <template>

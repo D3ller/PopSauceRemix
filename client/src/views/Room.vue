@@ -5,6 +5,7 @@ import { useRoute } from "vue-router";
 import SideChatAndPlayers from "@/components/room/SideChatAndPlayers.vue";
 let roomID = useRoute().params.id
 let player = ref([])
+let owner = ref(false)
 
 onMounted(async () => {
     const user = await JSON.parse(localStorage.getItem('user'))
@@ -14,8 +15,17 @@ onMounted(async () => {
 
 })
 
+//c'est pas encore fini
 socket.on('get-players', (players) => {
-  player.value = players
+  console.log(players)
+  const user = JSON.parse(localStorage.getItem('user'))
+  if(players.rooms.creator === user.name) {
+    player.value = players.players;
+    owner.value = true
+  } else {
+    player.value = players.players;
+
+  }
 })
 
 </script>
@@ -31,7 +41,7 @@ socket.on('get-players', (players) => {
         </div>
     </div>
 
-      <button v-if="player.length > 1">Start Game</button>
+      <button v-if="player.length > 1 && owner" class="btn btn-primary" @click="startGame()">Start Game</button>
     </div>
     <SideChatAndPlayers :player="player" />
   </div>

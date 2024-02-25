@@ -61,9 +61,9 @@ class Game {
         if(!isExist) {
             room.players.push(player)
         } else {
-            console.log("deja dans la room")
+            return {type: 'error', error: 'you are already in the room'}
         }
-        return player;
+        return {type: 'message', message: 'congrat, you are in the room', room: room}
     }
 
     joinRoom(room) {
@@ -86,6 +86,12 @@ class Game {
         let room = this.rooms.find(x => x.id === roomID)
         return room.players;
     }
+
+    getRoom(roomID) {
+        return this.rooms.find(x => x.id === roomID);
+    }
+
+
 }
 
 module.exports = { Game }
