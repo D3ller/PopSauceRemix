@@ -18,7 +18,7 @@ let username = ref(user.name)
 function createRoom() {
   let room = {
     name: roomName.value,
-    creator: user.name,
+    creator: {name:user.name, token: user.token},
     privacy: privacy.value
   }
 

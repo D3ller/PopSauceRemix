@@ -32,12 +32,12 @@ class Game {
         let room = {
             id: roomID,
             name: roomName,
-            creator: username,
+            creator: {name: username.name, token: username.token},
             players: [],
             privacy: privacy
         }
 
-        if (this.rooms.find(y => y.creator === room.creator)) {
+        if (this.rooms.find(y => y.creator.token === username.token)) {
             return {type: 'error', error: 'you already have a room'}
         } else {
             this.rooms.push(room);

@@ -15,17 +15,12 @@ onMounted(async () => {
 
 })
 
-//c'est pas encore fini
 socket.on('get-players', (players) => {
-  console.log(players)
-  const user = JSON.parse(localStorage.getItem('user'))
-  if(players.rooms.creator === user.name) {
-    player.value = players.players;
-    owner.value = true
-  } else {
-    player.value = players.players;
+    player.value = players
+})
 
-  }
+socket.on('owner', (isOwner) => {
+    owner.value = true
 })
 
 </script>

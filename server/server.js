@@ -40,12 +40,18 @@ console.log(socket.id + ' disconnected');
     socket.on('create-room', (room, callback) => {
         const res = game.createRoom(room.name, room.creator, room.privacy)
         callback(res)
+        socket.emit('owner', true)
     })
 
     socket.on('add-player', (user, roomID) => {
         game.addPlayer(user, roomID)
         socket.join(roomID)
-        io.to(roomID).emit('get-players', {players: game.getPlayers(roomID), rooms: game.getRoom(roomID)})
+        io.to(roomID).emit('get-players', game.getPlayers(roomID))
+
+        if (game.getRoom(roomID).creator.token === user.token) {
+            socket.emit('owner', true)
+        }
+
     })
 
     socket.on('join-room', (room, callback) => {
