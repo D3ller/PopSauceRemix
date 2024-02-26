@@ -1,4 +1,4 @@
-let questions = [
+let multiple = [
     {
         question: 'Quel est le nombre de départements en France ?',
         reponses: ['101', '102', '103', '104'],
@@ -16,7 +16,40 @@ let questions = [
     }
 ]
 
-class Game {
+let input = [
+    {
+        question: 'Quel est le principal gaz à effet de serre contribuant au réchauffement climatique ?',
+        reponse: 'Dioxyde de carbone'
+    },
+    {
+        question: 'Quel est le terme utilisé pour décrire la diminution de la diversité biologique ?',
+        reponse: 'Extinction'
+    },
+    {
+        question: 'Quelle pratique agricole est considérée comme bénéfique pour l\'environnement ?',
+        reponse: 'Agriculture biologique'
+    }
+]
+
+let image = [
+    {
+        question: 'Quel est cet animal marin réputé pour son intelligence et ses vocalisations ?',
+        reponse: 'Dauphin',
+        url_image: 'https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQdVrDbX5tCAQ6lX9axvmA12KMoRadrK1F7Pgls0RBotbvCJ9C-rd-_TNNKD70f4oQL'
+    },
+    {
+        question: 'Quel oiseau est connu pour ses plumes colorées et sa capacité à imiter les sons ?',
+        reponse: 'Perroquet',
+        url_image: 'https://media.gettyimages.com/id/162543354/fr/vectoriel/ara-macao.jpg?s=612x612&w=0&k=20&c=2nI69GAns0yTxMd7zbgQfrF3lIOO9hyWUHU5HJliAdY='
+    },
+    {
+        question: 'Quel grand félin est réputé pour être l\'un des animaux les plus rapides sur terre ?',
+        reponse: 'Guépard',
+        url_image: 'https://www.zoo-africansafari.com/wp-content/uploads/86I8415-1-scaled.jpg'
+    }
+]
+
+    class Game {
     constructor() {
         this.rooms = [];
         this.players = [];
@@ -113,12 +146,35 @@ class Game {
 
     chooseQuestion(roomID) {
         let room = this.rooms.find(x => x.id === roomID);
-        room.currentQuestion = questions[Math.floor(Math.random() * questions.length)]
-        console.log(room.currentQuestion)
+        let QuestionType = ["multiple", "input", "image"];
+        let type = QuestionType[Math.floor(Math.random() * QuestionType.length)];
+        let res;
+        console.log('type', type)
 
-        const res = {
-            question: room.currentQuestion.question,
-            reponses: room.currentQuestion.reponses
+        if(type === "multiple") {
+            room.currentQuestion = multiple[Math.floor(Math.random() * multiple.length)]
+            res = {
+                type: 'multiple',
+                question: room.currentQuestion.question,
+                reponses: room.currentQuestion.reponses
+            }
+        }
+
+        if(type === "input") {
+            room.currentQuestion = input[Math.floor(Math.random() * input.length)]
+            res = {
+                type: 'input',
+                question: room.currentQuestion.question
+            }
+        }
+
+        if(type === "image") {
+            room.currentQuestion = image[Math.floor(Math.random() * image.length)]
+            res = {
+                type: 'image',
+                question: room.currentQuestion.question,
+                url_image: room.currentQuestion.url_image
+            }
         }
 
         return res;

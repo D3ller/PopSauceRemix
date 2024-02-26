@@ -12,6 +12,8 @@ let owner = ref(false)
 let start = ref(false)
 let question = ref('')
 let check = ref(false)
+let reponse = ref('')
+
 
 onMounted(async () => {
     const user = await JSON.parse(localStorage.getItem('user'))
@@ -48,7 +50,18 @@ function sendResponse(res) {
   console.log(res)
   socket.emit('reponse', res, roomID, user, (res) => {
     console.log(res)
+
+    if(question.type === "input") {
+      reponse.value = ''
+      return
+    }
+
     check.value = true
+    reponse.value = ''
+
+    if(res === "message") {
+
+    }
   });
 
 }
@@ -68,8 +81,19 @@ function sendResponse(res) {
 
       <p>{{ question.question }}</p>
 
-      <div v-if="!check" v-for="res in question.reponses">
-        <button @click="sendResponse(res)">{{ res }}</button>
+      <div v-if="question.type === 'multiple'" v-for="res in question.reponses">
+        <button @click="sendResponse(res)" :disabled="check">{{ res }}</button>
+      </div>
+
+      <div v-if="question.type === 'input'">
+        <input type="text" v-model="reponse" />
+        <button @click="sendResponse(reponse)">Envoyer</button>
+      </div>
+
+      <div v-if="question.type === 'image'">
+        <img :src="question.url_image" alt="image" width="300px" />
+        <input type="text" v-model="reponse" @keyup.enter="sendResponse(reponse)" />
+        <button @click="sendResponse(reponse)" :disabled="check">Envoyer</button>
       </div>
 
 <button v-if="owner && !start" @click="startGame">Start</button>
