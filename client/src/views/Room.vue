@@ -15,15 +15,21 @@ let check = ref(false)
 let reponse = ref('')
 
 
-onMounted(async () => {
-    const user = await JSON.parse(localStorage.getItem('user'))
-    console.log(user)
-    console.log(roomID)
-    await socket.emit('add-player', user, roomID)
-})
+  onMounted(async () => {
+    while (!user) {
+      console.log('tentative de connexion')
+      user = JSON.parse(localStorage.getItem('user'));
+      await new Promise(resolve => setTimeout(resolve, 500)); // Adjust the delay as needed
+    }
 
-onUnmounted(() => {
-    socket.emit('remove-player', roomID)
+    await socket.emit('add-player', user, roomID)
+
+
+  })
+
+onUnmounted( () => {
+  const user = JSON.parse(localStorage.getItem('user'))
+    socket.emit('remove-player', user, roomID)
 })
 
 socket.on('get-players', (players) => {
@@ -69,6 +75,10 @@ function sendResponse(res) {
 </script>
 
 <template>
+  <div v-if="!user" class="connexion">
+    connexion en cours
+  </div>
+
   <div class="myroom_area">
     <div>
       {{ roomID }}
@@ -108,5 +118,16 @@ function sendResponse(res) {
 .myroom_area {
   display: grid;
   grid-template-columns: calc(100% - 360px) 360px;
+}
+
+.connexion {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

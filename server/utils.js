@@ -50,153 +50,187 @@ let image = [
 ]
 
     class Game {
-    constructor() {
-        this.rooms = [];
-        this.players = [];
-    }
+        constructor() {
+            this.rooms = [];
+            this.players = [];
+        }
 
-    createUser() {
-        let user = {};
+        createUser() {
+            let user = {};
 
-        function generateToken(length) {
-            let token = '';
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.-';
-            const charactersLength = characters.length;
-            for (let i = 0; i < length; i++) {
-                token += characters.charAt(Math.floor(Math.random() * charactersLength));
+            function generateToken(length) {
+                let token = '';
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.-';
+                const charactersLength = characters.length;
+                for (let i = 0; i < length; i++) {
+                    token += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+                return token;
             }
-            return token;
+
+
+            let name = `guest${Math.floor(Math.random() * 1000)}`;
+
+            return user = {
+                name: name,
+                token: generateToken(30)
+            }
         }
 
+        createRoom(roomName, username, privacy) {
+            let roomID = Math.random().toString(36).substr(2, 9)
 
-        let name = `guest${Math.floor(Math.random() * 1000)}`;
+            let room = {
+                id: roomID,
+                name: roomName,
+                creator: {name: username.name, token: username.token},
+                players: [],
+                privacy: privacy,
+                currentQuestion: null
+            }
 
-        return user = {
-            name: name,
-            token: generateToken(30)
-        }
-    }
-
-    createRoom(roomName, username, privacy) {
-        let roomID = Math.random().toString(36).substr(2, 9)
-
-        let room = {
-            id: roomID,
-            name: roomName,
-            creator: {name: username.name, token: username.token},
-            players: [],
-            privacy: privacy,
-            currentQuestion: null
-        }
-
-        if (this.rooms.find(y => y.creator.token === username.token)) {
-            return {type: 'error', error: 'you already have a room'}
-        } else {
-            this.rooms.push(room);
-            return {type: 'message', message: 'congrat, room created', room: room};
-        }
-    }
-
-    addPlayer(user, roomID) {
-        let player = {
-            name: user.name,
-            token: user.token,
-            roomID: roomID,
-            points: 0
-        }
-
-        this.players.push(player)
-
-        let room = this.rooms.find(x => x.id === roomID)
-
-        let isExist = room.players.find(y => y.token === player.token)
-
-        if(!isExist) {
-            room.players.push(player)
-        } else {
-            return {type: 'error', error: 'you are already in the room'}
-        }
-        return {type: 'message', message: 'congrat, you are in the room', room: room}
-    }
-
-    joinRoom(room) {
-        let roomID = room.id;
-        let roomExist = this.rooms.find(x => x.id === roomID)
-
-        if (roomExist) {
-            let player = this.players.find(x => x.token === room.token)
-            if (player) {
-                return {type: 'error', error: 'you are already in a room'}
+            if (this.rooms.find(y => y.creator.token === username.token)) {
+                return {type: 'error', error: 'you already have a room'}
             } else {
-                return {type: 'message', message: 'congrat, you are in the room', room: roomExist}
-            }
-        } else {
-            return {type: 'error', error: 'room does not exist'}
-        }
-    }
-
-    getPlayers(roomID) {
-        let room = this.rooms.find(x => x.id === roomID)
-        return room.players;
-    }
-
-    getRoom(roomID) {
-        return this.rooms.find(x => x.id === roomID);
-    }
-
-    chooseQuestion(roomID) {
-        let room = this.rooms.find(x => x.id === roomID);
-        let QuestionType = ["multiple", "input", "image"];
-        let type = QuestionType[Math.floor(Math.random() * QuestionType.length)];
-        let res;
-        console.log('type', type)
-
-        if(type === "multiple") {
-            room.currentQuestion = multiple[Math.floor(Math.random() * multiple.length)]
-            res = {
-                type: 'multiple',
-                question: room.currentQuestion.question,
-                reponses: room.currentQuestion.reponses
+                this.rooms.push(room);
+                return {type: 'message', message: 'congrat, room created', room: room};
             }
         }
 
-        if(type === "input") {
-            room.currentQuestion = input[Math.floor(Math.random() * input.length)]
-            res = {
-                type: 'input',
-                question: room.currentQuestion.question
+        addPlayer(user, roomID) {
+            console.log(user, "coco")
+            let player = {
+                name: user.name,
+                token: user.token,
+                roomID: roomID,
+                points: 0
+            }
+
+            this.players.push(player)
+
+            let room = this.rooms.find(x => x.id === roomID)
+
+            let isExist = room.players.find(y => y.token === player.token)
+
+            if (!isExist) {
+                room.players.push(player)
+            } else {
+                return {type: 'error', error: 'you are already in the room'}
+            }
+            return {type: 'message', message: 'congrat, you are in the room', room: room}
+        }
+
+        removePlayer(user, roomID) {
+            let room = this.rooms.find(x => x.id === roomID);
+            let player = room.players.find(x => x.token === user.token);
+            let index = room.players.indexOf(player);
+            room.players.splice(index, 1);
+        }
+
+        joinRoom(room) {
+            let roomID = room.id;
+            let roomExist = this.rooms.find(x => x.id === roomID)
+
+            if (roomExist) {
+                let player = this.players.find(x => x.token === room.token)
+                if (player) {
+                    return {type: 'error', error: 'you are already in a room'}
+                } else {
+                    return {type: 'message', message: 'congrat, you are in the room', room: roomExist}
+                }
+            } else {
+                return {type: 'error', error: 'room does not exist'}
             }
         }
 
-        if(type === "image") {
-            room.currentQuestion = image[Math.floor(Math.random() * image.length)]
-            res = {
-                type: 'image',
-                question: room.currentQuestion.question,
-                url_image: room.currentQuestion.url_image
+        getPlayers(roomID) {
+            let room = this.rooms.find(x => x.id === roomID)
+            return room.players;
+        }
+
+        getRoom(roomID) {
+            return this.rooms.find(x => x.id === roomID);
+        }
+
+        chooseQuestion(roomID) {
+            let room = this.rooms.find(x => x.id === roomID);
+            let QuestionType = ["multiple", "input", "image"];
+            let type = QuestionType[Math.floor(Math.random() * QuestionType.length)];
+            let res;
+            console.log('type', type)
+            room.startTime = Date.now();
+            room.firstCorrectAnswerGiven = false;
+
+
+            if (type === "multiple") {
+                room.currentQuestion = multiple[Math.floor(Math.random() * multiple.length)]
+                res = {
+                    type: 'multiple',
+                    question: room.currentQuestion.question,
+                    reponses: room.currentQuestion.reponses
+                }
+            }
+
+            if (type === "input") {
+                room.currentQuestion = input[Math.floor(Math.random() * input.length)]
+                res = {
+                    type: 'input',
+                    question: room.currentQuestion.question
+                }
+            }
+
+            if (type === "image") {
+                room.currentQuestion = image[Math.floor(Math.random() * image.length)]
+                res = {
+                    type: 'image',
+                    question: room.currentQuestion.question,
+                    url_image: room.currentQuestion.url_image
+                }
+            }
+
+            return res;
+        }
+
+        checkReponse(reponse, roomID, user) {
+            let room = this.rooms.find(x => x.id === roomID);
+            let currentTime = Date.now();
+            let timeElapsed = (currentTime - room.startTime) / 1000;
+
+            let points = 0;
+            if (reponse === room.currentQuestion.reponse) {
+                let player = this.players.find(x => x.token === user.token);
+
+                if (!room.firstCorrectAnswerGiven) {
+                    points += 99;
+                    room.firstCorrectAnswerGiven = true;
+                } else {
+                    points += Math.max(1, 10 - Math.floor(timeElapsed));
+                }
+
+                player.points += points;
+
+                let winner = this.checkGameEnd(roomID);
+                if (winner) {
+                    return {type: 'end', message: 'Game over, we have a winner!', player: winner};
+                }
+
+                return {type: 'message', message: 'congrat, good reponse', player: player, points: points};
+            } else {
+                return {type: 'error', error: 'bad reponse'};
             }
         }
 
-        return res;
-    }
 
-    checkReponse(reponse, roomID, user) {
-        let room = this.rooms.find(x => x.id === roomID);
-        //get the question index
-
-        console.log('reponse', reponse)
-
-        if (reponse === room.currentQuestion.reponse) {
-            let player = this.players.find(x => x.token === user.token);
-            player.points += 1;
-            console.log('player', player)
-            return {type: 'message', message: 'congrat, good reponse', player: player}
-        } else {
-            return {type: 'error', error: 'bad reponse'}
+        checkGameEnd(roomID) {
+            let room = this.rooms.find(x => x.id === roomID);
+            let winner = null;
+            room.players.forEach(player => {
+                if (player.points >= 100) {
+                    winner = player;
+                }
+            });
+            return winner;
         }
     }
-
-
-}
 
 module.exports = { Game }

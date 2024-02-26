@@ -18,7 +18,7 @@ console.log(props)
             <p class="player_username">{{ player.name }}</p>
           </div>
           <div class="player_data rounded">
-            <p>0</p>
+          <p>{{player.points > 100 ? 100 : player.points}}</p>
           </div>
         </div>
       </div>

@@ -44,6 +44,7 @@ console.log(socket.id + ' disconnected');
     })
 
     socket.on('add-player', (user, roomID) => {
+        console.log(user, "zizi")
         game.addPlayer(user, roomID)
         socket.join(roomID)
         io.to(roomID).emit('get-players', game.getPlayers(roomID))
@@ -51,6 +52,15 @@ console.log(socket.id + ' disconnected');
         if (game.getRoom(roomID).creator.token === user.token) {
             socket.emit('owner', true)
         }
+
+    })
+
+    socket.on('remove-player', (user, roomID) => {
+
+        console.log(user.name + " a quitté la room " + roomID)
+
+        game.removePlayer(user, roomID)
+        io.to(roomID).emit('get-players', game.getPlayers(roomID))
 
     })
 
@@ -62,20 +72,27 @@ console.log(socket.id + ' disconnected');
 
     socket.on('start-game', (roomID) => {
         const res = game.chooseQuestion(roomID);
-
         io.to(roomID).emit('question', res);
 
         let interval = setInterval(() => {
-            const question = game.chooseQuestion(roomID);
-            question.reponse = null;
-            io.to(roomID).emit('question', question);
+            const winner = game.checkGameEnd(roomID);
+            if (winner) {
+                clearInterval(interval);
+                console.log("winner", winner)
+                io.to(roomID).emit('game-over', {winner: winner});
+            } else {
+                const question = game.chooseQuestion(roomID);
+                io.to(roomID).emit('question', question);
+            }
         }, 15000);
-
-
     });
+
 
     socket.on('reponse', (reponse, roomID, user, callback) => {
         const res = game.checkReponse(reponse, roomID, user);
+        if(res.message) {
+            io.to(roomID).emit('get-players', game.getPlayers(roomID))
+        }
         callback(res)
     });
 
