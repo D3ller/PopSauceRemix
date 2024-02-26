@@ -44,7 +44,6 @@ console.log(socket.id + ' disconnected');
     })
 
     socket.on('add-player', (user, roomID) => {
-        console.log(user, "zizi")
         game.addPlayer(user, roomID)
         socket.join(roomID)
         io.to(roomID).emit('get-players', game.getPlayers(roomID))

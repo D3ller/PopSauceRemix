@@ -2,32 +2,32 @@ let multiple = [
     {
         question: 'Quel est le nombre de départements en France ?',
         reponses: ['101', '102', '103', '104'],
-        reponse: '103'
+        reponse: '103',
     },
     {
         question: 'Quel est le nombre de régions en France ?',
         reponses: ['11', '12', '13', '14'],
-        reponse: '13'
+        reponse: '13',
     },
     {
         question: 'Quel est le nombre de communes en France ?',
         reponses: ['36500', '36550', '36600', '36650'],
-        reponse: '36500'
+        reponse: '36500',
     }
 ]
 
 let input = [
     {
         question: 'Quel est le principal gaz à effet de serre contribuant au réchauffement climatique ?',
-        reponse: 'Dioxyde de carbone'
+        reponse: 'Dioxyde de carbone',
     },
     {
         question: 'Quel est le terme utilisé pour décrire la diminution de la diversité biologique ?',
-        reponse: 'Extinction'
+        reponse: 'Extinction',
     },
     {
         question: 'Quelle pratique agricole est considérée comme bénéfique pour l\'environnement ?',
-        reponse: 'Agriculture biologique'
+        reponse: 'Agriculture biologique',
     }
 ]
 
@@ -35,17 +35,17 @@ let image = [
     {
         question: 'Quel est cet animal marin réputé pour son intelligence et ses vocalisations ?',
         reponse: 'Dauphin',
-        url_image: 'https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQdVrDbX5tCAQ6lX9axvmA12KMoRadrK1F7Pgls0RBotbvCJ9C-rd-_TNNKD70f4oQL'
+        url_image: 'https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQdVrDbX5tCAQ6lX9axvmA12KMoRadrK1F7Pgls0RBotbvCJ9C-rd-_TNNKD70f4oQL',
     },
     {
         question: 'Quel oiseau est connu pour ses plumes colorées et sa capacité à imiter les sons ?',
         reponse: 'Perroquet',
-        url_image: 'https://media.gettyimages.com/id/162543354/fr/vectoriel/ara-macao.jpg?s=612x612&w=0&k=20&c=2nI69GAns0yTxMd7zbgQfrF3lIOO9hyWUHU5HJliAdY='
+        url_image: 'https://media.gettyimages.com/id/162543354/fr/vectoriel/ara-macao.jpg?s=612x612&w=0&k=20&c=2nI69GAns0yTxMd7zbgQfrF3lIOO9hyWUHU5HJliAdY=',
     },
     {
         question: 'Quel grand félin est réputé pour être l\'un des animaux les plus rapides sur terre ?',
         reponse: 'Guépard',
-        url_image: 'https://www.zoo-africansafari.com/wp-content/uploads/86I8415-1-scaled.jpg'
+        url_image: 'https://www.zoo-africansafari.com/wp-content/uploads/86I8415-1-scaled.jpg',
     }
 ]
 
@@ -199,12 +199,17 @@ let image = [
             let points = 0;
             if (reponse === room.currentQuestion.reponse) {
                 let player = this.players.find(x => x.token === user.token);
+                let playerCount = room.players.length;
 
-                if (!room.firstCorrectAnswerGiven) {
-                    points += 99;
-                    room.firstCorrectAnswerGiven = true;
-                } else {
+                if (playerCount === 1) {
                     points += Math.max(1, 10 - Math.floor(timeElapsed));
+                } else {
+                    if (!room.firstCorrectAnswerGiven) {
+                        points += 10;
+                        room.firstCorrectAnswerGiven = true;
+                    } else {
+                        points += Math.max(1, 10 - Math.floor(timeElapsed));
+                    }
                 }
 
                 player.points += points;
@@ -221,6 +226,7 @@ let image = [
         }
 
 
+
         checkGameEnd(roomID) {
             let room = this.rooms.find(x => x.id === roomID);
             let winner = null;
@@ -231,6 +237,8 @@ let image = [
             });
             return winner;
         }
+
+
     }
 
 module.exports = { Game }

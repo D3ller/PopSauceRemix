@@ -19,13 +19,12 @@ let reponse = ref('')
     while (!user) {
       console.log('tentative de connexion')
       user = JSON.parse(localStorage.getItem('user'));
-      await new Promise(resolve => setTimeout(resolve, 500)); // Adjust the delay as needed
+      await new Promise(resolve => setTimeout(resolve, 500));
     }
 
     await socket.emit('add-player', user, roomID)
 
-
-  })
+      })
 
 onUnmounted( () => {
   const user = JSON.parse(localStorage.getItem('user'))
