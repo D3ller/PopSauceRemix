@@ -61,8 +61,25 @@ console.log(socket.id + ' disconnected');
 
 
     socket.on('start-game', (roomID) => {
-      console.log('start-game', roomID)
-    })
+        const res = game.chooseQuestion(roomID);
+
+        io.to(roomID).emit('question', res);
+
+        let interval = setInterval(() => {
+            const question = game.chooseQuestion(roomID);
+            question.reponse = null;
+            io.to(roomID).emit('question', question);
+        }, 15000);
+
+
+    });
+
+    socket.on('reponse', (reponse, roomID, user, callback) => {
+        const res = game.checkReponse(reponse, roomID, user);
+        callback(res)
+    });
+
+
 });
 
 const PORT = process.env.PORT || 3000;

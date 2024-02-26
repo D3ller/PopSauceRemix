@@ -1,3 +1,21 @@
+let questions = [
+    {
+        question: 'Quel est le nombre de départements en France ?',
+        reponses: ['101', '102', '103', '104'],
+        reponse: '103'
+    },
+    {
+        question: 'Quel est le nombre de régions en France ?',
+        reponses: ['11', '12', '13', '14'],
+        reponse: '13'
+    },
+    {
+        question: 'Quel est le nombre de communes en France ?',
+        reponses: ['36500', '36550', '36600', '36650'],
+        reponse: '36500'
+    }
+]
+
 class Game {
     constructor() {
         this.rooms = [];
@@ -34,7 +52,8 @@ class Game {
             name: roomName,
             creator: {name: username.name, token: username.token},
             players: [],
-            privacy: privacy
+            privacy: privacy,
+            currentQuestion: null
         }
 
         if (this.rooms.find(y => y.creator.token === username.token)) {
@@ -49,7 +68,8 @@ class Game {
         let player = {
             name: user.name,
             token: user.token,
-            roomID: roomID
+            roomID: roomID,
+            points: 0
         }
 
         this.players.push(player)
@@ -89,6 +109,35 @@ class Game {
 
     getRoom(roomID) {
         return this.rooms.find(x => x.id === roomID);
+    }
+
+    chooseQuestion(roomID) {
+        let room = this.rooms.find(x => x.id === roomID);
+        room.currentQuestion = questions[Math.floor(Math.random() * questions.length)]
+        console.log(room.currentQuestion)
+
+        const res = {
+            question: room.currentQuestion.question,
+            reponses: room.currentQuestion.reponses
+        }
+
+        return res;
+    }
+
+    checkReponse(reponse, roomID, user) {
+        let room = this.rooms.find(x => x.id === roomID);
+        //get the question index
+
+        console.log('reponse', reponse)
+
+        if (reponse === room.currentQuestion.reponse) {
+            let player = this.players.find(x => x.token === user.token);
+            player.points += 1;
+            console.log('player', player)
+            return {type: 'message', message: 'congrat, good reponse', player: player}
+        } else {
+            return {type: 'error', error: 'bad reponse'}
+        }
     }
 
 
