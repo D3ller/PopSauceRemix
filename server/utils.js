@@ -128,6 +128,8 @@ let image = [
             let room = this.rooms.find(x => x.id === roomID);
             let player = room.players.find(x => x.token === user.token);
 
+            console.log(room, player)
+
             if(!player) {
                 return {type: 'error', error: 'you are not in the room'}
             }

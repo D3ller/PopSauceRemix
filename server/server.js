@@ -34,7 +34,7 @@ io.on("connection", (socket) => {
 
     //deconnexion
     socket.on('disconnect', (user) => {
-console.log(socket.id + ' disconnected');
+        console.log(socket.id + ' disconnected');
     });
 
     socket.on('create-room', (room, callback) => {
@@ -48,24 +48,29 @@ console.log(socket.id + ' disconnected');
         socket.join(roomID)
         callback(res)
 
-        if(res.code !== 404) {
-        io.to(roomID).emit('get-players', game.getPlayers(roomID))
+        if (res.code !== 404) {
+            io.to(roomID).emit('get-players', game.getPlayers(roomID))
 
 
-        if (game.getRoom(roomID).creator.token === user.token) {
-            socket.emit('owner', true)
-        }
+            if (game.getRoom(roomID).creator.token === user.token) {
+                socket.emit('owner', true)
+            }
         }
     })
 
     socket.on('remove-player', (user, roomID) => {
+        const room = game.getRoom(roomID)
 
-        console.log(user.name + " a quitté la room " + roomID)
+        if (!room) {
+            console.log("this room does not exist")
+            return
+        } else {
+            console.log(user.name + " a quitté la room " + roomID)
+            const res = game.removePlayer(user, roomID)
 
-        const res = game.removePlayer(user, roomID)
-
-        if (res === true) {
-        io.to(roomID).emit('get-players', game.getPlayers(roomID))
+            if (res === true) {
+                io.to(roomID).emit('get-players', game.getPlayers(roomID))
+            }
         }
 
     })
@@ -94,7 +99,7 @@ console.log(socket.id + ' disconnected');
             if (winner) {
                 clearInterval(interval);
                 console.log("winner", winner)
-                io.to(roomID).emit('game-over', {winner: winner});
+                io.to(roomID).emit('game-over', { winner: winner });
             } else {
                 const question = game.chooseQuestion(roomID);
                 io.to(roomID).emit('question', question);
@@ -114,7 +119,7 @@ console.log(socket.id + ' disconnected');
     socket.on('reponse', (reponse, roomID, user, callback) => {
         const res = game.checkReponse(reponse, roomID, user);
         console.log(game.getPlayers(roomID))
-        if(res.message) {
+        if (res.message) {
             io.to(roomID).emit('get-players', game.getPlayers(roomID))
         }
         callback(res)
