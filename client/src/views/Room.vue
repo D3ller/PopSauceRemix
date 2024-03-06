@@ -78,7 +78,7 @@ function sendResponse(res) {
 
   console.log(res)
   socket.emit('reponse', res, roomID, user, (res) => {
-    console.log(res)
+    console.log('reponse :',  res)
 
     if(question.type === "input") {
       reponse.value = ''
