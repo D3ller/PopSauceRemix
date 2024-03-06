@@ -33,7 +33,7 @@ io.on("connection", (socket) => {
     })
 
     //deconnexion
-    socket.on('disconnect', () => {
+    socket.on('disconnect', (user) => {
 console.log(socket.id + ' disconnected');
     });
 
@@ -43,23 +43,30 @@ console.log(socket.id + ' disconnected');
         socket.emit('owner', true)
     })
 
-    socket.on('add-player', (user, roomID) => {
-        game.addPlayer(user, roomID)
+    socket.on('add-player', (user, roomID, callback) => {
+        var res = game.addPlayer(user, roomID)
         socket.join(roomID)
+        callback(res)
+
+        if(res.code !== 404) {
         io.to(roomID).emit('get-players', game.getPlayers(roomID))
+
 
         if (game.getRoom(roomID).creator.token === user.token) {
             socket.emit('owner', true)
         }
-
+        }
     })
 
     socket.on('remove-player', (user, roomID) => {
 
         console.log(user.name + " a quitté la room " + roomID)
 
-        game.removePlayer(user, roomID)
+        const res = game.removePlayer(user, roomID)
+
+        if (res === true) {
         io.to(roomID).emit('get-players', game.getPlayers(roomID))
+        }
 
     })
 
@@ -69,12 +76,21 @@ console.log(socket.id + ' disconnected');
     })
 
 
-    socket.on('start-game', (roomID) => {
+    socket.on('start-game', (roomID, callback) => {
         const res = game.chooseQuestion(roomID);
         io.to(roomID).emit('question', res);
+        let timeLeft = 15;
+        let timeInterval = setInterval(() => {
+            timeLeft--;
+            io.to(roomID).emit('time-left', timeLeft);
+            if (timeLeft === 0) {
+                clearInterval(timeInterval);
+            }
+        }, 1000);
 
         let interval = setInterval(() => {
             const winner = game.checkGameEnd(roomID);
+
             if (winner) {
                 clearInterval(interval);
                 console.log("winner", winner)
@@ -82,6 +98,14 @@ console.log(socket.id + ' disconnected');
             } else {
                 const question = game.chooseQuestion(roomID);
                 io.to(roomID).emit('question', question);
+                let timeLeft = 15;
+                let timeInterval = setInterval(() => {
+                    timeLeft--;
+                    io.to(roomID).emit('time-left', timeLeft);
+                    if (timeLeft === 0) {
+                        clearInterval(timeInterval);
+                    }
+                }, 1000);
             }
         }, 15000);
     });
@@ -89,6 +113,7 @@ console.log(socket.id + ' disconnected');
 
     socket.on('reponse', (reponse, roomID, user, callback) => {
         const res = game.checkReponse(reponse, roomID, user);
+        console.log(game.getPlayers(roomID))
         if(res.message) {
             io.to(roomID).emit('get-players', game.getPlayers(roomID))
         }
