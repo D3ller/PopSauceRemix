@@ -42,6 +42,11 @@ window.onbeforeunload = () => {
   socket.emit('remove-player', user, roomID)
 }
 
+onUnmounted(() => {
+  const user = JSON.parse(localStorage.getItem('user'))
+  socket.emit('remove-player', user, roomID)
+})
+
 
 socket.on('get-players', (players) => {
   console.log(players)
