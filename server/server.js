@@ -49,7 +49,7 @@ io.on("connection", (socket) => {
         callback(res)
 
         if (res.code !== 404) {
-            io.to(roomID).emit('get-players', game.getPlayers(roomID))
+            io.to(roomID).emit('get-players', game.getScore(roomID))
 
 
             if (game.getRoom(roomID).creator.token === user.token) {
@@ -69,7 +69,7 @@ io.on("connection", (socket) => {
             const res = game.removePlayer(user, roomID)
 
             if (res === true) {
-                io.to(roomID).emit('get-players', game.getPlayers(roomID))
+                io.to(roomID).emit('get-players', game.getScore(roomID))
             }
         }
 

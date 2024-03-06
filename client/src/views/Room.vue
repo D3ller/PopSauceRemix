@@ -55,7 +55,8 @@ socket.on('get-players', (players) => {
 })
 
 socket.on('get-points', (point) => {
-
+console.log(point)
+  player.value = point
 })
 
 socket.on('time-left', (time) => {

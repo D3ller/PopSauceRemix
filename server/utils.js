@@ -180,16 +180,20 @@ let image = [
         }
 
         getScore(roomID) {
-            let room = this.rooms.find(x => x.id === roomID)
+            let room = this.rooms.find(x => x.id === roomID);
+            if (!room) return [];
+
             let players = room.players;
             let points = room.points;
 
             let res = players.map(player => {
-                let point = points.find(p => p.token === player.token)
-                console.log({name: player.name, points: point.points, token: point.token})
-                return {name: player.name, points: point.points, token: point.token}
+                let point = points.find(p => p.token === player.token);
+                return { name: player.name, points: point ? point.points : 0, token: player.token };
             });
+
+            return res;
         }
+
 
         chooseQuestion(roomID) {
 
