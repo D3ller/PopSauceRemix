@@ -4,6 +4,7 @@ import {onMounted, onUnmounted, ref} from 'vue';
 import socket from '@/socket';
 import { useRoute } from "vue-router";
 import SideChatAndPlayers from "@/components/room/SideChatAndPlayers.vue";
+import router from "@/router/index.js";
 
 // Variables
 let roomID = useRoute().params.id
@@ -13,6 +14,8 @@ let start = ref(false)
 let question = ref('')
 let check = ref(false)
 let reponse = ref('')
+let timer = ref(null)
+let points = ref(null)
 
 
   onMounted(async () => {
@@ -22,17 +25,43 @@ let reponse = ref('')
       await new Promise(resolve => setTimeout(resolve, 500));
     }
 
-    await socket.emit('add-player', user, roomID)
+    await socket.emit('add-player', user, roomID, (res) => {
+      console.log(res.type)
 
-      })
+      if(res.type === 'error') {
+        console.log(res.error)
+        if(res.code === 404) {
+          router.push('/')
+        }
+      }
+    })
 
-onUnmounted( () => {
+  })
+
+window.onbeforeunload = () => {
   const user = JSON.parse(localStorage.getItem('user'))
-    socket.emit('remove-player', user, roomID)
+  socket.emit('remove-player', user, roomID)
+}
+
+onUnmounted(() => {
+  const user = JSON.parse(localStorage.getItem('user'))
+  socket.emit('remove-player', user, roomID)
 })
 
+
 socket.on('get-players', (players) => {
+  console.log(players)
     player.value = players
+})
+
+socket.on('get-points', (point) => {
+console.log(point)
+  player.value = point
+})
+
+socket.on('time-left', (time) => {
+
+  timer.value = time
 })
 
 socket.on('owner', (isOwner) => {
@@ -46,6 +75,7 @@ function startGame() {
 
 socket.on('question', (questions) => {
   question.value = questions;
+  console.log(questions)
   check.value = false;
 });
 
@@ -54,7 +84,7 @@ function sendResponse(res) {
 
   console.log(res)
   socket.emit('reponse', res, roomID, user, (res) => {
-    console.log(res)
+    console.log('reponse :',  res)
 
     if(question.type === "input") {
       reponse.value = ''
@@ -90,6 +120,8 @@ function sendResponse(res) {
 
       <p>{{ question.question }}</p>
 
+      <span v-if="timer !== null">{{ timer }}</span>
+
       <div v-if="question.type === 'multiple'" v-for="res in question.reponses">
         <button @click="sendResponse(res)" :disabled="check">{{ res }}</button>
       </div>
@@ -102,7 +134,6 @@ function sendResponse(res) {
       <div v-if="question.type === 'image'">
         <img :src="question.url_image" alt="image" width="300px" />
         <input type="text" v-model="reponse" @keyup.enter="sendResponse(reponse)" />
-        <button @click="sendResponse(reponse)" :disabled="check">Envoyer</button>
       </div>
 
 <button v-if="owner && !start" @click="startGame">Start</button>

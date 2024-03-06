@@ -1,7 +1,7 @@
 <script setup>
 import socket from '@/socket'
 import Navbar from "@/components/Navbar.vue";
-import {onMounted} from "vue";
+import {onMounted, onUnmounted} from "vue";
 
 let user = localStorage.getItem('user');
 
@@ -20,6 +20,7 @@ onMounted(() => {
     })
   }
 })
+
 
 
 

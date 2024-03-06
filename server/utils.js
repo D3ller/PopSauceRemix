@@ -85,9 +85,12 @@ let image = [
                 name: roomName,
                 creator: {name: username.name, token: username.token},
                 players: [],
+                points: [],
                 privacy: privacy,
-                currentQuestion: null
+                currentQuestion: null,
             }
+
+            console.log(room)
 
             if (this.rooms.find(y => y.creator.token === username.token)) {
                 return {type: 'error', error: 'you already have a room'}
@@ -102,18 +105,27 @@ let image = [
             let player = {
                 name: user.name,
                 token: user.token,
-                roomID: roomID,
-                points: 0
+                roomID: roomID
             }
 
             this.players.push(player)
 
             let room = this.rooms.find(x => x.id === roomID)
 
+            if(!room) {
+                return {type: 'error', error: 'room does not exist', code: 404}
+            }
+
             let isExist = room.players.find(y => y.token === player.token)
 
             if (!isExist) {
                 room.players.push(player)
+                room.points.push({
+                    token: player.token,
+                    points: 0
+                })
+
+                console.log(room)
             } else {
                 return {type: 'error', error: 'you are already in the room'}
             }
@@ -123,8 +135,23 @@ let image = [
         removePlayer(user, roomID) {
             let room = this.rooms.find(x => x.id === roomID);
             let player = room.players.find(x => x.token === user.token);
+
+            console.log(room, player)
+
+            if(!player) {
+                return {type: 'error', error: 'you are not in the room'}
+            }
+
             let index = room.players.indexOf(player);
             room.players.splice(index, 1);
+
+            if (room.players.length === 0) {
+                let index = this.rooms.indexOf(room);
+                this.rooms.splice(index, 1);
+                return false;
+            } else {
+                return true;
+            }
         }
 
         joinRoom(room) {
@@ -152,7 +179,24 @@ let image = [
             return this.rooms.find(x => x.id === roomID);
         }
 
+        getScore(roomID) {
+            let room = this.rooms.find(x => x.id === roomID);
+            if (!room) return [];
+
+            let players = room.players;
+            let points = room.points;
+
+            let res = players.map(player => {
+                let point = points.find(p => p.token === player.token);
+                return { name: player.name, points: point ? point.points : 0, token: player.token };
+            });
+
+            return res;
+        }
+
+
         chooseQuestion(roomID) {
+
             let room = this.rooms.find(x => x.id === roomID);
             let QuestionType = ["multiple", "input", "image"];
             let type = QuestionType[Math.floor(Math.random() * QuestionType.length)];
@@ -196,30 +240,23 @@ let image = [
             let currentTime = Date.now();
             let timeElapsed = (currentTime - room.startTime) / 1000;
 
-            let points = 0;
+            
             if (reponse === room.currentQuestion.reponse) {
                 let player = this.players.find(x => x.token === user.token);
-                let playerCount = room.players.length;
+                //let playerCount = room.players.length;
 
-                if (playerCount === 1) {
-                    points += Math.max(1, 10 - Math.floor(timeElapsed));
-                } else {
-                    if (!room.firstCorrectAnswerGiven) {
-                        points += 10;
-                        room.firstCorrectAnswerGiven = true;
-                    } else {
-                        points += Math.max(1, 10 - Math.floor(timeElapsed));
-                    }
-                }
+                let points = room.points.find(p => p.token === player.token)
+                points.points += Math.max(1, 10 - Math.floor(timeElapsed));
 
-                player.points += points;
+                console.log(room.points)
+                //player.points += points;
 
                 let winner = this.checkGameEnd(roomID);
                 if (winner) {
                     return {type: 'end', message: 'Game over, we have a winner!', player: winner};
                 }
 
-                return {type: 'message', message: 'congrat, good reponse', player: player, points: points};
+                return {type: 'message', message: 'congrat, good reponse', points: room.points};
             } else {
                 return {type: 'error', error: 'bad reponse'};
             }
@@ -229,6 +266,11 @@ let image = [
 
         checkGameEnd(roomID) {
             let room = this.rooms.find(x => x.id === roomID);
+
+            if(!room) {
+                return {type: 'error', error: 'room does not exist'}
+            }
+
             let winner = null;
             room.players.forEach(player => {
                 if (player.points >= 100) {
