@@ -15,6 +15,7 @@ let question = ref('')
 let check = ref(false)
 let reponse = ref('')
 let timer = ref(null)
+let points = ref(null)
 
 
   onMounted(async () => {
@@ -51,6 +52,10 @@ onUnmounted(() => {
 socket.on('get-players', (players) => {
   console.log(players)
     player.value = players
+})
+
+socket.on('get-points', (point) => {
+
 })
 
 socket.on('time-left', (time) => {

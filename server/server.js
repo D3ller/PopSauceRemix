@@ -118,9 +118,9 @@ io.on("connection", (socket) => {
 
     socket.on('reponse', (reponse, roomID, user, callback) => {
         const res = game.checkReponse(reponse, roomID, user);
-        console.log(game.getPlayers(roomID))
+        console.log(game.getRoom(roomID))
         if (res.message) {
-            io.to(roomID).emit('get-players', game.getPlayers(roomID))
+            io.to(roomID).emit('get-points', game.getScore(roomID))
         }
         callback(res)
     });

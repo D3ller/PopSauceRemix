@@ -179,6 +179,18 @@ let image = [
             return this.rooms.find(x => x.id === roomID);
         }
 
+        getScore(roomID) {
+            let room = this.rooms.find(x => x.id === roomID)
+            let players = room.players;
+            let points = room.points;
+
+            let res = players.map(player => {
+                let point = points.find(p => p.token === player.token)
+                console.log({name: player.name, points: point.points, token: point.token})
+                return {name: player.name, points: point.points, token: point.token}
+            });
+        }
+
         chooseQuestion(roomID) {
 
             let room = this.rooms.find(x => x.id === roomID);
