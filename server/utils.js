@@ -1,51 +1,151 @@
 let multiple = [
     {
-        question: 'Quel est le nombre de départements en France ?',
-        reponses: ['101', '102', '103', '104'],
-        reponse: '103',
+        question: "Quelle est le pourcentage d'énergie renouvelable consommée en France ?",
+        reponses: ["-12,3", "-21,4", "-19,3", "-17,1"],
+        reponse: "-17,1"
     },
     {
-        question: 'Quel est le nombre de régions en France ?',
-        reponses: ['11', '12', '13', '14'],
-        reponse: '13',
+        question: "À quelle vitesse le vent doit-il souffler pour faire fonctionner une éolienne ?",
+        reponses: ["entre 10 et 70 km/h", "entre 14 et 90 km/h", "au dessus de 90 km/h", "entre 10 et 30 km/h"],
+        reponse: "entre 10 et 70 km/h"
     },
     {
-        question: 'Quel est le nombre de communes en France ?',
-        reponses: ['36500', '36550', '36600', '36650'],
-        reponse: '36500',
+        question: "Combien d'espèces d’animaux sont menacées d’extinction dans le monde ?",
+        reponses: ["1000", "4000", "10000", "40000"],
+        reponse: "10000"
+    },
+    {
+        question: "En France, sur 10 salariés combien utilisent la voiture pour se rendre sur leur lieu de travail ?",
+        reponses: ["6", "7", "8", "9"],
+        reponse: "7"
+    },
+    {
+        question: "Parmi les émissions de CO2 dues au transport routier en Europe, quelle est la part liée aux voitures individuelles ?",
+        reponses: ["20%", "40%", "60%", "70%"],
+        reponse: "60%"
+    },
+    {
+    question: "De quel pourcentage la production d'énergie nucléaire est-elle représentée en France ?",
+    reponses: ["50%", "60%", "70%", "80%"],
+    reponse: "70%"
+},
+{
+    question: "En quelle année a été inventée la première voiture électrique ?",
+    reponses: ["1834", "1899", "1910", "1945"],
+    reponse: "1834"
+},
+    {
+        question: "Quelle est la température recommandée à l’intérieur d’un logement ?",
+        reponses: ["17°C", "19°C", "21°C", "23°C"],
+        reponse: "19°C"
+    },
+    {
+        question: "Combien économise-t-on d'eau en urinant sous la douche ?",
+        reponses: ["5 litres", "10 litres", "15 litres", "20 litres"],
+        reponse: "15 litres"
+    },
+    {
+        question: "Quelle est la consommation moyenne d'électricité par personne et par an en kWh ?",
+        reponses: ["1000 kWh", "1500 kWh", "2200 kWh", "3000 kWh"],
+        reponse: "2200 kWh",
+    },
+    {
+        question: "Parmi les options suivantes, quel appareil d'électroménager consomme le plus d’énergie en moyenne ?",
+        reponses: ["Frigo", "Lave-linge", "Télévision", "Ordinateur"],
+        reponse: "Frigo"
     }
 ]
 
 let input = [
     {
-        question: 'Quel est le principal gaz à effet de serre contribuant au réchauffement climatique ?',
-        reponse: 'Dioxyde de carbone',
+        question: "Quelle structure permet d’obtenir de l'électricité avec le vent ?",
+        reponse: "eolienne"
     },
     {
-        question: 'Quel est le terme utilisé pour décrire la diminution de la diversité biologique ?',
-        reponse: 'Extinction',
+        question: "Quelle structure permet d’obtenir de l'électricité avec de l’eau ?",
+        reponse: "Barrage"
     },
     {
-        question: 'Quelle pratique agricole est considérée comme bénéfique pour l\'environnement ?',
-        reponse: 'Agriculture biologique',
+        question: "Comment appelle-t-on un carburant produit à partir de matières premières végétales ou animales ?",
+        reponse: "agrocarburant"
+    },
+    {
+        question: "Dans quel pays se situe la plus grande centrale hydroélectrique ?",
+        reponse: "Chine"
+    },
+    {
+        question: "Quel est le pays d'Europe le plus écologique ?",
+        reponse: "Norvège"
+    },
+    {
+        question: "Quelle est l'utilité la plus courante de l'énergie géothermique dans nos foyers ?",
+        reponse: "chauffage"
+    },
+    {
+        question: "Quel est le premier pays producteur d’énergies renouvelables dans le monde ?",
+        reponse: "Chine"
+    },
+    {
+        question: "Quel est le pays le moins écologique ?",
+        reponse: "Chine"
+    },
+    {
+        question: "Quelle est la première énergie renouvelable utilisée en France ?",
+        reponse: "bois"
+    },
+    {
+        question: "Quelle est l'énergie renouvelable la plus rentable ?",
+        reponse: "solaire"
+    },
+    {
+        question: "Quel est le nom de l'énergie renouvelable produite grâce au soleil ?",
+        reponse: "Energie solaire"
+    },
+    {
+        question: "Quelle capitale marche à 100% à l'énergie renouvelable en Europe ?",
+        reponse: "Oslo"
+    },
+    {
+        question: "L’effet photovoltaïque, qui désigne la production d’électricité à partir du rayonnement solaire a été découvert par ?",
+        reponse: "Edmond Becquerel"
     }
 ]
 
 let image = [
     {
-        question: 'Quel est cet animal marin réputé pour son intelligence et ses vocalisations ?',
-        reponse: 'Dauphin',
-        url_image: 'https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQdVrDbX5tCAQ6lX9axvmA12KMoRadrK1F7Pgls0RBotbvCJ9C-rd-_TNNKD70f4oQL',
+        question: "Quelle est cette structure ?",
+        reponse: "centrale nucléaire",
+        "url_image": "https://static.actu.fr/uploads/2023/07/usine-golfech-centrale-nucleaire-tarn-et-garonne-energie.png"
     },
     {
-        question: 'Quel oiseau est connu pour ses plumes colorées et sa capacité à imiter les sons ?',
-        reponse: 'Perroquet',
-        url_image: 'https://media.gettyimages.com/id/162543354/fr/vectoriel/ara-macao.jpg?s=612x612&w=0&k=20&c=2nI69GAns0yTxMd7zbgQfrF3lIOO9hyWUHU5HJliAdY=',
+        question: "Qu'est-ce que c'est ?",
+        reponse: "grande barriere de corail",
+        "url_image": "https://odysseedelaterre.fr/wp-content/uploads/2021/09/grande-barriere-corail-australie.jpg"
     },
     {
-        question: 'Quel grand félin est réputé pour être l\'un des animaux les plus rapides sur terre ?',
-        reponse: 'Guépard',
-        url_image: 'https://www.zoo-africansafari.com/wp-content/uploads/86I8415-1-scaled.jpg',
+        question: "Quel est cet animal ?",
+        reponse: "lynx boréal",
+        "url_image": "https://www.jaitoutcompris.com/img/encyclo/lynx.jpg"
+    },
+    {
+        question: "Quelle est ce poisson ?",
+        reponse: "thon rouge",
+        "url_image": "https://cdn.futura-sciences.com/cdn-cgi/image/width=1024,quality=50,format=auto/sources/images/actu/thon-rouge.jpg"
+    },
+    {
+        question: "Quel est cet animal marin réputé pour son intelligence et ses vocalisations ?",
+        reponse: "Dauphin",
+        "url_image": "https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQdVrDbX5tCAQ6lX9axvmA12KMoRadrK1F7Pgls0RBotbvCJ9C-rd-_TNNKD70f4oQL"
+    },
+    {
+        question: "Quel oiseau est connu pour ses plumes colorées et sa capacité à imiter les sons ?",
+        reponse: "Perroquet",
+        "url_image": "https://media.gettyimages.com/id/162543354/fr/vectoriel/ara-macao.jpg?s=612x612&w=0&k=20&c=2nI69GAns0yTxMd7zbgQfrF3lIOO9hyWUHU5HJliAdY="
+    },
+    {
+        question: "Quel grand félin est réputé pour être l'un des animaux les plus rapides sur terre ?",
+        reponse: "Guépard",
+        "url_image": "https://www.zoo-africansafari.com/wp-content/uploads/86I8415-1-scaled.jpg"
     }
 ]
 
@@ -238,12 +338,18 @@ let image = [
         checkReponse(reponse, roomID, user) {
             let room = this.rooms.find(x => x.id === roomID);
             let currentTime = Date.now();
-            let timeElapsed = (currentTime - room.startTime) / 1000;
+            let timeElapsed = (currentTime - room.startTime) / 2000;
 
-            
-            if (reponse === room.currentQuestion.reponse) {
+            let accentoletter = (str) => {
+                return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            }
+
+            reponse = accentoletter(reponse.toUpperCase());
+
+            let answer = accentoletter(room.currentQuestion.reponse.toUpperCase());
+
+            if (reponse === answer) {
                 let player = this.players.find(x => x.token === user.token);
-                //let playerCount = room.players.length;
 
                 let points = room.points.find(p => p.token === player.token)
                 points.points += Math.max(1, 10 - Math.floor(timeElapsed));
