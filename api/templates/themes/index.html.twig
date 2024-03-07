@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ThemesController!{% endblock %}
+
+{% block body %}
+
+
+    <h1>Liste des thèmes</h1>
+    <ul>
+        {% for theme in themes %}
+            <li>{{ theme.nomThemes }}</li>
+        {% endfor %}
+    </ul>
+
+
+{% endblock %}
