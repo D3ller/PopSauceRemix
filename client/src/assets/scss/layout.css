@@ -1,11 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap"); /* color palette from <https://github.com/vuejs/theme> */
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
 .nav_area {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  position: absolute;
 }
 .nav_area .navbar {
   display: flex;
@@ -19,6 +18,8 @@
   font-family: "Raleway", sans-serif;
   gap: 3rem;
   border-radius: 5px;
+  position: absolute;
+  top: 20px;
 }
 .nav_area .navbar .navbar_items {
   display: flex;

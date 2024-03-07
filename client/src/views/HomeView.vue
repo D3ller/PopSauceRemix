@@ -2,6 +2,10 @@
 import { ref } from 'vue';
 import router from '@/router';
 import RoomArea from "@/components/RoomArea.vue";
+import socket from "@/socket.js";
+
+
+
 
 </script>
 

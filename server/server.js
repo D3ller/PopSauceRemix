@@ -8,6 +8,7 @@ const { Game } = require('./utils');
 // partie serveur
 const app = express();
 const server = http.createServer(app);
+
 const io = require('socket.io')(server, {
     cors: {
         origin: "http://localhost:5173",
@@ -84,7 +85,7 @@ io.on("connection", (socket) => {
     socket.on('start-game', (roomID, callback) => {
         const res = game.chooseQuestion(roomID);
         io.to(roomID).emit('question', res);
-        let timeLeft = 15;
+        let timeLeft = 20;
         let timeInterval = setInterval(() => {
             timeLeft--;
             io.to(roomID).emit('time-left', timeLeft);
@@ -103,16 +104,16 @@ io.on("connection", (socket) => {
             } else {
                 const question = game.chooseQuestion(roomID);
                 io.to(roomID).emit('question', question);
-                let timeLeft = 15;
+                let timeLeft = 20;
                 let timeInterval = setInterval(() => {
-                    timeLeft--;
                     io.to(roomID).emit('time-left', timeLeft);
+                    timeLeft--;
                     if (timeLeft === 0) {
                         clearInterval(timeInterval);
                     }
                 }, 1000);
             }
-        }, 15000);
+        }, 20000);
     });
 
 
@@ -124,6 +125,10 @@ io.on("connection", (socket) => {
         }
         callback(res)
     });
+
+    socket.on('visibility', (test) => {
+        console.log(test)
+    })
 
 
 });
