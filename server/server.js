@@ -83,38 +83,45 @@ io.on("connection", (socket) => {
 
 
     socket.on('start-game', (roomID, callback) => {
-        const res = game.chooseQuestion(roomID);
-        io.to(roomID).emit('question', res);
-        let timeLeft = 20;
-        let timeInterval = setInterval(() => {
-            timeLeft--;
-            io.to(roomID).emit('time-left', timeLeft);
-            if (timeLeft === 0) {
-                clearInterval(timeInterval);
-            }
-        }, 1000);
+        let timeInterval;
+        let sendNewQuestionTimeout;
 
-        let interval = setInterval(() => {
+        const clearIntervals = () => {
+            clearInterval(timeInterval);
+            clearTimeout(sendNewQuestionTimeout);
+        };
+
+        const sendNewQuestion = () => {
+            const question = game.chooseQuestion(roomID);
+            io.to(roomID).emit('question', question);
+            let timeLeft = 20;
+            timeInterval = setInterval(() => {
+                io.to(roomID).emit('time-left', timeLeft);
+                timeLeft--;
+                if (timeLeft === 0) {
+                    clearInterval(timeInterval);
+                    io.to(roomID).emit('answer', game.getAnswer(roomID));
+                    sendNewQuestionTimeout = setTimeout(sendNewQuestion, 5000);
+                }
+            }, 1000);
+        };
+
+        sendNewQuestion();
+
+        let checkEndGameInterval = setInterval(() => {
             const winner = game.checkGameEnd(roomID);
 
             if (winner) {
-                clearInterval(interval);
-                console.log("winner", winner)
+                clearInterval(checkEndGameInterval);
+                clearIntervals();
+                console.log("winner", winner);
                 io.to(roomID).emit('game-over', { winner: winner });
-            } else {
-                const question = game.chooseQuestion(roomID);
-                io.to(roomID).emit('question', question);
-                let timeLeft = 20;
-                let timeInterval = setInterval(() => {
-                    io.to(roomID).emit('time-left', timeLeft);
-                    timeLeft--;
-                    if (timeLeft === 0) {
-                        clearInterval(timeInterval);
-                    }
-                }, 1000);
             }
-        }, 20000);
+        }, 25000);
     });
+
+
+
 
 
     socket.on('reponse', (reponse, roomID, user, callback) => {

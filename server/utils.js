@@ -355,7 +355,6 @@ let image = [
                 points.points += Math.max(1, 10 - Math.floor(timeElapsed));
 
                 console.log(room.points)
-                //player.points += points;
 
                 let winner = this.checkGameEnd(roomID);
                 if (winner) {
@@ -378,12 +377,22 @@ let image = [
             }
 
             let winner = null;
-            room.players.forEach(player => {
+            room.points.forEach(player => {
+                console.log(player.token, "points")
                 if (player.points >= 100) {
-                    winner = player;
+                    let user = this.players.find(x => x.token === player.token);
+                    winner = user;
                 }
             });
             return winner;
+        }
+
+        getAnswer(roomID) {
+            let room = this.rooms.find(x => x.id === roomID);
+            if(!room) {
+                return {type: 'error', error: 'room does not exist'}
+            }
+            return room.currentQuestion.reponse;
         }
 
 
