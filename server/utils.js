@@ -379,7 +379,7 @@ let image = [
             let winner = null;
             room.points.forEach(player => {
                 console.log(player.token, "points")
-                if (player.points >= 100) {
+                if (player.points >= 70) {
                     let user = this.players.find(x => x.token === player.token);
                     winner = user;
                 }
