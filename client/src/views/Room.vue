@@ -1,12 +1,10 @@
 <script setup>
-// Import
 import {onMounted, onUnmounted, ref} from 'vue';
 import socket from '@/socket';
 import { useRoute } from "vue-router";
 import SideChatAndPlayers from "@/components/room/SideChatAndPlayers.vue";
 import router from "@/router/index.js";
 
-// Variables
 let roomID = useRoute().params.id
 let player = ref([])
 let owner = ref(false)
@@ -14,8 +12,10 @@ let start = ref(false)
 let question = ref('')
 let check = ref(false)
 let reponse = ref('')
-let timer = ref(null)
+let timer = ref(0)
 let points = ref(null)
+let answer = ref(null)
+let winner = ref(null)
 
 
   onMounted(async () => {
@@ -85,6 +85,7 @@ function startGame() {
 }
 
 socket.on('question', (questions) => {
+  answer.value = null
   question.value = questions;
   console.log(questions)
   check.value = false;
@@ -112,6 +113,14 @@ function sendResponse(res) {
 
 }
 
+socket.on('answer', (answers) => {
+  answer.value = answers
+})
+
+socket.on('game-over', (win) => {
+  console.log(win)
+  winner.value = win
+})
 </script>
 
 <template>
@@ -123,12 +132,7 @@ function sendResponse(res) {
     <div>
       {{ roomID }}
 
-      <div v-if="player !== null">
-        <div v-for="p in player" :key="p.id">
-          <p>{{ p.name }}</p>
-        </div>
-      </div>
-
+      <div v-if="answer === null">
       <p>{{ question.question }}</p>
 
       <div>
@@ -143,8 +147,7 @@ function sendResponse(res) {
       </div>
 
       <div v-if="question.type === 'input'">
-        <input type="text" v-model="reponse" />
-        <button @click="sendResponse(reponse)">Envoyer</button>
+        <input type="text" @keyup.enter="sendResponse(reponse)" v-model="reponse" />
       </div>
 
       <div v-if="question.type === 'image'" class="question_area">
@@ -154,6 +157,17 @@ function sendResponse(res) {
       </div>
 
 <button v-if="owner && !start" @click="startGame">Start</button>
+    </div>
+
+      <div v-else-if="answer !== null && winner === null">
+        <p>La réponse est : {{ answer }}</p>
+      </div>
+
+      <div v-if="winner !== null">
+        <p>La partie est terminée</p>
+      </div>
+
+
     </div>
     <SideChatAndPlayers :player="player" />
   </div>
