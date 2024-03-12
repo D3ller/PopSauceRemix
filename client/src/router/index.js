@@ -11,6 +11,11 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
   routes: [
     {
+      path: '/',
+      redirect: `/${Tr.defaultLocale}/`
+    },
+
+    {
       path: "/:locale/",
       component: RouterView,
       beforeEnter: Tr.routeMiddleware,
