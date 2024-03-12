@@ -13,6 +13,9 @@ services:
     depends_on:
       - db
 
+    volumes:
+      - ./api:/var/www/ApiPlateform
+
   db:
     image: mariadb:10.8
     container_name: api_mariadb
