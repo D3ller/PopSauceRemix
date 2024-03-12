@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "server": "../server/server.js",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "all": "start cmd /K cd ../server ^& node server.js & npm run dev"
   },
   "dependencies": {
     "socket.io-client": "^4.7.4",
