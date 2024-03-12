@@ -12,20 +12,6 @@ watch(() => router.currentRoute.value.name, (name) => {
   navAccept.value = name !== 'room';
 })
 
-const { t, locale } = useI18n()
-
-const supportedLanguage = Tr.supportedLocales
-const switchLanguage = async (event) => {
-  const newLocale = event.target.value;
-  const currentRoute = router.currentRoute.value;
-  console.log(currentRoute)
-  const newPath = currentRoute.path.replace(`/${currentRoute.params.locale}/`, `/${newLocale}/`); // Construire le nouveau chemin
-
-  await Tr.switchLanguage(newLocale);
-
-  await router.replace({ path: newPath });
-};
-
 
 </script>
 
