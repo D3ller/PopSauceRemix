@@ -1,38 +1,47 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouterView } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Room from '../views/Room.vue'
 import Account from '@/views/account/Account.vue'
 import CreateAccount from '@/views/account/CreateAccount.vue'
 import LoginAccount from '@/views/account/LoginAccount.vue'
+import Tr from '@/i18n/translation.js'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.VITE_BASE_URL),
   routes: [
     {
-      path: '/',
+      path: "/:locale/",
+      component: RouterView,
+      beforeEnter: Tr.routeMiddleware,
+      children: [
+
+    {
+      path: '',
       name: 'home',
       component: HomeView
     },
     {
-      path: '/room/:id',
+      path: 'room/:id',
       name: 'room',
       component: Room
     },
     {
-      path: '/account',
+      path: 'account',
       name: 'account',
       component: Account,
     },
     {
-      path: '/account/register',
+      path: 'account/register',
       name: 'register',
       component: CreateAccount,
     },
     {
-      path: '/account/login',
+      path: 'account/login',
       name: 'login',
       component: LoginAccount
     }
+  ]
+}
   ]
 })
 

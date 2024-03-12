@@ -1,6 +1,7 @@
 <script setup>
 import router from '@/router';
 import { ref } from 'vue';
+import Trans from "@/i18n/translation.js";
 
 // import { ref } from 'vue';
 
@@ -19,7 +20,7 @@ import { ref } from 'vue';
         console.log(user)
 
         if(user) {
-            router.push('/account')
+            router.push(Trans.i18nRoute({ name: 'account' }))
         }
     }
 

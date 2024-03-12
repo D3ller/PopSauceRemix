@@ -1,4 +1,6 @@
 <script setup>
+import Tr from "@/i18n/translation.js";
+
 const { roomName, creatorName, types } = defineProps(['roomName', 'creatorName', 'types']);
 </script>
 
@@ -18,7 +20,7 @@ const { roomName, creatorName, types } = defineProps(['roomName', 'creatorName',
         </div>
         <div class="card_right">
             <div class="card_btn">
-                <router-link to="/home">Rejoindre</router-link>
+                <router-link :to="Tr.i18nRoute({ name: 'home' })">Rejoindre</router-link>
             </div>
         </div>
     </div>

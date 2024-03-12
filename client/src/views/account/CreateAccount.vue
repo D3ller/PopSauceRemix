@@ -25,6 +25,7 @@ import axios from 'axios';
             return;
         }
 
+
         axios.get('http://localhost:8080/api/users')
             .then(res => {
                 const userExist = res.data["hydra:member"].find(u => u.email === user.mail)

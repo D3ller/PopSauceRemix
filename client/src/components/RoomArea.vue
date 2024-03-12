@@ -2,6 +2,9 @@
 import { ref } from 'vue';
 import socket from '@/socket';
 import router from "@/router/index.js";
+import {useI18n} from "vue-i18n";
+import Trans from "@/i18n/translation.js";
+const { t, locale } = useI18n();
 
 /*Variables*/
 let roomName = ref('')
@@ -27,7 +30,7 @@ function createRoom() {
   } else {
     socket.emit('create-room', room, (res) => {
       if(res.type === 'message'){
-        router.push(`/room/${res.room.id}`)
+        router.push(Trans.i18nRoute({name: 'room', params: {id: res.room.id}}))
       }
 
       if(res.type === 'error'){
@@ -47,7 +50,7 @@ function joinRoom() {
 
   socket.emit('join-room', room, (res) => {
     if(res.type === 'message'){
-      router.push(`/room/${res.room.id}`)
+      router.push(Trans.i18nRoute({name: 'room', params: {id: res.room.id}}))
     }
 
     if(res.type === 'error'){
@@ -64,8 +67,8 @@ function joinRoom() {
 
       <div class="room_area_first">
         <div class="room_area_select">
-          <p :class="{room_selected: createorjoin}" @click="createorjoin = true;;">Créer un salon</p>
-          <p @click="createorjoin = false;" :class="{room_selected: !createorjoin}">Rejoindre un salon</p>
+          <p :class="{room_selected: createorjoin}" @click="createorjoin = true;">{{ t('components.RoomArea.create') }}</p>
+          <p @click="createorjoin = false;" :class="{room_selected: !createorjoin}">{{ t('components.RoomArea.join') }}</p>
         </div>
 
         <form @submit.prevent="createRoom" v-if="createorjoin">
@@ -79,8 +82,8 @@ function joinRoom() {
             <div class="toogle_container">
               <input v-model="privacy" type="checkbox" id="toggle" class="toggleCheckbox" />
               <label for="toggle" class='toggleContainer'>
-                <div :class="{room_selected: !privacy}">Public</div>
-                <div :class="{room_selected: privacy}">Privée</div>
+                <div :class="{room_selected: !privacy}">{{ t('components.RoomArea.public') }}</div>
+                <div :class="{room_selected: privacy}">{{ t('components.RoomArea.private') }}</div>
               </label>
 
             </div>
@@ -88,20 +91,20 @@ function joinRoom() {
 
 
 
-          <button class="create_room">Créer un salon</button>
+          <button class="create_room">{{ t('components.RoomArea.create') }}</button>
         </form>
 
         <form @submit.prevent="joinRoom" v-else>
           <span class="error-message">{{ error }}</span>
           <div class="room_area_input_container">
-            <label for="inviteCode">Code d'invitation</label>
+            <label for="inviteCode">{{ t('components.RoomArea.inviteCode') }}</label>
             <input v-model="roomID" maxlength="9" placeholder="Ex: 123456" />
           </div>
           <div class="room_area_input_container">
-            <label for="username">Nom d'utilisateur</label>
+            <label for="username">{{ t('components.RoomArea.username') }}</label>
             <input v-model="username" placeholder="Ex: John Doe" />
           </div>
-          <button class="create_room join_room">Rejoindre un salon</button>
+          <button class="create_room join_room">{{ t('components.RoomArea.join') }}</button>
         </form>
 
 

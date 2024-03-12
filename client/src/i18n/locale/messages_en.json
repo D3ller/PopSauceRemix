@@ -1,0 +1,24 @@
+{
+    "message": {
+        "hello": "Hello World"
+    },
+    "layout": {
+        "navbar": {
+            "home": "Home",
+            "account": "Account",
+            "find": "Find a game"
+        }
+    },
+    "components": {
+        "RoomArea": {
+            "create": "Create a room",
+            "join": "Join a room",
+            "name": "Name of the room",
+            "namePlaceholder": "Ex: Gaming Room",
+            "public": "Public",
+            "private": "Private",
+            "inviteCode": "Invite code",
+            "username": "Username"
+        }
+    }
+}
