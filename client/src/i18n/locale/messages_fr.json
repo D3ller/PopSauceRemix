@@ -1,0 +1,24 @@
+{
+    "message": {
+        "hello": "Bonjour Monde"
+    },
+    "layout": {
+        "navbar": {
+            "home": "Accueil",
+            "account": "Compte",
+            "find": "Trouver une partie"
+        }
+    },
+    "components": {
+        "RoomArea": {
+            "create": "Cr\u00e9er une partie",
+            "join": "Rejoindre une partie",
+            "name": "Nom de la partie",
+            "namePlaceholder": "Ex: Salle de jeu",
+            "public": "Public",
+            "private": "Priv\u00e9e",
+            "inviteCode": "Code d'invitation",
+            "username": "Nom d'utilisateur"
+        }
+    }
+}

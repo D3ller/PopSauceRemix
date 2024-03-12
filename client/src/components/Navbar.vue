@@ -2,26 +2,44 @@
 import {ref, onMounted, computed, watch} from 'vue';
 import { useI18n } from 'vue-i18n';
 import QBLogo from "@/components/icons/QBLogo.vue";
-import router from "@/router/index.js";
-let navAccept = ref(true);
+import Tr from "@/i18n/translation"
+import {useRouter} from "vue-router";
+const router = useRouter()
 
-const { t, locale } = useI18n();
+let navAccept = ref(true);
 
 watch(() => router.currentRoute.value.name, (name) => {
   navAccept.value = name !== 'room';
 })
+
+const { t, locale } = useI18n()
+
+const supportedLanguage = Tr.supportedLocales
+const switchLanguage = async (event) => {
+  const newLocale = event.target.value;
+  const currentRoute = router.currentRoute.value;
+  console.log(currentRoute)
+  const newPath = currentRoute.path.replace(`/${currentRoute.params.locale}/`, `/${newLocale}/`); // Construire le nouveau chemin
+
+  await Tr.switchLanguage(newLocale);
+
+  await router.replace({ path: newPath });
+};
+
 
 </script>
 
 <template>
   <div class="nav_area" v-if="navAccept">
     <nav class="navbar">
-      <div class="navbar_items"><router-link to="/"><QBLogo/></router-link></div>
-      <div class="navbar_items"><router-link to="/">{{ t('layout.navbar.home') }}</router-link></div>
-      <div class="navbar_items"><router-link to="/account">{{ t('layout.navbar.account') }}</router-link></div>
-      <div class="navbar_items"><router-link class="navbar_button" to="/list">{{ t('layout.navbar.find') }}</router-link></div>
+      <div class="navbar_items"><router-link :to="Tr.i18nRoute({ name: 'home' })"><QBLogo/></router-link></div>
+      <div class="navbar_items"><router-link :to="Tr.i18nRoute({ name: 'home' })">{{ t('layout.navbar.home') }}</router-link></div>
+      <div class="navbar_items"><router-link :to="Tr.i18nRoute({ name: 'account' })">{{ t('layout.navbar.account') }}</router-link></div>
+      <div class="navbar_items"><router-link class="navbar_button" :to="Tr.i18nRoute({ name: 'home' })">{{ t('layout.navbar.find') }}</router-link></div>
     </nav>
   </div>
+
+
 </template>
 
 <style scoped>

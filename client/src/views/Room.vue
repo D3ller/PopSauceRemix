@@ -4,6 +4,7 @@ import socket from '@/socket';
 import { useRoute } from "vue-router";
 import SideChatAndPlayers from "@/components/room/SideChatAndPlayers.vue";
 import router from "@/router/index.js";
+import Trans from "@/i18n/translation.js";
 
 let roomID = useRoute().params.id
 let player = ref([])
@@ -31,7 +32,7 @@ let winner = ref(null)
       if(res.type === 'error') {
         console.log(res.error)
         if(res.code === 404) {
-          router.push('/')
+          router.push(Trans.i18nRoute({ name: 'home' }))
         }
       }
     })

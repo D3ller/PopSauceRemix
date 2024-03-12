@@ -2,6 +2,8 @@
 import socket from '@/socket'
 import Navbar from "@/components/Navbar.vue";
 import {onMounted, onUnmounted} from "vue";
+import router from "@/router/index.js";
+import LangSelect from "@/components/langSelect.vue";
 
 let user = localStorage.getItem('user');
 
@@ -11,7 +13,6 @@ socket.on("connect", () => {
 
 console.log(user)
 
-//executer avant que le composant soit monté
 onMounted(() => {
   if(user === undefined || user === null){
     socket.emit('first-connexion', (user) => {
@@ -21,12 +22,10 @@ onMounted(() => {
   }
 })
 
-
-
-
 </script>
 
 <template>
+  <lang-select></lang-select>
   <navbar></navbar>
   <RouterView/>
 </template>

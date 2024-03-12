@@ -21,7 +21,7 @@ import { ref } from 'vue';
         console.log(user)
 
         if(user) {
-            router.push('/account')
+            ('/account')
         }
     }
 
