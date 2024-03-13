@@ -1,14 +1,16 @@
 <script setup>
 import Tr from "@/i18n/translation.js";
+import {useI18n} from "vue-i18n";
 
-const { roomName, creatorName, types } = defineProps(['roomName', 'creatorName', 'types']);
+const { roomName, players, types, roomId } = defineProps(['roomName', 'players', 'types', 'roomId']);
+const { t, locale } = useI18n();
+
 </script>
 
 <template>
     <div class="card_wrapper">
         <div class="card_left">
             <h3>{{ roomName }}</h3>
-            <p>Créer par <b>{{ creatorName }}</b></p>
             <ul class="card_list">
                 <li>
                     <div class="type">{{ types }}</div>
@@ -20,7 +22,7 @@ const { roomName, creatorName, types } = defineProps(['roomName', 'creatorName',
         </div>
         <div class="card_right">
             <div class="card_btn">
-                <router-link :to="Tr.i18nRoute({ name: 'home' })">Rejoindre</router-link>
+                <router-link :to="Tr.i18nRoute({ name: 'room', params: {id:roomId} })">{{ t('components.RoomCard.join') }}</router-link>
             </div>
         </div>
     </div>
@@ -34,7 +36,7 @@ const { roomName, creatorName, types } = defineProps(['roomName', 'creatorName',
     grid-template-columns: repeat(2, 1fr);
     border-radius: 10px;
     padding: 15px;
-    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(46,44,61,0) 100%), url('../assets/images/feuilles.png');
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(46,44,61,0) 100%), url('../assets/image/feuilles.png');
 }
 
 .card_left h3 {

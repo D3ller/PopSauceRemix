@@ -42,6 +42,11 @@ io.on("connection", (socket) => {
         const res = game.createRoom(room.name, room.creator, room.privacy)
         callback(res)
         socket.emit('owner', true)
+        console.log(res.type)
+        if(res.type === "message") {
+            io.emit('public-room', game.getPublicRooms())
+
+        }
     })
 
     socket.on('add-player', (user, roomID, callback) => {

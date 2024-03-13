@@ -1,16 +1,20 @@
 <script setup>
+import {useI18n} from "vue-i18n";
+
 const props = defineProps({
   player: Array
 });
 
 console.log(props)
+const { t, locale } = useI18n();
+
 </script>
 
 <template>
 
   <div class="side">
     <div class="side_players">
-      <h3>Tableaux des scores</h3>
+      <h3>{{ t('components.SideChatAndPlayers.scoreboard') }}</h3>
       <div class="players_container">
         <div class="player" v-for="player in props.player">
           <div class="player_data">
@@ -25,13 +29,12 @@ console.log(props)
     </div>
 
     <div class="side_chat">
-      <h3>Chat</h3>
       <div class="chat_container">
         <div class="chat_message">
         </div>
         <div class="chat_input">
-          <input class="input" type="text" placeholder="Ecrire un message" />
-          <button>Envoyer</button>
+          <input class="input" type="text" :placeholder="t('components.SideChatAndPlayers.writechat')" />
+          <button>{{ t('components.SideChatAndPlayers.sendchat') }}</button>
         </div>
       </div>
     </div>

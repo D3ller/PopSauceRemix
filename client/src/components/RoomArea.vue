@@ -73,8 +73,8 @@ function joinRoom() {
 
         <form @submit.prevent="createRoom" v-if="createorjoin">
           <div class="room_area_input_container">
-            <label for="roomName">Nom du salon</label>
-            <input v-model="roomName" placeholder="Ex: Salon de jeux" />
+            <label for="roomName">{{ t('components.RoomArea.name') }}</label>
+            <input v-model="roomName" :placeholder="t('components.RoomArea.namePlaceholder')" />
             <span class="error-message">{{ error }}</span>
           </div>
 

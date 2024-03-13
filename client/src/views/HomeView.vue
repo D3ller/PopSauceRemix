@@ -1,11 +1,20 @@
 <script setup>
-import { ref } from 'vue';
+import {onUnmounted, ref} from 'vue';
 import router from '@/router';
 import RoomArea from "@/components/RoomArea.vue";
 import socket from "@/socket.js";
+let rooms = ref(null)
+import Trans from "@/i18n/translation.js";
+import RoomCard from "@/components/RoomCard.vue";
 
+socket.on('public-room', (room) => {
+  console.log(room)
+  rooms.value = room
+})
 
-
+onUnmounted(() => {
+  socket.off('public-room')
+})
 
 </script>
 
@@ -20,6 +29,11 @@ import socket from "@/socket.js";
     </div>
 
     <RoomArea></RoomArea>
+
+    <div v-if="rooms" v-for="room in rooms" :key="room.id">
+      <RoomCard :room-name="room.name" :players="room.players === 0 ? 1 : room.players" :room-id="room.id"></RoomCard>
+    </div>
+
 
 
   </main>

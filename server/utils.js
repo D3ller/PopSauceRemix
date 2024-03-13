@@ -395,6 +395,14 @@ let image = [
             return room.currentQuestion.reponse;
         }
 
+        getPublicRooms() {
+            let room = this.rooms.filter(x => x.privacy === false);
+            let rooms = room.map(x => {
+                return {id: x.id, name: x.name, players: x.players.length}
+            });
+            return rooms;
+        }
+
 
     }
 

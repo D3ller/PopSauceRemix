@@ -12,6 +12,9 @@ watch(() => router.currentRoute.value.name, (name) => {
   navAccept.value = name !== 'room';
 })
 
+const { t, locale } = useI18n()
+
+
 
 </script>
 
