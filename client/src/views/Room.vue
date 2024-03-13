@@ -5,6 +5,7 @@ import { useRoute } from "vue-router";
 import SideChatAndPlayers from "@/components/room/SideChatAndPlayers.vue";
 import router from "@/router/index.js";
 import Trans from "@/i18n/translation.js";
+import {useI18n} from "vue-i18n";
 
 let roomID = useRoute().params.id
 let player = ref([])
@@ -122,11 +123,14 @@ socket.on('game-over', (win) => {
   console.log(win)
   winner.value = win
 })
+
+const { t, locale } = useI18n();
+
 </script>
 
 <template>
   <div v-if="!user" class="connexion">
-    connexion en cours
+    {{ t('pages.Room.loading') }}
   </div>
 
   <div class="myroom_area">
@@ -137,7 +141,7 @@ socket.on('game-over', (win) => {
       <p>{{ question.question }}</p>
 
       <div>
-      <div class="timer_info"><p>Temps restants</p><span>00:{{timer > 9 ? timer : '0'+timer}}</span></div>
+      <div class="timer_info"><p>{{ t('pages.Room.timeleft') }}</p><span>00:{{timer > 9 ? timer : '0'+timer}}</span></div>
       <div  class="timer_container">
         <div v-if="timer" class="timer" :style="{ width: timer*5 + '%' }"></div>
       </div>
@@ -154,18 +158,18 @@ socket.on('game-over', (win) => {
       <div v-if="question.type === 'image'" class="question_area">
         <img class="question_image" :src="question.url_image" alt="image" />
         <p class="question">{{ question.question }}</p>
-        <input placeholder="Ecrive la réponse" class="enter_input" type="text" v-model="reponse" @keyup.enter="sendResponse(reponse)" />
+        <input :placeholder="t('pages.Room.answer')" class="enter_input" type="text" v-model="reponse" @keyup.enter="sendResponse(reponse)" />
       </div>
 
-<button v-if="owner && !start" @click="startGame">Start</button>
+<button v-if="owner && !start" @click="startGame">{{ t('pages.Room.start') }}</button>
     </div>
 
       <div v-else-if="answer !== null && winner === null">
-        <p>La réponse est : {{ answer }}</p>
+        <p>{{ t('pages.Room.answeris') }} : {{ answer }}</p>
       </div>
 
       <div v-if="winner !== null">
-        <p>La partie est terminée</p>
+        <p>    {{ t('pages.Room.end') }}</p>
       </div>
 
 

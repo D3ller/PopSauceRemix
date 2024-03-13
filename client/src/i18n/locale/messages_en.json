@@ -19,6 +19,30 @@
             "private": "Private",
             "inviteCode": "Invite code",
             "username": "Username"
+        },
+        "RoomCard": {
+            "createby": "Created by",
+            "join": "Join"
+        },
+        "SideChatAndPlayers": {
+            "scoreboard": "Scoreboard",
+            "sendchat": "Send",
+            "writechat": "Write a message"
+        }
+    },
+    "pages": {
+        "Room": {
+            "loading": "Loading...",
+            "timeleft": "Time left",
+            "answer": "Answer",
+            "start": "Start",
+            "answeris": "The answer is",
+            "end": "The game has ended"
+        },
+        "Account": {
+            "stats": "Stats",
+            "create": "Create an account",
+            "login": "Login"
         }
     }
 }
