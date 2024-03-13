@@ -1,9 +1,10 @@
 <script setup>
 import socket from '@/socket'
 import Navbar from "@/components/Navbar.vue";
-import {onMounted, onUnmounted} from "vue";
+import {onMounted, onUnmounted, watch} from "vue";
 import router from "@/router/index.js";
 import LangSelect from "@/components/langSelect.vue";
+import Tr from "@/i18n/translation.js";
 
 let user = localStorage.getItem('user');
 

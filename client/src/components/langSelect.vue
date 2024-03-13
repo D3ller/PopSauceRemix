@@ -9,8 +9,8 @@ const { t, locale } = useI18n()
 
 const supportedLanguage = Tr.supportedLocales
 
-const switchLanguage = async (event) => {
-  const newLocale = event;
+const switchLanguage = async (lang) => {
+  const newLocale = lang;
   console.log(newLocale)
   const currentRoute = router.currentRoute.value;
   console.log(currentRoute)
@@ -29,14 +29,18 @@ const vL = () => {
 
 <template>
 
-  <div @click="vL">
+  <div @click="vL" class="language">
     {{Tr.currentLocale}}
     <div v-if="viewLanguage">
-      <div v-for="lang in supportedLanguage" @change="switchLanguage(lang)" :key="lang">{{ lang }}</div>
+      <div v-for="lang in supportedLanguage" @click="switchLanguage(lang)" :key="lang">{{ lang }}</div>
     </div>
   </div>
 </template>
 
 <style scoped>
-
+.language {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
 </style>
