@@ -27,3 +27,17 @@ npm run all
 ```
 docker compose -p sae401 up -d
 ```
+
+## Requêtes
+
+# créer un token
+
+method POST url http://localhost:8080/api/login_check
+```
+{
+    "username": "username",
+    "email": "email@mail",
+    "password": "pwd"
+}
+```
+recupération du token
