@@ -2,12 +2,22 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Metadata\ApiResource;
+
+//#[ApiResource(security: "is_granted('ROLE_USER')")]
+//#[Get(security: "is_granted('ROLE_USER')")]
+//#[Put(security: "is_granted('ROLE_ADMIN') or object.owner == user")]
+//#[GetCollection]
+//#[Post]
 
 #[UniqueEntity('email')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -27,8 +37,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     private string $password;
-
-    private ?string $plainPassword = null;
 
     #[ORM\Column(length: 255)]
     private ?string $username = null;
@@ -90,20 +98,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function setPlainPassword(string $plainPassword): self
-    {
-        $this->plainPassword = $plainPassword;
-
-        return $this;
-    }
-
-    public function getPlainPassword(string $plainPassword): self
-    {
-        $this->plainPassword = $plainPassword;
 
         return $this;
     }
