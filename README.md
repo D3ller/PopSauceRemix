@@ -40,4 +40,11 @@ method POST url http://localhost:8080/api/login_check
     "password": "pwd"
 }
 ```
-recupération du token
+recupération du TOKEN
+
+# requêtes authentifiées
+
+ne pas oublier de mettre le JWT
+```
+Authorization Bearer ...JWToken...
+```
