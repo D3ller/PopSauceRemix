@@ -9,10 +9,8 @@ const router = useRouter()
 let navAccept = ref(true);
 
 watch(() => router.currentRoute.value.name, (name) => {
-  navAccept.value = name !== 'room';
-})
-watch(() => router.currentRoute.value.name, (name) => {
-  navAccept.value = name !== 'admin';
+  navAccept.value = name !== 'room' && name !== 'admin'
+
 })
 
 const { t, locale } = useI18n()

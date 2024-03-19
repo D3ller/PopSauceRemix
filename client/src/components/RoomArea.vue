@@ -116,7 +116,9 @@ function joinRoom() {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "@/assets/scss/_var.scss";
+
 .room_container {
   display: flex;
   justify-content: center;
@@ -265,7 +267,7 @@ function joinRoom() {
   border: none;
   border-radius: 5px;
   font-size: 16px;
-  background: linear-gradient(180deg, #1B8DDF 0%, #4D3EFF 100%);
+  background: $linear-blue;
   color: white;
   font-family: Raleway, sans-serif;
   font-weight: 500;

@@ -162,7 +162,7 @@ const { t, locale } = useI18n();
   <div class="myroom_area">
     <div class="myroom_area_center">
 
-      <div v-if="answer === null">
+      <div class="myroom_area_center_content" v-if="answer === null">
       <div>
       <div class="timer_info"><p>{{ t('pages.Room.timeleft') }}</p><span>00:{{timer > 9 ? timer : '0'+timer}}</span></div>
       <div  class="timer_container">
@@ -173,7 +173,7 @@ const { t, locale } = useI18n();
         <div v-if="question.type === 'multiple'">
           <div class="question_boxes">
             <div class="questions">
-            <p>{{ question.question }}</p>
+            <p class="question_text">{{ question.question }}</p>
             </div>
           </div>
           <div class="multiple">
@@ -186,7 +186,7 @@ const { t, locale } = useI18n();
       <div v-if="question.type === 'input'">
         <div class="question_boxes">
           <div class="questions">
-            <p>{{ question.question }}</p>
+            <p class="question_text">{{ question.question }}</p>
           </div>
         </div>
         <div class="question_area">
@@ -212,17 +212,23 @@ const { t, locale } = useI18n();
         <p>    {{ t('pages.Room.end') }}</p>
       </div>
 
-
     </div>
     <SideChatAndPlayers :player="player" />
   </div>
+
+
+
 </template>
 
 
 
-<style scoped>
+<style lang="scss" scoped>
+@import "@/assets/scss/_var.scss";
+
+
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 .myroom_area {
   display: grid;
@@ -270,6 +276,7 @@ const { t, locale } = useI18n();
   width: 700px;
   height:450px;
   border: 7px solid #e5e5e5;
+  border-radius: 20px;
 }
 
 .question {
@@ -280,12 +287,19 @@ const { t, locale } = useI18n();
   font-family: 'Public Sans', sans-serif;
 }
 
+.question_text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+}
+
 .question_area {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 20px;
+  background-color: white;
 }
 
 .enter_input {
@@ -322,13 +336,12 @@ const { t, locale } = useI18n();
 .questions {
   width: 700px;
   height: 450px;
-  border: 5px solid #ccc;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Inter;
   text-align: center;
   padding: 10px;
+  border: 5px solid #ccc;
 }
 
 .answer {
@@ -365,6 +378,11 @@ const { t, locale } = useI18n();
   align-items: center;
   justify-content: center;
   width: 100%;
+  position: relative;
+}
+
+.myroom_area_center_content {
+  z-index: 10;
 }
 
 .multiple {
@@ -376,21 +394,80 @@ const { t, locale } = useI18n();
 
 .multiple_answer {
   width: 100%;
-  height: 50px;
+  height: 70px;
   border-radius: 10px;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #d6d6d642;
   transition: 0.3s background-color ease-in-out, 0.3s border ease-in-out;
   cursor: pointer;
+  color: white;
+  font-size: 16px;
+  font-family: $base-font;
+  font-weight: 500;
 }
 
 .multiple_answer:hover {
-  background-color: #e5e5e5;
   border: 1px solid #c9c9c9;
 }
 
+.multiple div:nth-of-type(1) button:disabled {
+  background: #e3ffd2;
+  color: #54a24e;
+}
+
+.multiple div button {
+  box-shadow: inset 0 2px 6px 1px #8282825e,inset 0 -3px .5px #55555547;
+}
+
+.multiple div button:disabled {
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.multiple div:nth-of-type(1) button {
+  background: lighten($linear-green, 10%);
+
+
+}
+
+.multiple div:nth-of-type(2) button {
+  background: lighten($linear-blue, 10%);
+
+}
+
+.multiple div:nth-of-type(3) button {
+  background: lighten($linear-red, 10%);
+
+}
+
+.multiple div:nth-of-type(4) button {
+  background: lighten($linear-purple, 10%);
+
+}
+
+.multiple div:nth-of-type(2) button:disabled {
+  background: #d2dfff;
+  color: #4e69a2;
+}
+
+.multiple div:nth-of-type(2) button:disabled {
+  background: #d2dfff;
+  color: #4e69a2;
+}
+
+.multiple div:nth-of-type(3) button:disabled {
+  background: #ffd2e0;
+  color: #a24e67;
+}
+
+.multiple div:nth-of-type(4) button:disabled {
+  background: #e8d2ff;
+  color: #704ea2;
+}
+
+
+
+
 .multiple_answer:disabled {
-  background-color: #b6b6b6;
-  border: 1px solid #858585;
   cursor: not-allowed;
 }
 
