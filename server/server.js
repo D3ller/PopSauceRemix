@@ -27,6 +27,8 @@ const game = new Game();
 
 //socket
 io.on("connection", (socket) => {
+    socket.emit('public-room',game.getPublicRooms())
+
     socket.on('first-connexion', (callback) => {
         const user = game.createUser()
         console.log(user)
@@ -69,10 +71,12 @@ io.on("connection", (socket) => {
 
         if (!room) {
             console.log("this room does not exist")
-            return
+            socket.leave(roomID)
         } else {
             console.log(user.name + " a quitté la room " + roomID)
             const res = game.removePlayer(user, roomID)
+            socket.leave(roomID)
+
 
             if (res === true) {
                 io.to(roomID).emit('get-players', game.getScore(roomID))

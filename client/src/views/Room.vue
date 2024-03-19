@@ -43,11 +43,28 @@ let winner = ref(null)
 window.onbeforeunload = () => {
   const user = JSON.parse(localStorage.getItem('user'))
   socket.emit('remove-player', user, roomID)
+
+  socket.off('get-players')
+  socket.off('get-points')
+  socket.off('time-left')
+  socket.off('owner')
+  socket.off('question')
+  socket.off('answer')
+  socket.off('game-over')
+
 }
 
 onUnmounted(() => {
   const user = JSON.parse(localStorage.getItem('user'))
   socket.emit('remove-player', user, roomID)
+
+  socket.off('get-players')
+  socket.off('get-points')
+  socket.off('time-left')
+  socket.off('owner')
+  socket.off('question')
+  socket.off('answer')
+  socket.off('game-over')
 })
 
 document.addEventListener("visibilitychange", (event) => {
@@ -55,6 +72,14 @@ document.addEventListener("visibilitychange", (event) => {
     window.onbeforeunload = () => {
       const user = JSON.parse(localStorage.getItem('user'))
       socket.emit('remove-player', user, roomID)
+
+      socket.off('get-players')
+      socket.off('get-points')
+      socket.off('time-left')
+      socket.off('owner')
+      socket.off('question')
+      socket.off('answer')
+      socket.off('game-over')
     }
 
   }
@@ -110,6 +135,7 @@ function sendResponse(res) {
 
     if(res === "message") {
 
+
     }
   });
 
@@ -134,12 +160,9 @@ const { t, locale } = useI18n();
   </div>
 
   <div class="myroom_area">
-    <div>
-      {{ roomID }}
+    <div class="myroom_area_center">
 
       <div v-if="answer === null">
-      <p>{{ question.question }}</p>
-
       <div>
       <div class="timer_info"><p>{{ t('pages.Room.timeleft') }}</p><span>00:{{timer > 9 ? timer : '0'+timer}}</span></div>
       <div  class="timer_container">
@@ -147,12 +170,28 @@ const { t, locale } = useI18n();
       </div>
       </div>
 
-      <div v-if="question.type === 'multiple'" v-for="res in question.reponses">
-        <button @click="sendResponse(res)" :disabled="check">{{ res }}</button>
+        <div v-if="question.type === 'multiple'">
+          <div class="question_boxes">
+            <div class="questions">
+            <p>{{ question.question }}</p>
+            </div>
+          </div>
+          <div class="multiple">
+      <div v-for="res in question.reponses">
+        <button @click="sendResponse(res)" class="multiple_answer" :disabled="check">{{ res }}</button>
       </div>
+          </div>
+        </div>
 
       <div v-if="question.type === 'input'">
-        <input type="text" @keyup.enter="sendResponse(reponse)" v-model="reponse" />
+        <div class="question_boxes">
+          <div class="questions">
+            <p>{{ question.question }}</p>
+          </div>
+        </div>
+        <div class="question_area">
+        <input class="enter_input" :placeholder="t('pages.Room.answer')" type="text" @keyup.enter="sendResponse(reponse)" v-model="reponse" />
+        </div>
       </div>
 
       <div v-if="question.type === 'image'" class="question_area">
@@ -164,8 +203,9 @@ const { t, locale } = useI18n();
 <button v-if="owner && !start" @click="startGame">{{ t('pages.Room.start') }}</button>
     </div>
 
-      <div v-else-if="answer !== null && winner === null">
-        <p>{{ t('pages.Room.answeris') }} : {{ answer }}</p>
+      <div v-else-if="answer !== null && winner === null" class="answer">
+        <h2>{{ t('pages.Room.answeris') }}</h2>
+        <h3>{{ answer }}</h3>
       </div>
 
       <div v-if="winner !== null">
@@ -202,7 +242,7 @@ const { t, locale } = useI18n();
 
 .timer_container {
   height: 10px;
-  background-color: #dbe5db;
+  background-color: #cee7ce;
   margin: 10px 20px;
   overflow: hidden;
   border-radius: 20px;
@@ -210,7 +250,7 @@ const { t, locale } = useI18n();
 
 .timer {
   height: 100%;
-  background-color: #121712;
+  background-color: #52ca2a;
   border-radius: 20px;
   transition: width 1s linear;
 
@@ -270,6 +310,88 @@ const { t, locale } = useI18n();
   font-weight: 500;
   color: #4b5d4b;
   font-family: Raleway, sans-serif;
+}
+
+.question_boxes {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.questions {
+  width: 700px;
+  height: 450px;
+  border: 5px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Inter;
+  text-align: center;
+  padding: 10px;
+}
+
+.answer {
+  position: fixed;
+  width: calc(100vw - 360px);
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.answer h2 {
+  font-size: 40px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  font-family: 'Public Sans', sans-serif;
+}
+
+.answer h3 {
+  font-size: 30px;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+  font-family: 'Public Sans', sans-serif;
+}
+
+.myroom_area_center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.multiple {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.multiple_answer {
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid #e5e5e5;
+  transition: 0.3s background-color ease-in-out, 0.3s border ease-in-out;
+  cursor: pointer;
+}
+
+.multiple_answer:hover {
+  background-color: #e5e5e5;
+  border: 1px solid #c9c9c9;
+}
+
+.multiple_answer:disabled {
+  background-color: #b6b6b6;
+  border: 1px solid #858585;
+  cursor: not-allowed;
 }
 
 </style>

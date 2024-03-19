@@ -2,8 +2,10 @@
 import Tr from "@/i18n/translation.js";
 import {useI18n} from "vue-i18n";
 
-const { roomName, players, types, roomId } = defineProps(['roomName', 'players', 'types', 'roomId']);
+const { roomName, players, types, roomId, themes } = defineProps(['roomName', 'players', 'types', 'roomId', 'themes']);
 const { t, locale } = useI18n();
+
+let theme = ['Nature', 'Natural', "Test"]
 
 </script>
 
@@ -11,14 +13,10 @@ const { t, locale } = useI18n();
     <div class="card_wrapper">
         <div class="card_left">
             <h3>{{ roomName }}</h3>
-            <ul class="card_list">
-                <li>
-                    <div class="type">{{ types }}</div>
-                </li>
-                <li>
-                    <div class="type">{{ types }}</div>
-                </li>
-            </ul>
+<div v-for="t in theme">
+  <span>{{ t }} players</span>
+
+</div>
         </div>
         <div class="card_right">
             <div class="card_btn">
@@ -29,6 +27,9 @@ const { t, locale } = useI18n();
 </template>
 
 <style scoped>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300,400,500,600,700&display=swap');
+
 .card_wrapper {
     display: grid;
     width: 400px;
@@ -36,16 +37,20 @@ const { t, locale } = useI18n();
     grid-template-columns: repeat(2, 1fr);
     border-radius: 10px;
     padding: 15px;
-    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(46,44,61,0) 100%), url('../assets/image/feuilles.png');
+  background: #ffffff;
+  border: 1px rgba(108, 132, 157, 0.46) solid;
+  font-family: Poppins, sans-serif;
+
 }
 
 .card_left h3 {
     text-transform: capitalize;
-    color: white;
+    color: #000000;
+    font-weight: 600;
 }
 
 .card_left p {
-    color: white;
+    color: #000000;
 }
 
 .card_list {
@@ -68,13 +73,24 @@ const { t, locale } = useI18n();
 }
 
 .card_btn a{
-    display: flex;
-    background-color: blueviolet;
-    padding: 5px;
+    background-color: #305eff;
+    padding: 15px 20px;
     border-radius: 10px;
-    height: 50px;
-    align-items: center;
-    justify-content: center;
+  color: white;
+  text-decoration: none;
+  width: auto;
+}
+
+.card_left div span {
+  display: block;
+    color: #000000;
+    font-weight: 300;
+    font-size: 14px;
+    margin: 10px 0;
+  background-color: #dbdbdc;
+  padding: 5px 10px;
+  border-radius: 9999px;
+  width: fit-content;
 }
 
 </style>

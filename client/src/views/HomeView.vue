@@ -1,11 +1,18 @@
 <script setup>
-import {onUnmounted, ref} from 'vue';
+import {onMounted, onUnmounted, ref} from 'vue';
 import router from '@/router';
 import RoomArea from "@/components/RoomArea.vue";
 import socket from "@/socket.js";
 let rooms = ref(null)
 import Trans from "@/i18n/translation.js";
 import RoomCard from "@/components/RoomCard.vue";
+
+onMounted( () => {
+socket.emit('get-public-room', (res) => {
+  console.log(res)
+  rooms.value = res
+})
+})
 
 socket.on('public-room', (room) => {
   console.log(room)

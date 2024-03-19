@@ -17,8 +17,8 @@ console.log(user)
 onMounted(() => {
   if(user === undefined || user === null){
     socket.emit('first-connexion', (user) => {
-      console.log(user)
       localStorage.setItem('user', JSON.stringify(user))
+      location.reload()
     })
   }
 })
