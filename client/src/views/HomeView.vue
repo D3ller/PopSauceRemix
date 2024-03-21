@@ -35,10 +35,12 @@ onUnmounted(() => {
 
     </div>
 
-    <RoomArea></RoomArea>
+    <RoomArea class="areas"></RoomArea>
 
+    <div class="room_cards_area">
     <div v-if="rooms" v-for="room in rooms" :key="room.id">
       <RoomCard :room-name="room.name" :players="room.players === 0 ? 1 : room.players" :room-id="room.id"></RoomCard>
+    </div>
     </div>
 
 
@@ -55,7 +57,14 @@ onUnmounted(() => {
 
 <style scoped>
 .flat_header {
-  height: 90vh;
+  height: 100vh;
   background: url('../assets/image/flat.webp') no-repeat center center/cover;
+}
+
+.areas {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
 }
 </style>

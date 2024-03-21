@@ -40,6 +40,12 @@ io.on("connection", (socket) => {
         console.log(socket.id + ' disconnected');
     });
 
+    socket.on('choose-theme', (theme, roomId, callback) => {
+        const res = game.chooseTheme(theme, roomId)
+        callback(res)
+
+    })
+
     socket.on('create-room', (room, callback) => {
         const res = game.createRoom(room.name, room.creator, room.privacy)
         callback(res)

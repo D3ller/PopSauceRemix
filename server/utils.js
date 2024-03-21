@@ -403,6 +403,15 @@ let image = [
             return rooms;
         }
 
+        chooseTheme(theme, roomID) {
+            let room = this.rooms.find(x => x.id === roomID);
+            if(!room) {
+                return {type: 'error', error: 'room does not exist'}
+            }
+            room.themes = theme;
+            return {type: 'message', message: 'theme chosen', theme: theme}
+        }
+
 
     }
 

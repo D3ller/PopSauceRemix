@@ -2,10 +2,19 @@
 import {onMounted, onUnmounted, ref} from 'vue';
 import socket from '@/socket';
 import { useRoute } from "vue-router";
+console.log(useRoute())
 import SideChatAndPlayers from "@/components/room/SideChatAndPlayers.vue";
 import router from "@/router/index.js";
 import Trans from "@/i18n/translation.js";
 import {useI18n} from "vue-i18n";
+import Theme from "@/components/Theme.vue";
+import BlueButton from "@/components/Button/BlueButton.vue";
+import CopyButton from "@/components/Button/CopyButton.vue";
+let origin = ref(null)
+
+onMounted(() => {
+  origin.value = window.location.origin
+})
 
 let roomID = useRoute().params.id
 let player = ref([])
@@ -14,10 +23,13 @@ let start = ref(false)
 let question = ref('')
 let check = ref(false)
 let reponse = ref('')
-let timer = ref(0)
+let timer = ref(null)
 let points = ref(null)
 let answer = ref(null)
 let winner = ref(null)
+let good = ref(true)
+
+let selected = ref(null)
 
 
   onMounted(async () => {
@@ -107,12 +119,20 @@ socket.on('owner', (isOwner) => {
 })
 
 function startGame() {
-  socket.emit('start-game', roomID);
-  start.value = true;
+  socket.emit('choose-theme', selected, roomID, (res) => {
+    console.log(res)
+  })
+
+  setTimeout(() => {
+    socket.emit('start-game', roomID);
+    start.value = true;
+  }, 50)
 }
 
 socket.on('question', (questions) => {
   answer.value = null
+  good.value = true
+  reponse.value = ''
   question.value = questions;
   console.log(questions)
   check.value = false;
@@ -133,8 +153,10 @@ function sendResponse(res) {
     check.value = true
     reponse.value = ''
 
-    if(res === "message") {
-
+    if(res.type === "message") {
+      console.log('message')
+  good.value = false
+      reponse.value = ''
 
     }
   });
@@ -162,13 +184,50 @@ const { t, locale } = useI18n();
   <div class="myroom_area">
     <div class="myroom_area_center">
 
+      <div v-if="owner && !start">
+
+        <h1 class="main-title">Choissisez votre thème</h1>
+
+        <div class="theme_container">
+          <Theme  @click="selected = 'B'" :color="selected === 'B' ? '#0066ff' : '#9595ff'">
+            Biodiversité
+          </Theme>
+
+          <Theme @click="selected = 'Eg'" :color="selected === 'Eg' ? '#ff0000' : '#ff6565'">
+            Eco-geste
+          </Theme>
+
+          <Theme @click="selected = 'Er'" :color="selected === 'Er' ? '#54df25' : '#abff8e'">
+            Energie Renouvlable
+          </Theme>
+
+          <Theme @click="selected = 'Et'" :color="selected === 'Et' ? '#7d2be9' : '#be92fd'">
+            Eco-transports
+          </Theme>
+
+
+
+        </div>
+
+        <BlueButton v-if="selected"  @click="startGame">{{ t('pages.Room.start') }}</BlueButton>
+
+        <hr class="main-hr">
+
+        <h2 class="submain-title">Partager votre lien avec vos amis</h2>
+
+        <CopyButton v-if="origin" :link="`${origin}/room/${roomID}`" />
+
+      </div>
+
       <div class="myroom_area_center_content" v-if="answer === null">
-      <div>
+        <Transition name="fade">
+      <div v-if="timer">
       <div class="timer_info"><p>{{ t('pages.Room.timeleft') }}</p><span>00:{{timer > 9 ? timer : '0'+timer}}</span></div>
       <div  class="timer_container">
         <div v-if="timer" class="timer" :style="{ width: timer*5 + '%' }"></div>
       </div>
       </div>
+        </Transition>
 
         <div v-if="question.type === 'multiple'">
           <div class="question_boxes">
@@ -190,17 +249,16 @@ const { t, locale } = useI18n();
           </div>
         </div>
         <div class="question_area">
-        <input class="enter_input" :placeholder="t('pages.Room.answer')" type="text" @keyup.enter="sendResponse(reponse)" v-model="reponse" />
+        <input v-if="good" class="enter_input" :placeholder="t('pages.Room.answer')" type="text" @keyup.enter="sendResponse(reponse)" v-model="reponse" />
         </div>
       </div>
 
       <div v-if="question.type === 'image'" class="question_area">
         <img class="question_image" :src="question.url_image" alt="image" />
         <p class="question">{{ question.question }}</p>
-        <input :placeholder="t('pages.Room.answer')" class="enter_input" type="text" v-model="reponse" @keyup.enter="sendResponse(reponse)" />
+        <input v-if="good" :placeholder="t('pages.Room.answer')" class="enter_input" type="text" v-model="reponse" @keyup.enter="sendResponse(reponse)" />
       </div>
 
-<button v-if="owner && !start" @click="startGame">{{ t('pages.Room.start') }}</button>
     </div>
 
       <div v-else-if="answer !== null && winner === null" class="answer">
@@ -471,4 +529,38 @@ const { t, locale } = useI18n();
   cursor: not-allowed;
 }
 
+.theme_container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.main-title {
+  font-size: 35px;
+  font-weight: 700;
+  color: #000;
+  font-family: $base-font;
+  margin-bottom: 20px;
+}
+
+.submain-title {
+  font-size: 25px;
+  font-weight: 700;
+  color: #000;
+  font-family: $base-font;
+  margin-bottom: 20px;
+}
+
+.main-hr {
+  margin: 20px 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
 </style>

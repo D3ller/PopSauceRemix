@@ -4,6 +4,7 @@ import socket from '@/socket';
 import router from "@/router/index.js";
 import {useI18n} from "vue-i18n";
 import Trans from "@/i18n/translation.js";
+import BlueButton from "@/components/Button/BlueButton.vue";
 const { t, locale } = useI18n();
 
 /*Variables*/
@@ -91,7 +92,7 @@ function joinRoom() {
 
 
 
-          <button class="create_room">{{ t('components.RoomArea.create') }}</button>
+          <BlueButton>{{ t('components.RoomArea.create') }}</BlueButton>
         </form>
 
         <form @submit.prevent="joinRoom" v-else>
@@ -104,7 +105,7 @@ function joinRoom() {
             <label for="username">{{ t('components.RoomArea.username') }}</label>
             <input v-model="username" placeholder="Ex: John Doe" />
           </div>
-          <button class="create_room join_room">{{ t('components.RoomArea.join') }}</button>
+          <BlueButton>{{ t('components.RoomArea.join') }}</BlueButton>
         </form>
 
 
@@ -123,6 +124,7 @@ function joinRoom() {
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 .room_area_first {
@@ -135,12 +137,14 @@ function joinRoom() {
 .room_area {
   background-color: #ffffff;
   display: flex;
-  box-shadow: -1px 13px 20px 0px #bababa;
+  box-shadow: 0px 20px 5px 0px #c5c5c51a;
   border-radius: 10px;
   padding: 40px;
   gap: 60px;
   margin-top: -100px;
   margin-bottom: 40px;
+  border: 1px solid #ccc;
+
 }
 
 .room_area_select {
