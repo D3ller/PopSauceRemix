@@ -29,22 +29,28 @@ const user = ref(true);
     .account {
         margin: 30px;
         text-align: center;
-     display: flex;
-     align-items: center;
-     flex-direction: column;
-     background-color: #222222;
-     border-radius: 10px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background-color: #222222;
+        border-radius: 10px;
     }
 
     .account a {
         font-family: $base-font;
         font-weight: 600;
         display: flex;
-        text-decoration: none   ;
+        text-decoration: none;
         text-align: center;
-        margin: 10px;
+        margin: 15px;
         color: aliceblue;
+        font-size: 20px;
 
+        transition: transform 0.3s; /* Transition pour un effet fluide */
+    }
 
+    .account a:hover {
+        transform: scale(1.1); /* Zoom de 10% au survol */
     }
 </style>
+
