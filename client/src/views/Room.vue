@@ -13,7 +13,7 @@ import CopyButton from "@/components/Button/CopyButton.vue";
 let origin = ref(null)
 
 onMounted(() => {
-  origin.value = window.location.origin
+  origin.value = window.location.href
 })
 
 let roomID = useRoute().params.id
@@ -44,6 +44,7 @@ let selected = ref(null)
 
       if(res.type === 'error') {
         console.log(res.error)
+        router.push(Trans.i18nRoute({ name: 'home' }))
         if(res.code === 404) {
           router.push(Trans.i18nRoute({ name: 'home' }))
         }
@@ -215,7 +216,7 @@ const { t, locale } = useI18n();
 
         <h2 class="submain-title">Partager votre lien avec vos amis</h2>
 
-        <CopyButton v-if="origin" :link="`${origin}/room/${roomID}`" />
+        <CopyButton v-if="origin" :link="`${origin}`" />
 
       </div>
 
