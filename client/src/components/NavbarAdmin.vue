@@ -14,8 +14,8 @@ import QBLogo from "@/components/icons/QBLogo.vue";
     </nav>
   </div>
 </template>
-
 <style lang="scss" scoped>
+
 @import "@/assets/scss/_var.scss";
 @import "@/assets/scss/_mixins.scss";
 
@@ -67,4 +67,28 @@ import QBLogo from "@/components/icons/QBLogo.vue";
   }
 }
 
+img{
+  width: 20px;
+  height: 20px;
+
+}
+.navbar{
+  gap: 2rem !important;
+  align-items: flex-start !important;
+  flex-direction: column;
+  margin: 20px;
+}
+.navbar_items{
+  margin: 10px;
+
+}
+a{
+  color: white;
+  text-decoration: none;
+}
+
+svg{
+  margin-bottom: 30px;
+
+}
 </style>
