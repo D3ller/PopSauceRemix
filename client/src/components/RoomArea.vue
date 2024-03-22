@@ -72,7 +72,7 @@ function joinRoom() {
           <p @click="createorjoin = false;" :class="{room_selected: !createorjoin}">{{ t('components.RoomArea.join') }}</p>
         </div>
 
-        <form @submit.prevent="createRoom" v-if="createorjoin">
+        <form class="forms" @submit.prevent="createRoom" v-if="createorjoin">
           <div class="room_area_input_container">
             <label for="roomName">{{ t('components.RoomArea.name') }}</label>
             <input v-model="roomName" :placeholder="t('components.RoomArea.namePlaceholder')" />
@@ -95,7 +95,7 @@ function joinRoom() {
           <BlueButton>{{ t('components.RoomArea.create') }}</BlueButton>
         </form>
 
-        <form @submit.prevent="joinRoom" v-else>
+        <form class="forms" @submit.prevent="joinRoom" v-else>
           <span class="error-message">{{ error }}</span>
           <div class="room_area_input_container">
             <label for="inviteCode">{{ t('components.RoomArea.inviteCode') }}</label>
@@ -141,8 +141,6 @@ function joinRoom() {
   border-radius: 10px;
   padding: 40px;
   gap: 60px;
-  margin-top: -100px;
-  margin-bottom: 40px;
   border: 1px solid #ccc;
 
 }
@@ -294,5 +292,9 @@ function joinRoom() {
 .error-message {
   color: red;
   font-family: Raleway, sans-serif;
+}
+
+.forms {
+  width: 100%;
 }
 </style>

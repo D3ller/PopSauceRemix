@@ -20,6 +20,7 @@
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s;
+  width: fit-content;
   &:hover {
     background: darken($linear-blue, 10%);
   }

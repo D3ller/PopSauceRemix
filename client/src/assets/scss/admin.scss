@@ -11,42 +11,29 @@
     background-color: #222222;
     height: 100%;
     width: 90%;
-    
-  }
-  main{
-    grid-area: 2 / 2 / 1 / 2;
-    margin-top: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 120px;
+
   }
   #dashbord{
     grid-area: 2 / 2 / 4 / 4;
 
   }
   button {
-    width: 150px;
-    height: 30px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    background: red;
     border: none;
     border-radius: 5px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
     background: #e62222;
-  
+
     &, span {
       transition: 200ms;
     }
-  
+
     .text {
       transform: translateX(35px);
       color: white;
       font-weight: bold;
     }
-  
+
     .icon {
       position: absolute;
       border-left: 1px solid #700202;
@@ -55,31 +42,31 @@
       display: flex;
       align-items: center;
       justify-content: center;
-  
+
       svg {
         width: 15px;
         fill: #eee;
       }
     }
-  
+
     &:hover {
       background: #ff3636;
-  
+
       .text {
         color: transparent;
       }
-  
+
       .icon {
         width: 150px;
         border-left: none;
         transform: translateX(0);
       }
     }
-  
+
     &:focus {
       outline: none;
     }
-  
+
     &:active .icon svg {
       transform: scale(0.8);
     }
@@ -93,18 +80,18 @@
     align-items: center;
     border: 1px solid #34974d;
     background-color: #3aa856;
-    
-  
+
+
     &, .button__icon, .button__text {
       transition: all 0.3s;
     }
-  
+
     .button__text {
       transform: translateX(30px);
       color: #fff;
       font-weight: 600;
     }
-  
+
     .button__icon {
       position: absolute;
       transform: translateX(109px);
@@ -115,29 +102,29 @@
       align-items: center;
       justify-content: center;
       border-radius: 5px;
-  
+
       .svg {
         width: 30px;
         stroke: #fff;
       }
     }
-  
+
     &:hover {
       background: #34974d;
-  
+
       .button__text {
         color: transparent;
       }
-  
+
       .button__icon {
         width: 140px;
         transform: translateX(0);
       }
     }
-  
+
     &:active {
       border: 1px solid #2e8644;
-  
+
       .button__icon {
         background-color: #2e8644;
       }
@@ -150,21 +137,21 @@
     font-size: 1rem;
     width: 150px;
     border-radius: 5px;
-    
+
     box-shadow: 2px 2px 12px 1px #c1bcbc;;
     cursor: pointer;
     height: 30px;
     margin-right:10px;
     input:focus {
     outline-color: #2222;
-    
+
   }
 }
 #formulaire_question{
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
 
 }
 .form-box {

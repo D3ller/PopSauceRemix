@@ -8,23 +8,13 @@ const router = useRouter()
 
 let navAccept = ref(true);
 
-watch(() => router.currentRoute.value.name, (name) => {
-<<<<<<< Updated upstream
-  navAccept.value = name !== 'room' && name !== 'admin'
 
-})
-=======
-  navAccept.value = name !== 'room';
-})
 watch(() => router.currentRoute.value.name, (name) => {
-  // Vérifie si la route actuelle est différente de 'admin' et 'question'
-  navAccept.value = name !== 'admin' && name !== 'question';
+  navAccept.value = name !== 'admin' && name !== 'question' && name !== 'room'
 });
 
 
->>>>>>> Stashed changes
-
-const { t, locale } = useI18n()
+const { t, locale } = useI18n();
 
 
 
