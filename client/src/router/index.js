@@ -26,6 +26,11 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
+        {
+          path: 'find',
+          name: 'find',
+          component: () => import('../views/Find.vue')
+        },
     {
       path: 'room/:id',
       name: 'room',

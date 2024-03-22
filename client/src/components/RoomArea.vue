@@ -209,11 +209,11 @@ function joinRoom() {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   width: fit-content;
-  border: 3px solid #343434;
+  border: 3px solid $dark-bg;
   border-radius: 50px;
-  background: #343434;
+  background: $dark-bg;
   font-weight: bold;
-  color: #343434;
+  color: $dark-bg;
   cursor: pointer;
 }
 

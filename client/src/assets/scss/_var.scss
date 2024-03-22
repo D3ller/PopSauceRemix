@@ -1,13 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap'); /* color palette from <https://github.com/vuejs/theme> */
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
 
-//Variables
+//Background & Logo
 $dark-bg: #222222;
-$btn-blue: #07a6ff;
 $qpub-green: #54df25;
+
+//Color
 $linear-blue: #0066ff;
 $linear-green: #FFC107;
 $linear-red: #ff0000;
 $linear-purple: #7d2be9;
+
+//Border
+$transparent-border: rgba(117, 117, 117, 0.31);
+
+//Font
 $base-font: 'Raleway', sans-serif;
 $base-font-size: 16px;

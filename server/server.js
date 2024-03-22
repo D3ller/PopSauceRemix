@@ -96,6 +96,11 @@ io.on("connection", (socket) => {
         callback(res)
     })
 
+    socket.on('send_message', (message, roomID, name, callback) => {
+        console.log(message)
+        io.to(roomID).emit('message', { message: message, user: name });
+    })
+
 
     socket.on('start-game', (roomID, callback) => {
         let timeInterval;

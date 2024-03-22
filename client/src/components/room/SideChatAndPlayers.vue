@@ -1,9 +1,52 @@
 <script setup>
 import {useI18n} from "vue-i18n";
+import {ref} from "vue";
+import socket from "@/socket.js";
+let myMessage = ref('');
+let message = ref([]);
 
 const props = defineProps({
-  player: Array
+  player: Object,
+  rooms: String,
 });
+
+console.log(props);
+
+// Cette fonction simule une opération asynchrone qui attend que 'currentToken' soit non nul ou non vide.
+async function waitForToken() {
+  let currentToken = localStorage.getItem('user');
+  // Boucle jusqu'à ce que currentToken soit non vide
+  while (!currentToken) {
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Attendre 1 seconde avant de vérifier à nouveau
+    currentToken = localStorage.getItem('user');
+  }
+  return JSON.parse(currentToken);
+}
+
+async function sendMessage(event) {
+  if (event.target.value.length > 0) {
+    event.target.value = '';
+
+    const currentToken = await waitForToken();
+
+    const playerExists = props.player.some(player => player.token === currentToken.token); // Supposons que vous vouliez comparer les tokens
+console.log(playerExists)
+
+    if(playerExists) {
+      socket.emit('send_message', myMessage.value, props.rooms, currentToken.name, (message) => {
+        console.log(message);
+      });
+    }
+  }
+}
+
+
+socket.on('message', (msg) => {
+  message.value.push(msg);
+  const chat = document.querySelector('.message_container');
+  chat.scrollTop = chat.scrollHeight-100000
+  chat.style.transition = 'all 0.5s';
+})
 
 console.log(props)
 const { t, locale } = useI18n();
@@ -29,12 +72,15 @@ const { t, locale } = useI18n();
     </div>
 
     <div class="side_chat">
+      <div class="chat_message">
+        <TransitionGroup name="fade" tag="div" class="message_container">
+          <div class="message" v-for="msg in message">{{msg.user}} : {{ msg.message }}</div>
+        </TransitionGroup>
+      </div>
       <div class="chat_container">
-        <div class="chat_message">
-        </div>
+
         <div class="chat_input">
-          <input class="input" type="text" :placeholder="t('components.SideChatAndPlayers.writechat')" />
-          <button>{{ t('components.SideChatAndPlayers.sendchat') }}</button>
+          <input @keyup.enter="sendMessage($event)" v-model="myMessage" :min="1" max="40" class="input" type="text" :placeholder="t('components.SideChatAndPlayers.writechat')" />
         </div>
       </div>
     </div>
@@ -42,20 +88,24 @@ const { t, locale } = useI18n();
 
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "@/assets/scss/_var.scss";
+
 .side {
   width: 360px;
-  background: #222222;
+  background: $dark-bg;
   height: 100vh;
+  max-height: 100vh;
   display: grid;
   grid-template-rows: 1fr 1fr;
   color: #D9D9D9;
   font-family: Raleway, sans-serif;
+  padding: 20px;
 
 }
 
 .side_players, .side_chat {
-  height: 50vh;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -65,7 +115,7 @@ const { t, locale } = useI18n();
 
 .side_players h3, .side_chat h3 {
   margin: 20px 0;
-  font-family: Raleway, sans-serif;
+  font-family: $base-font;
   font-weight: 400;
   font-size: 22px;
   color: white;
@@ -134,46 +184,68 @@ const { t, locale } = useI18n();
   margin-bottom: 10px;
 }
 .chat_input{
-  display: flex;
+  width: 100%;
+  height: 30px;
 }
+
+.message_container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 286px;
+  overflow: auto;
+  .message {
+    background: lighten($dark-bg, 5%);
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: darken($dark-bg, 10%);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: lighten($dark-bg, 5%);
+  }
+}
+
 .input {
   width: 100%;
-  max-width: 180px;
-  height: 40px;
-  padding: 6px;
-  border: 1.5px solid lightgrey;
+  height: 100%;
+  text-indent: 6px;
   outline: none;
   transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   box-shadow: 0px 0px 20px -18px;
-}
-
-.input:hover {
-  border: 2px solid lightgrey;
-  box-shadow: 0px 0px 20px -17px;
-}
-
-.input:active {
-  transform: scale(0.95);
-}
-
-.input:focus {
-  border: 2px solid grey;
-}
-button {
-  font-family: inherit;
-  font-size: 12px;
-  background: royalblue;
+  border-radius: 10px;
+  background: darken($dark-bg, 25%);
+  font-family: $base-font;
+  border: 1px solid rgba(117, 117, 117, 0.31);
   color: white;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  border: none;
-  overflow: hidden;
-  transition: all 0.2s;
-  cursor: pointer;
+  &:hover {
+    box-shadow: 0px 0px 20px -17px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: white;
+  }
 }
-button img{
-  width: 20px;
-  margin-right: 5px;
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
 }
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+
 </style>

@@ -49,6 +49,8 @@ let selected = ref(null)
           router.push(Trans.i18nRoute({ name: 'home' }))
         }
       }
+
+      document.title = `Dans la salle ${res.room.name} - QPUB`
     })
 
   })
@@ -178,6 +180,7 @@ const { t, locale } = useI18n();
 </script>
 
 <template>
+
   <div v-if="!user" class="connexion">
     {{ t('pages.Room.loading') }}
   </div>
@@ -190,19 +193,19 @@ const { t, locale } = useI18n();
         <h1 class="main-title">Choissisez votre thème</h1>
 
         <div class="theme_container">
-          <Theme  @click="selected = 'B'" :color="selected === 'B' ? '#0066ff' : '#9595ff'">
+          <Theme  @click="selected = 'B'" :color="selected === 'B' ? '#6363ff' : '#9595ff'">
             Biodiversité
           </Theme>
 
-          <Theme @click="selected = 'Eg'" :color="selected === 'Eg' ? '#ff0000' : '#ff6565'">
+          <Theme @click="selected = 'Eg'" :color="selected === 'Eg' ? '#ff4242' : '#ff6565'">
             Eco-geste
           </Theme>
 
-          <Theme @click="selected = 'Er'" :color="selected === 'Er' ? '#54df25' : '#abff8e'">
+          <Theme @click="selected = 'Er'" :color="selected === 'Er' ? '#7cff4e' : '#abff8e'">
             Energie Renouvlable
           </Theme>
 
-          <Theme @click="selected = 'Et'" :color="selected === 'Et' ? '#7d2be9' : '#be92fd'">
+          <Theme @click="selected = 'Et'" :color="selected === 'Et' ? '#9f5aff' : '#be92fd'">
             Eco-transports
           </Theme>
 
@@ -258,6 +261,7 @@ const { t, locale } = useI18n();
         <img class="question_image" :src="question.url_image" alt="image" />
         <p class="question">{{ question.question }}</p>
         <input v-if="good" :placeholder="t('pages.Room.answer')" class="enter_input" type="text" v-model="reponse" @keyup.enter="sendResponse(reponse)" />
+        <p v-else>{{ t('pages.Room.answered') }}</p>
       </div>
 
     </div>
@@ -272,7 +276,7 @@ const { t, locale } = useI18n();
       </div>
 
     </div>
-    <SideChatAndPlayers :player="player" />
+    <SideChatAndPlayers :player="player" :rooms="roomID" />
   </div>
 
 

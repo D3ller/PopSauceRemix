@@ -28,6 +28,8 @@ defineProps({
   font-size: $base-font-size;
   border-radius: 20px;
   border: 1px solid rgba(204, 204, 204, 0.39);
+  transition: 0.3s;
+  cursor: pointer;
 }
 
 .bar {
