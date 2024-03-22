@@ -5,7 +5,8 @@ import Account from '@/views/account/Account.vue'
 import CreateAccount from '@/views/account/CreateAccount.vue'
 import LoginAccount from '@/views/account/LoginAccount.vue'
 import Tr from '@/i18n/translation.js'
-import Admin from '@/views/Admin.vue'
+import Admin from '@/views/admin/Admin.vue'
+import Question from '@/views/admin/Question.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -50,6 +51,11 @@ const router = createRouter({
       path: 'admin',
       name: 'admin',
       component: Admin
+    },
+    {
+      path: 'admin/question',
+      name: 'question',
+      component: Question
     }
   ]
 }
