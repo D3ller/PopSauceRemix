@@ -4,13 +4,13 @@
 <template>
   <div id="formulaire_question">
     <div class="form-box">
-      <form class="form">
+      <form class="forms">
         <button @click="showform" class="button_close">
           <span class="X"></span>
           <span class="Y"></span>
         </button>
-        <span class="title">Question</span>
-        <span class="subtitle">Veuillez remplir le formulaire pour ajouter une question.</span>
+        <span class="title">Proposition de question</span>
+        <span class="subtitle">Veuillez remplir le formulaire pour proposer une question.</span>
         <div class="form-container">
           <input class="form_input" type="text" v-model="question" placeholder="Question" name="question">
           <input class="form_input" type="text" v-model="question_en" placeholder="Question en anglais" name="question_en">
@@ -28,7 +28,7 @@
           </select>
         </div>
         <button type="button" class="button_add" @click="ajouterquestion">
-          <span class="button__text">Submit</span>
+          <span class="button__text">Proposer</span>
           <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24"
               stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24"
               fill="none" class="svg">
@@ -53,7 +53,7 @@
     box-shadow: 2px 2px 12px 1px #c1bcbc;
     cursor: pointer;
     height: 30px;
-    margin-right: 10px;
+    margin-top: 100px;
   }
   
   .input-wrapper input:focus {
@@ -67,35 +67,33 @@
   }
   
   .form-box {
-    max-width: 500px;
+    max-width: 400px;
     background: rgba(217, 217, 217, 0.58);
     overflow: hidden;
     border-radius: 10px;
     color: #010101;
     display: flex;
     font-family: sans-serif; /* Replace $base-font with the desired font stack */
-    box-shadow: rgba(0, 0, 0, 0.43) 1px 1px 20px 1px;
+    box-shadow: rgba(0, 0, 0, 0.43) 1px 1px 8px 1px;
     justify-content: center;
-    margin: 20px;
+    margin-top: 100px;
   }
   
-  .form-box .form {
+  .form-box .forms {
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 32px 24px 24px;
-    gap: 16px;
     text-align: center;
     align-items: center;
-    width: 100%;
+    width: 350px;
   }
   
-  .form-box .form .title {
+  .form-box .forms .title {
     font-weight: bold;
     font-size: 1.6rem;
   }
   
-  .form-box .form .subtitle {
+  .form-box .forms .subtitle {
     font-size: 1rem;
     color: #666;
   }
@@ -172,8 +170,8 @@
     background: rgba(180, 83, 107, 0.11);
     border-radius: 5px;
     transition: background 0.5s;
-    left: 56%;
-    top: -9%;
+    left: 48%;
+    top: -1%;
   }
   
   .button_close:hover {
