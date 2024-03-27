@@ -31,7 +31,7 @@ security:
     access_control:
 #        - { path: ^/api, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
 #        - { path: ^/api/questions, roles: PUBLIC_ACCESS }
-        - { path: ^/api/users, roles: [ROLE_USER, IS_AUTHENTICATED_FULLY] }
+        - { path: ^/api/users, roles: [ROLE_ADMIN], method: ['GET'] }
 
 when@test:
     security:

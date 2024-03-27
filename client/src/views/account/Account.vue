@@ -1,17 +1,27 @@
 <script setup>
-import { ref } from 'vue';
+import {onMounted, ref} from 'vue';
+import {Store} from "@/utils/localstorage.js";
+import axios from "axios";
 
-const user = ref(true);
+const user = ref(null)
+const store = new Store()
+
+onMounted(async () => {
+  user.value = await store.getUser()
+  localStorage.setItem('user', JSON.stringify(user.value))
+})
 
 </script>
 <template>
     <section class="center">
-        <div v-if="!user">
-            Statistiques
+        <div v-if="user">
+            Statistiques <br>
+          {{ user.name }} <br>
+          {{ user.email }} <br>
         </div>
         <div v-else class="account">
-            <a href="/account/register">Créer un compte</a>
-            <a href="/account/login">Connexion</a>
+            <a href="/fr/account/register">Créer un compte</a>
+            <a href="/fr/account/login">Connexion</a>
         </div>
     </section>
 </template>

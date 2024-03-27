@@ -1,35 +1,21 @@
 <script setup>
-import router from '@/router';
 import { ref } from 'vue';
 import Trans from "@/i18n/translation.js";
+import {Store} from "@/utils/localstorage.js";
 
-// import { ref } from 'vue';
+  const form = ref({
+    username: "",
+    password: "",
+  })
 
-    // const user = ref(true);
-
-    const mail = ref('')
-    const username = ref('')
-    const mdp = ref('')
-    const confirm_mdp = ref('')
-
-    const submit = () => {
-        const user = {
-            mail: mail.value,
-            mdp: mdp.value,
-        }
-        console.log(user)
-
-        if(user) {
-            router.push(Trans.i18nRoute({ name: 'account' }))
-        }
-    }
+const store = new Store();
 
 </script>
 
 <template>
-    <form @submit.prevent="submit">
-        <input type="mail" placeholder="email" v-model="mail">
-        <input type="password" placeholder="mdp" v-model="mdp">
+    <form @submit.prevent="store.handleLogin(form)">
+        <input type="email" placeholder="email" v-model="form.username">
+        <input type="password" placeholder="mdp" v-model="form.password">
         <button>Connexion</button>
     </form>
 </template>

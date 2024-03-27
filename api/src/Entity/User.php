@@ -14,9 +14,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Metadata\ApiResource;
 
 //#[ApiResource(security: "is_granted('ROLE_USER')")]
-//#[Get(security: "is_granted('ROLE_USER')")]
+//#[Get(security: "is_granted('ROLE_ADMIN') or object.owner == user")]
 //#[Put(security: "is_granted('ROLE_ADMIN') or object.owner == user")]
-//#[GetCollection]
+//#[GetCollection(security: "is_granted('ROLE_ADMIN') or object == user")]
 //#[Post]
 
 #[UniqueEntity('email')]
