@@ -5,10 +5,10 @@ import Graphique from "@/components/Graphique.vue";
 </script>
 <template>
   <div id="block">
-    <header>
+    <header class="header_admin">
     <NavbarAdmin></NavbarAdmin>
   </header>
-  <main>
+  <main class="main_admin">
    <h2>Admin</h2>
   </main>
   <div id="dashbord">
