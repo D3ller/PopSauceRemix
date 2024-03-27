@@ -201,7 +201,7 @@ const { t, locale } = useI18n();
   <div class="myroom_area">
     <div class="myroom_area_center">
 
-      <div v-if="owner && !start">
+      <div v-if="owner && !start && !waiting">
 
         <h1 class="main-title">Choissisez votre thème</h1>
 
