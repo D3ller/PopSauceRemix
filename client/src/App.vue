@@ -26,7 +26,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <lang-select></lang-select>
+  <LangSelect />
+
   <navbar></navbar>
   <RouterView/>
 </template>

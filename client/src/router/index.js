@@ -5,7 +5,9 @@ import Account from '@/views/account/Account.vue'
 import CreateAccount from '@/views/account/CreateAccount.vue'
 import LoginAccount from '@/views/account/LoginAccount.vue'
 import Tr from '@/i18n/translation.js'
-import Admin from '@/views/Admin.vue'
+import Admin from '@/views/admin/Admin.vue'
+import Question from '@/views/admin/Question.vue'
+import User_question from '@/views/user_question.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -26,6 +28,11 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
+        {
+          path: 'find',
+          name: 'find',
+          component: () => import('../views/Find.vue')
+        },
     {
       path: 'room/:id',
       name: 'room',
@@ -50,6 +57,16 @@ const router = createRouter({
       path: 'admin',
       name: 'admin',
       component: Admin
+    },
+    {
+      path: 'admin/question',
+      name: 'question',
+      component: Question
+    },
+    {
+      path: 'user_question',
+      name: 'user_question',
+      component: User_question
     }
   ]
 }

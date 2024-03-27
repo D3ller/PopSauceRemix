@@ -1,0 +1,256 @@
+@import "@/assets/scss/_var.scss";
+#block{
+    display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  height: 100vh;
+  }
+  header{
+    grid-area: 1 / 1 / 5 / 2;
+    background-color: #222222;
+    height: 100%;
+    width: 90%;
+
+  }
+  #dashbord{
+    grid-area: 2 / 2 / 4 / 4;
+
+  }
+  button {
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+    background: #e62222;
+
+    &, span {
+      transition: 200ms;
+    }
+
+    .text {
+      transform: translateX(35px);
+      color: white;
+      font-weight: bold;
+    }
+
+    .icon {
+      position: absolute;
+      border-left: 1px solid #700202;
+      transform: translateX(110px);
+      width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 15px;
+        fill: #eee;
+      }
+    }
+
+    &:hover {
+      background: #ff3636;
+
+      .text {
+        color: transparent;
+      }
+
+      .icon {
+        width: 150px;
+        border-left: none;
+        transform: translateX(0);
+      }
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active .icon svg {
+      transform: scale(0.8);
+    }
+  }
+  .button_add {
+    position: relative;
+    width: 150px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 1px solid #34974d;
+    background-color: #3aa856;
+
+
+    &, .button__icon, .button__text {
+      transition: all 0.3s;
+    }
+
+    .button__text {
+      transform: translateX(30px);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .button__icon {
+      position: absolute;
+      transform: translateX(109px);
+      height: 100%;
+      width: 34px;
+      background-color: #34974d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+
+      .svg {
+        width: 30px;
+        stroke: #fff;
+      }
+    }
+
+    &:hover {
+      background: #34974d;
+
+      .button__text {
+        color: transparent;
+      }
+
+      .button__icon {
+        width: 140px;
+        transform: translateX(0);
+      }
+    }
+
+    &:active {
+      border: 1px solid #2e8644;
+
+      .button__icon {
+        background-color: #2e8644;
+      }
+    }
+  }
+  .input-wrapper input {
+    background-color: #eee;
+    border: none;
+    padding: 8px;
+    font-size: 1rem;
+    width: 150px;
+    border-radius: 5px;
+
+    box-shadow: 2px 2px 12px 1px #c1bcbc;;
+    cursor: pointer;
+    height: 30px;
+    margin-right:10px;
+    input:focus {
+    outline-color: #2222;
+
+  }
+}
+#formulaire_question{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}
+.form-box {
+  max-width: 500px;
+  background: rgba(217, 217, 217, 0.58);
+  overflow: hidden;
+  border-radius: 10px;
+  color: #010101;
+  display: flex;
+  font-family: $base-font;
+  box-shadow: rgb(0 0 0 / 43%) 1px 1px 20px 1px;
+  justify-content: center;
+  margin: 20px;
+
+  .form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 24px 24px;
+    gap: 16px;
+    text-align: center;
+    align-items: center;
+    width: 100%;
+
+    // Form text
+    .title {
+      font-weight: bold;
+      font-size: 1.6rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #666;
+    }
+  }
+
+  // Inputs box
+  .form-container {
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #fff;
+    margin: 1rem 0 .5rem;
+    width: 100%;
+
+    .form_input {
+      background: none;
+      border: 0;
+      outline: 0;
+      height: 40px;
+      width: 100%;
+      border-bottom: 1px solid #eee;
+      font-size: .9rem;
+      padding: 8px 15px;
+    }
+    select{
+      background: none;
+      border: 0;
+      outline: 0;
+      height: 40px;
+      width: 100%;
+      border-bottom: 1px solid #eee;
+      font-size: .9rem;
+      padding: 8px 15px;
+    }
+  }
+
+  // Form section
+  .form-section {
+    padding: 16px;
+    font-size: .85rem;
+    background-color: #e0ecfb;
+    box-shadow: rgb(0 0 0 / 8%) 0 -1px;
+
+    a {
+      font-weight: bold;
+      color: #0066ff;
+      transition: color .3s ease;
+
+      &:hover {
+        color: #005ce6;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  // Button
+  #form_button {
+    background-color: #0066ff;
+    color: #fff;
+    border: 0;
+    border-radius: 24px;
+    padding: 10px 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .3s ease;
+
+    &:hover {
+      background-color: #005ce6;
+    }
+  }
+}

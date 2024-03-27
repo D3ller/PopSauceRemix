@@ -38,7 +38,8 @@
             "answer": "Réponse",
             "start": "Démarrer",
             "answeris": "La réponse est",
-            "end": "La partie est terminée"
+            "end": "La partie est terminée",
+            "answered": "Bien joué ! Vous avez répondu correctement"
         },
         "Account": {
             "stats": "Statistiques",

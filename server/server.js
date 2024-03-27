@@ -5,7 +5,6 @@ const { error } = require('console');
 const { Game } = require('./utils');
 
 
-// partie serveur
 const app = express();
 const server = http.createServer(app);
 
@@ -39,6 +38,12 @@ io.on("connection", (socket) => {
     socket.on('disconnect', (user) => {
         console.log(socket.id + ' disconnected');
     });
+
+    socket.on('choose-theme', (theme, roomId, callback) => {
+        const res = game.chooseTheme(theme, roomId)
+        callback(res)
+
+    })
 
     socket.on('create-room', (room, callback) => {
         const res = game.createRoom(room.name, room.creator, room.privacy)
@@ -88,6 +93,11 @@ io.on("connection", (socket) => {
     socket.on('join-room', (room, callback) => {
         const res = game.joinRoom(room, socket.id)
         callback(res)
+    })
+
+    socket.on('send_message', (message, roomID, name, callback) => {
+        console.log(message)
+        io.to(roomID).emit('message', { message: message, user: name });
     })
 
 
@@ -144,6 +154,11 @@ io.on("connection", (socket) => {
 
     socket.on('visibility', (test) => {
         console.log(test)
+    })
+
+    socket.on('get-rooms-info', (roomID, callback) => {
+      const res = game.getRoomInfo(roomID)
+        callback(res)
     })
 
 

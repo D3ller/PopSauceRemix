@@ -4,6 +4,7 @@ import socket from '@/socket';
 import router from "@/router/index.js";
 import {useI18n} from "vue-i18n";
 import Trans from "@/i18n/translation.js";
+import BlueButton from "@/components/Button/BlueButton.vue";
 const { t, locale } = useI18n();
 
 /*Variables*/
@@ -50,6 +51,7 @@ function joinRoom() {
 
   socket.emit('join-room', room, (res) => {
     if(res.type === 'message'){
+      localStorage.setItem('user', JSON.stringify({name: username.value, token: user.token}))
       router.push(Trans.i18nRoute({name: 'room', params: {id: res.room.id}}))
     }
 
@@ -71,7 +73,7 @@ function joinRoom() {
           <p @click="createorjoin = false;" :class="{room_selected: !createorjoin}">{{ t('components.RoomArea.join') }}</p>
         </div>
 
-        <form @submit.prevent="createRoom" v-if="createorjoin">
+        <form class="forms" @submit.prevent="createRoom" v-if="createorjoin">
           <div class="room_area_input_container">
             <label for="roomName">{{ t('components.RoomArea.name') }}</label>
             <input v-model="roomName" :placeholder="t('components.RoomArea.namePlaceholder')" />
@@ -91,10 +93,10 @@ function joinRoom() {
 
 
 
-          <button class="create_room">{{ t('components.RoomArea.create') }}</button>
+          <BlueButton>{{ t('components.RoomArea.create') }}</BlueButton>
         </form>
 
-        <form @submit.prevent="joinRoom" v-else>
+        <form class="forms" @submit.prevent="joinRoom" v-else>
           <span class="error-message">{{ error }}</span>
           <div class="room_area_input_container">
             <label for="inviteCode">{{ t('components.RoomArea.inviteCode') }}</label>
@@ -104,7 +106,7 @@ function joinRoom() {
             <label for="username">{{ t('components.RoomArea.username') }}</label>
             <input v-model="username" placeholder="Ex: John Doe" />
           </div>
-          <button class="create_room join_room">{{ t('components.RoomArea.join') }}</button>
+          <BlueButton>{{ t('components.RoomArea.join') }}</BlueButton>
         </form>
 
 
@@ -123,6 +125,7 @@ function joinRoom() {
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 .room_area_first {
@@ -135,12 +138,12 @@ function joinRoom() {
 .room_area {
   background-color: #ffffff;
   display: flex;
-  box-shadow: -1px 13px 20px 0px #bababa;
+  box-shadow: 0px 20px 5px 0px #c5c5c51a;
   border-radius: 10px;
   padding: 40px;
   gap: 60px;
-  margin-top: -100px;
-  margin-bottom: 40px;
+  border: 1px solid #ccc;
+
 }
 
 .room_area_select {
@@ -205,11 +208,11 @@ function joinRoom() {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   width: fit-content;
-  border: 3px solid #343434;
+  border: 3px solid $dark-bg;
   border-radius: 50px;
-  background: #343434;
+  background: $dark-bg;
   font-weight: bold;
-  color: #343434;
+  color: $dark-bg;
   cursor: pointer;
 }
 
@@ -290,5 +293,9 @@ function joinRoom() {
 .error-message {
   color: red;
   font-family: Raleway, sans-serif;
+}
+
+.forms {
+  width: 100%;
 }
 </style>
