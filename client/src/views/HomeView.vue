@@ -38,6 +38,12 @@ onUnmounted(() => {
     <RoomArea class="areas"></RoomArea>
 
 
+
+    <div class="room_cards_area">
+      <div v-if="rooms" v-for="room in rooms" :key="room.id">
+        <RoomCard :room-name="room.name" :players="room.players === 0 ? 1 : room.players" :room-id="room.id"></RoomCard>
+      </div>
+    </div>
   </main>
 
 
