@@ -10,6 +10,11 @@ let multiple = [
         reponse: "entre 10 et 70 km/h"
     },
     {
+        question: "Qui travaille le moins?",
+        reponses: ["Richard", "Corentin", "Marius", "Emillien"],
+        reponse: "Richard"
+    },
+    {
         question: "Combien d'espèces d’animaux sont menacées d’extinction dans le monde ?",
         reponses: ["1000", "4000", "10000", "40000"],
         reponse: "10000"
@@ -188,6 +193,7 @@ let image = [
                 points: [],
                 privacy: privacy,
                 currentQuestion: null,
+                playing: false,
             }
 
             console.log(room)
@@ -227,7 +233,7 @@ let image = [
 
                 console.log(room)
             } else {
-                return {type: 'error', error: 'you are already in the room'}
+                return {type: 'error', error: 'you are already in the room', code: 400}
             }
             return {type: 'message', message: 'congrat, you are in the room', room: room}
         }
@@ -296,12 +302,11 @@ let image = [
 
 
         chooseQuestion(roomID) {
-
             let room = this.rooms.find(x => x.id === roomID);
+            room.playing = true;
             let QuestionType = ["multiple", "input", "image"];
             let type = QuestionType[Math.floor(Math.random() * QuestionType.length)];
             let res;
-            console.log('type', type)
             room.startTime = Date.now();
             room.firstCorrectAnswerGiven = false;
 
@@ -412,6 +417,13 @@ let image = [
             return {type: 'message', message: 'theme chosen', theme: theme}
         }
 
+        getRoomInfo(roomID) {
+            let room = this.rooms.find(x => x.id === roomID);
+            if(!room) {
+                return {type: 'error', error: 'room does not exist'}
+            }
+            return room.playing;
+        }
 
     }
 

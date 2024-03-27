@@ -5,7 +5,6 @@ const { error } = require('console');
 const { Game } = require('./utils');
 
 
-// partie serveur
 const app = express();
 const server = http.createServer(app);
 
@@ -155,6 +154,11 @@ io.on("connection", (socket) => {
 
     socket.on('visibility', (test) => {
         console.log(test)
+    })
+
+    socket.on('get-rooms-info', (roomID, callback) => {
+      const res = game.getRoomInfo(roomID)
+        callback(res)
     })
 
 

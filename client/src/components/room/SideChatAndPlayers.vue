@@ -116,7 +116,7 @@ const { t, locale } = useI18n();
 .side_players h3, .side_chat h3 {
   margin: 20px 0;
   font-family: $base-font;
-  font-weight: 400;
+  font-weight: 700;
   font-size: 22px;
   color: white;
   text-align: center;

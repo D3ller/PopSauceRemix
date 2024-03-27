@@ -28,6 +28,7 @@ let points = ref(null)
 let answer = ref(null)
 let winner = ref(null)
 let good = ref(true)
+let waiting = ref(false)
 
 let selected = ref(null)
 
@@ -44,13 +45,17 @@ let selected = ref(null)
 
       if(res.type === 'error') {
         console.log(res.error)
-        router.push(Trans.i18nRoute({ name: 'home' }))
         if(res.code === 404) {
           router.push(Trans.i18nRoute({ name: 'home' }))
         }
       }
 
       document.title = `Dans la salle ${res.room.name} - QPUB`
+
+      socket.emit('get-rooms-info', roomID, (res) => {
+        console.log(res)
+        waiting.value = res
+      })
     })
 
   })
@@ -119,6 +124,7 @@ socket.on('time-left', (time) => {
 
 socket.on('owner', (isOwner) => {
     owner.value = true
+  waiting.value = true
 })
 
 function startGame() {
@@ -133,6 +139,7 @@ function startGame() {
 }
 
 socket.on('question', (questions) => {
+  waiting.value = true
   answer.value = null
   good.value = true
   reponse.value = ''
@@ -175,6 +182,8 @@ socket.on('game-over', (win) => {
   winner.value = win
 })
 
+
+
 const { t, locale } = useI18n();
 
 </script>
@@ -183,6 +192,10 @@ const { t, locale } = useI18n();
 
   <div v-if="!user" class="connexion">
     {{ t('pages.Room.loading') }}
+  </div>
+
+  <div v-if="!waiting && !owner" class="waiting">
+    <p class="waiting_title">Le propriétaire est entrain de configurer la room</p>
   </div>
 
   <div class="myroom_area">
@@ -225,13 +238,17 @@ const { t, locale } = useI18n();
 
       <div class="myroom_area_center_content" v-if="answer === null">
         <Transition name="fade">
-      <div v-if="timer">
+      <div v-if="timer && question">
       <div class="timer_info"><p>{{ t('pages.Room.timeleft') }}</p><span>00:{{timer > 9 ? timer : '0'+timer}}</span></div>
       <div  class="timer_container">
         <div v-if="timer" class="timer" :style="{ width: timer*5 + '%' }"></div>
       </div>
       </div>
         </Transition>
+
+        <div v-if="!question && timer" class="waiting_2">
+          <p class="waiting_title">Attendez que la question suivante arrive pour rejoindre</p>
+        </div>
 
         <div v-if="question.type === 'multiple'">
           <div class="question_boxes">
@@ -296,6 +313,7 @@ const { t, locale } = useI18n();
 .myroom_area {
   display: grid;
   grid-template-columns: calc(100% - 360px) 360px;
+  min-height: 100vh;
 }
 
 .connexion {
@@ -411,28 +429,25 @@ const { t, locale } = useI18n();
   position: fixed;
   width: calc(100vw - 360px);
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
   z-index: 1;
   display: flex;
   justify-content: center;
-  gap: 20px;
   flex-direction: column;
-}
+  color: black;
 
-.answer h2 {
-  font-size: 40px;
-  font-weight: 700;
-  color: #fff;
-  text-align: center;
-  font-family: 'Public Sans', sans-serif;
-}
+  h3 {
+    font-size: 30px;
+    font-weight: 500;
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+  }
 
-.answer h3 {
-  font-size: 30px;
-  font-weight: 500;
-  color: #fff;
-  text-align: center;
-  font-family: 'Public Sans', sans-serif;
+  h2 {
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+  }
 }
 
 .myroom_area_center {
@@ -457,7 +472,7 @@ const { t, locale } = useI18n();
 
 .multiple_answer {
   width: 100%;
-  height: 70px;
+  height: 50px;
   border-radius: 10px;
   border: 1px solid #d6d6d642;
   transition: 0.3s background-color ease-in-out, 0.3s border ease-in-out;
@@ -567,5 +582,44 @@ const { t, locale } = useI18n();
 
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+
+.waiting_2 {
+  width: calc(100vw - 360px);
+  height: 100vh;
+  background-color: rgba(124, 124, 124, 0.4);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-direction: column;
+
+  .waiting_title {
+    font-family: "Raleway", sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: #000000;
+    text-align: center;
+  }
+}
+
+.waiting {
+  position: fixed;
+  width: calc(100vw - 360px);
+  height: 100vh;
+  background-color: rgba(124, 124, 124, 0.4);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-direction: column;
+
+  .waiting_title {
+    font-family: "Raleway", sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: #000000;
+    text-align: center;
+  }
 }
 </style>

@@ -51,6 +51,7 @@ function joinRoom() {
 
   socket.emit('join-room', room, (res) => {
     if(res.type === 'message'){
+      localStorage.setItem('user', JSON.stringify({name: username.value, token: user.token}))
       router.push(Trans.i18nRoute({name: 'room', params: {id: res.room.id}}))
     }
 
