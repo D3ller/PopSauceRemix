@@ -1,21 +1,34 @@
-
-<script setup >
+<script setup>
 import QBLogo from "@/components/icons/QBLogo.vue";
-
+defineProps({
+    lien: String,
+})
 </script>
 <template>
-   <div class="nav_area">
+  <div class="nav_area">
     <nav class="navbar">
-      <div class="navbar_items"><router-link :to="({ name: 'home' })"><QBLogo/></router-link></div>
-      <div class="navbar_items"><img class="img_navbar_admin" src="@/assets/image/entrevue.png" alt="icone des questions"><router-link :to="({ name: 'question' })">Question</router-link></div>
-      <div class="navbar_items"><img class="img_navbar_admin" src="@/assets/image/bibliotheque.png" alt="icone des thèmes"><router-link :to="({ name: 'account' })">Thèmes</router-link></div>
-      <div class="navbar_items"><img class="img_navbar_admin" src="@/assets/image/utilisateur.png" alt="icone des utilisateurs"><router-link :to="({ name: 'home' })">Utilisateurs</router-link></div>
-      <div class="navbar_items"><img class="img_navbar_admin" src="@/assets/image/verifie.png" alt="icone des verifie"><router-link :to="({ name: 'home' })">Valider une question</router-link></div>
+      <div class="navbar_items"><router-link :to="({ name: 'home' })">
+          <QBLogo />
+        </router-link></div>
+        <div class="navbar_items">
+        <img class="img_navbar_admin" src="@/assets/image/tableau-de-bord.png" alt="icone des questions">
+        <router-link :to="({ name: 'admin' })" :class="{ nav_active: lien === 'admin' }">Admin</router-link></div>
+      <div class="navbar_items">
+        <img class="img_navbar_admin" src="@/assets/image/entrevue.png" alt="icone des questions">
+        <router-link :to="({ name: 'question' })" :class="{ nav_active: lien === 'question' }">Question</router-link></div>
+      <div class="navbar_items">
+        <img class="img_navbar_admin" src="@/assets/image/bibliotheque.png" alt="icone des thèmes">
+        <router-link :to="({ name: 'themes' })" :class="{ nav_active: lien === 'themes' }">Thèmes</router-link></div>
+      <div class="navbar_items">
+        <img class="img_navbar_admin" src="@/assets/image/utilisateur.png" alt="icone des utilisateurs">
+        <router-link :to="({ name: 'question' })" :class="{ nav_active: lien === 'question' }">Utilisateur</router-link></div>
+      <div class="navbar_items">
+        <img class="img_navbar_admin" src="@/assets/image/verifie.png" alt="icone des verifie">
+        <router-link :to="({ name: 'question' })" :class="{ nav_active: lien === 'question' }">Valider une question</router-link></div>
     </nav>
   </div>
 </template>
 <style lang="scss" scoped>
-
 @import "@/assets/scss/_var.scss";
 @import "@/assets/scss/_mixins.scss";
 
@@ -36,7 +49,7 @@ import QBLogo from "@/components/icons/QBLogo.vue";
     font-family: $base-font;
     gap: 3rem;
     border-radius: 5px;
-    position: absolute;
+    position: fixed;
     top: 20px;
 
     .navbar_items {
@@ -54,7 +67,8 @@ import QBLogo from "@/components/icons/QBLogo.vue";
 
 
       }
-      a:hover{
+
+      a:hover {
         color: #51C12C;
       }
 
@@ -69,29 +83,34 @@ import QBLogo from "@/components/icons/QBLogo.vue";
   }
 }
 
-.img_navbar_admin{
-  width: 20px;
-  height: 20px;
+.img_navbar_admin {
+  width: 30px;
+  height: 30px;
 
 }
-.navbar{
+
+.navbar {
   gap: 2rem !important;
   align-items: flex-start !important;
   flex-direction: column;
   margin: 20px;
 }
-.navbar_items{
+
+.navbar_items {
   margin: 10px;
 
 }
-a{
+
+a {
   color: white;
   text-decoration: none;
 }
 
-svg{
+svg {
   margin-bottom: 30px;
 
 }
-
+.nav_active {
+  color: #51C12C !important;
+} 
 </style>

@@ -1,13 +1,16 @@
 <script setup>
 defineProps({
     cards: Object,
-    numero: Number
+    numero: Number,
+    lien: String
     
 })
 
 </script>
 <template>
+  
     <div class="card">
+        <div v-if="lien === 'question'">
         <p>n° {{ numero }}</p>
         <p>Question : {{ cards.question }}</p>
         
@@ -26,7 +29,12 @@ defineProps({
         <div id="conteneur_button">
           
         </div>
-       
+    </div>
+    <div v-else-if="lien === 'themes'">
+        <p>n°{{ cards.originalIndex + 1 }}</p>
+        <p>Thème : {{ cards.nomThemes }}</p>
+        <p>Nombre de questions : {{ cards.questions.length }}</p>
+    </div>
     </div>
 </template>
 <style>
@@ -61,8 +69,4 @@ defineProps({
 }
 
 
-#conteneur_button{
-    display: flex;
-    justify-content: center;
-}
 </style>

@@ -2,11 +2,13 @@
 import NavbarAdmin from "@/components/NavbarAdmin.vue";
 import { h } from "vue";
 import Graphique from "@/components/Graphique.vue";
+import { useRoute } from 'vue-router';
+const route = useRoute();
 </script>
 <template>
   <div id="block">
     <header class="header_admin">
-    <NavbarAdmin></NavbarAdmin>
+    <NavbarAdmin :lien="route.name"></NavbarAdmin>
   </header>
   <main class="main_admin">
    <h2>Admin</h2>

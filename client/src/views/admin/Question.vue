@@ -2,6 +2,8 @@
 import NavbarAdmin from "@/components/NavbarAdmin.vue";
 import { onMounted, ref, computed } from 'vue';
 import AdminCard from "@/components/AdminCard.vue";
+import { useRoute } from 'vue-router';
+const route = useRoute();
 let data = ref('');
 let themes = ref('');
 let originalData = ref('');
@@ -203,19 +205,15 @@ async function updateQuestion(id) {
   // Cacher le formulaire d'édition après la modification
   showedit.value = false;
 }
-
-
-
-
 </script>
 
 <template>
   <div id="block">
     <header class="header_admin">
-      <NavbarAdmin></NavbarAdmin>
+      <NavbarAdmin :lien="route.name"></NavbarAdmin>
     </header>
     <main class="main_admin">
-      <h2>Question</h2>
+      <h2 class="h2_admin">Question</h2>
       <div id="main_button">
         <div class="input-wrapper">
           <input v-model="reponse" placeholder="Type here..." class="input" @input="updateFilter">
@@ -327,7 +325,7 @@ async function updateQuestion(id) {
       </Transition>
       <div id="conteneur_card">
         <div v-for="(question, index) in filteredData" :key="question.id">
-          <AdminCard :cards="question" :numero="questionNumber + question.originalIndex + 1" />
+          <AdminCard :cards="question" :numero="questionNumber + question.originalIndex + 1" :lien="route.name" />
           <div id="conteneur_card_buttons">
             <button @click="deletconfirm(question.id)" class="button_delet"><span class="text">Delete</span><span
                 class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
