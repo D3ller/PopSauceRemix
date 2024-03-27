@@ -49,7 +49,6 @@ io.on("connection", (socket) => {
         const res = game.createRoom(room.name, room.creator, room.privacy)
         callback(res)
         socket.emit('owner', true)
-        console.log(res.type)
         if(res.type === "message") {
             io.emit('public-room', game.getPublicRooms())
 
@@ -96,7 +95,6 @@ io.on("connection", (socket) => {
     })
 
     socket.on('send_message', (message, roomID, name, callback) => {
-        console.log(message)
         io.to(roomID).emit('message', { message: message, user: name });
     })
 
@@ -145,16 +143,11 @@ io.on("connection", (socket) => {
 
     socket.on('reponse', (reponse, roomID, user, callback) => {
         const res = game.checkReponse(reponse, roomID, user);
-        console.log(game.getRoom(roomID))
         if (res.message) {
             io.to(roomID).emit('get-points', game.getScore(roomID))
         }
         callback(res)
     });
-
-    socket.on('visibility', (test) => {
-        console.log(test)
-    })
 
     socket.on('get-rooms-info', (roomID, callback) => {
       const res = game.getRoomInfo(roomID)
