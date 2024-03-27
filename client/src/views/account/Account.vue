@@ -8,6 +8,9 @@ const store = new Store()
 
 onMounted(async () => {
   user.value = await store.getUser()
+  if (localStorage.getItem('user') != user.name) {
+    localStorage.setItem('user', JSON.stringify(user.value))
+  }
 })
 
 </script>
