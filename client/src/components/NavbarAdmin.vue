@@ -7,10 +7,10 @@ import QBLogo from "@/components/icons/QBLogo.vue";
    <div class="nav_area">
     <nav class="navbar">
       <div class="navbar_items"><router-link :to="({ name: 'home' })"><QBLogo/></router-link></div>
-      <div class="navbar_items"><router-link :to="({ name: 'home' })">Question</router-link></div>
-      <div class="navbar_items"><router-link :to="({ name: 'account' })">Thèmes</router-link></div>
-      <div class="navbar_items"><router-link :to="({ name: 'home' })">Utilisateurs</router-link></div>
-      <div class="navbar_items"><router-link :to="({ name: 'home' })">Valider une question</router-link></div>
+      <div class="navbar_items"><img class="img_navbar_admin" src="@/assets/image/entrevue.png" alt="icone des questions"><router-link :to="({ name: 'question' })">Question</router-link></div>
+      <div class="navbar_items"><img class="img_navbar_admin" src="@/assets/image/bibliotheque.png" alt="icone des thèmes"><router-link :to="({ name: 'account' })">Thèmes</router-link></div>
+      <div class="navbar_items"><img class="img_navbar_admin" src="@/assets/image/utilisateur.png" alt="icone des utilisateurs"><router-link :to="({ name: 'home' })">Utilisateurs</router-link></div>
+      <div class="navbar_items"><img class="img_navbar_admin" src="@/assets/image/verifie.png" alt="icone des verifie"><router-link :to="({ name: 'home' })">Valider une question</router-link></div>
     </nav>
   </div>
 </template>
@@ -31,7 +31,6 @@ import QBLogo from "@/components/icons/QBLogo.vue";
     align-items: center;
     padding: 1rem;
     background-color: $dark-bg;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     color: white;
     max-width: 650px;
     font-family: $base-font;
@@ -55,6 +54,9 @@ import QBLogo from "@/components/icons/QBLogo.vue";
 
 
       }
+      a:hover{
+        color: #51C12C;
+      }
 
       .navbar_button {
         padding: 0.5rem 1.2rem;
@@ -67,7 +69,7 @@ import QBLogo from "@/components/icons/QBLogo.vue";
   }
 }
 
-img{
+.img_navbar_admin{
   width: 20px;
   height: 20px;
 
@@ -91,4 +93,5 @@ svg{
   margin-bottom: 30px;
 
 }
+
 </style>

@@ -1,13 +1,14 @@
 <script setup>
 defineProps({
-    cards: Object
+    cards: Object,
+    numero: Number
     
 })
 
 </script>
 <template>
     <div class="card">
-        <p>ID : {{ cards.id }}</p>
+        <p>n° {{ numero }}</p>
         <p>Question : {{ cards.question }}</p>
         
         <div v-if="cards.reponse2 ">
@@ -47,6 +48,7 @@ defineProps({
     user-select: none;
     font-weight: bolder;
     color: black;
+    margin-bottom: 10px;
 }
 
 .card:hover {
