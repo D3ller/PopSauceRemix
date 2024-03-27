@@ -30,3 +30,11 @@ services:
     container_name: api_phpmyadmin
     ports:
       - 8082:80
+
+  maildev:
+    image: maildev/maildev
+    container_name: maildev_symfony
+    command: bin/maildev --web 80 --smtp 1025 --hide-extensions STARTTLS
+    restart: always
+    ports:
+      - 8081:80
