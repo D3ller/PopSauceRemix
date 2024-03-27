@@ -8,7 +8,6 @@ const store = new Store()
 
 onMounted(async () => {
   user.value = await store.getUser()
-  localStorage.setItem('user', JSON.stringify(user.value))
 })
 
 </script>

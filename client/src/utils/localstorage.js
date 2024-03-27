@@ -60,9 +60,15 @@ export class Store {
     {
         try {
             axios.post('http://localhost:8080/api/users', user)
-                .then(res => {
+                .then(async (res) => {
                     if (res.status === 201) {
-                        console.log(res)
+                        console.log(res.data)
+                        const login = {
+                            username: user.email,
+                            password: user.password
+                        }
+                        await this.handleLogin(login)
+                        router.push('/fr/account')
                     }
                 })
         } catch (e) {
