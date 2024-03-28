@@ -21,10 +21,10 @@ defineProps({
         <router-link :to="({ name: 'themes' })" :class="{ nav_active: lien === 'themes' }">Thèmes</router-link></div>
       <div class="navbar_items">
         <img class="img_navbar_admin" src="@/assets/image/utilisateur.png" alt="icone des utilisateurs">
-        <router-link :to="({ name: 'question' })" :class="{ nav_active: lien === 'question' }">Utilisateur</router-link></div>
+        <router-link :to="({ name: 'question' })" :class="{ nav_active: lien === 'utilisateur' }">Utilisateur</router-link></div>
       <div class="navbar_items">
         <img class="img_navbar_admin" src="@/assets/image/verifie.png" alt="icone des verifie">
-        <router-link :to="({ name: 'question' })" :class="{ nav_active: lien === 'question' }">Valider une question</router-link></div>
+        <router-link :to="({ name: 'question' })" :class="{ nav_active: lien === 'valider une question' }">Valider une question</router-link></div>
     </nav>
   </div>
 </template>

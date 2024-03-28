@@ -228,6 +228,7 @@ await fetchthemes();
   flex-wrap: wrap;
   justify-content: space-around;
   gap: 20px;
+  margin-bottom: 30px;
 }
 
 #main_button {
