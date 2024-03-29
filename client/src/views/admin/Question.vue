@@ -2,6 +2,8 @@
 import NavbarAdmin from "@/components/NavbarAdmin.vue";
 import { onMounted, ref, computed } from 'vue';
 import AdminCard from "@/components/AdminCard.vue";
+import { useRoute } from 'vue-router';
+const route = useRoute();
 let data = ref('');
 let themes = ref('');
 let originalData = ref('');
@@ -21,6 +23,7 @@ let id = ref('');
 const showquestion = ref(false);
 const showedit = ref(false);
 let questionNumber = ref(0);
+let icone = ref('');
 onMounted(async () => {
   await fetchquestion();
 });
@@ -203,19 +206,33 @@ async function updateQuestion(id) {
   // Cacher le formulaire d'édition après la modification
   showedit.value = false;
 }
-
-
-
-
+    function findImage(themeName) {
+      console.log('themeName:', themeName);
+    if (themeName === 'Biodiversité ') {
+        return ('/src/assets/image/ours-polaire.png');
+    } else if (themeName === 'Energie-renouvelable ') {
+        return ('/src/assets/image/eolienne.png');
+    }
+    else if (themeName === 'Eco-transport ') {
+        return ('/src/assets/image/bus.png');
+    }
+    else if (themeName === 'Eco-geste') {
+        return ('/src/assets/image/recyclage.png');
+    }
+    else if (themeName === 'Commun ') {
+        return ('/src/assets/image/commun.png');
+    }
+  }
+ 
 </script>
 
 <template>
   <div id="block">
     <header class="header_admin">
-      <NavbarAdmin></NavbarAdmin>
+      <NavbarAdmin :lien="route.name"></NavbarAdmin>
     </header>
     <main class="main_admin">
-      <h2>Question</h2>
+      <h2 class="h2_admin">Question</h2>
       <div id="main_button">
         <div class="input-wrapper">
           <input v-model="reponse" placeholder="Type here..." class="input" @input="updateFilter">
@@ -327,7 +344,10 @@ async function updateQuestion(id) {
       </Transition>
       <div id="conteneur_card">
         <div v-for="(question, index) in filteredData" :key="question.id">
-          <AdminCard :cards="question" :numero="questionNumber + question.originalIndex + 1" />
+          <div v-for="theme in themes" :key="theme.id">
+            <div class="img_conteneur" v-if="question.themes === theme['@id']">
+              <img class="img_incone_theme" :src="findImage(theme.nomThemes)" alt="Icone du thème">
+          <AdminCard :cards="question" :numero="questionNumber + question.originalIndex + 1" :lien="route.name" :theme="theme"   />
           <div id="conteneur_card_buttons">
             <button @click="deletconfirm(question.id)" class="button_delet"><span class="text">Delete</span><span
                 class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -342,6 +362,8 @@ async function updateQuestion(id) {
                 </path>
               </svg>
             </button>
+            </div>
+            </div>
           </div>
         </div>
       </div>
@@ -447,5 +469,17 @@ form {
 .v-leave-to {
   opacity: 0;
 }
+.img_incone_theme {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 3%;
+  right: 1%;
+}
+.img_conteneur {
+  position: relative;
+
+}
+
 </style>
 ```
