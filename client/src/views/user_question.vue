@@ -43,17 +43,19 @@
 
 
 <style scoped>
-.input-wrapper input {
-    background-color: #eee;
-    border: none;
-    padding: 8px;
-    font-size: 1rem;
-    width: 150px;
-    border-radius: 5px;
-    box-shadow: 2px 2px 12px 1px #c1bcbc;
-    cursor: pointer;
-    height: 30px;
-    margin-top: 100px;
+.input-wrapper {
+input {
+  background-color: #eee;
+  border: none;
+  padding: 8px;
+  font-size: 1rem;
+  width: 150px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 12px 1px #c1bcbc;
+  cursor: pointer;
+  height: 30px;
+  margin-top: 100px;
+}
   }
   
   .input-wrapper input:focus {

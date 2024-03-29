@@ -175,6 +175,7 @@ function sendResponse(res) {
 
 socket.on('answer', (answers) => {
   answer.value = answers
+  timer.value = null
 })
 
 socket.on('game-over', (win) => {
@@ -278,7 +279,7 @@ const { t, locale } = useI18n();
         <img class="question_image" :src="question.url_image" alt="image" />
         <p class="question">{{ question.question }}</p>
         <input v-if="good" :placeholder="t('pages.Room.answer')" class="enter_input" type="text" v-model="reponse" @keyup.enter="sendResponse(reponse)" />
-        <p v-else>{{ t('pages.Room.answered') }}</p>
+        <p v-else class="good_answer">{{ t('pages.Room.answered') }}</p>
       </div>
 
     </div>
@@ -621,5 +622,9 @@ const { t, locale } = useI18n();
     color: #000000;
     text-align: center;
   }
+}
+
+.good_answer {
+  margin-top: 20px;
 }
 </style>

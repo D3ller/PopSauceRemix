@@ -28,7 +28,7 @@ const { t, locale } = useI18n();
     <nav class="navbar">
       <div class="navbar_items"><router-link :to="Tr.i18nRoute({ name: 'home' })"><QBLogo/></router-link></div>
       <div class="navbar_items"><router-link :to="Tr.i18nRoute({ name: 'home' })">{{ t('layout.navbar.home') }}</router-link></div>
-      <div class="navbar_items"><router-link :to="Tr.i18nRoute({ name: 'account' })">{{ t('layout.navbar.account') }}</router-link></div>
+      <div class="navbar_items"><router-link :to="Tr.i18nRoute({ name: 'login' })">{{ t('layout.navbar.account') }}</router-link></div>
       <div class="navbar_items"><router-link class="navbar_button" :to="Tr.i18nRoute({ name: 'find' })">{{ t('layout.navbar.find') }}</router-link></div>
     </nav>
   </div>

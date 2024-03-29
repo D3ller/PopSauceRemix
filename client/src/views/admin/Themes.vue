@@ -235,7 +235,7 @@ await fetchthemes();
   display: flex;
 }
 
-form {
+.form {
   display: flex;
   flex-direction: column;
   gap: 10px;

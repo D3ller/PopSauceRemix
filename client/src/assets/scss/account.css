@@ -1,4 +1,66 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap"); /* color palette from <https://github.com/vuejs/theme> */
 @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+.account_input {
+  padding: 15px;
+  border: 1px solid #D7D7D9;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #F5F5F7;
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.account_input:focus {
+  outline: none;
+}
+
+.account_title {
+  font-size: 24px;
+  color: #000000;
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
+}
+
+.account_div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.account_form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+  width: 450px;
+}
+
+.account_label {
+  font-size: 16px;
+  color: #000000;
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.bar {
+  width: 100%;
+  border: 1px solid #D7D7D9;
+  margin: 20px 0;
+}
+
+.have {
+  margin: 20px 0;
+  font-family: Raleway, sans-serif;
+  font-weight: 500;
+}
+.have a {
+  color: #0066ff;
+  text-decoration: none;
+  font-weight: 600;
+}
 
 /*# sourceMappingURL=account.css.map */

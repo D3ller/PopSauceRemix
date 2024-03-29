@@ -16,3 +16,36 @@
   font-weight: $font-weight;
   line-height: $line-height;
 }
+
+@mixin input-style($padding: 15px, $border: 1px solid #D7D7D9, $border-radius: 5px, $font-size: 14px, $background-color: #F5F5F7, $font-family: 'Raleway', $font-weight: 500) {
+  padding: $padding;
+  border: $border;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  background-color: $background-color;
+  font-family: $font-family, sans-serif;
+  font-weight: $font-weight;
+
+}
+
+@mixin label-style {
+  font-size: 16px;
+  color: #000000;
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+@mixin title-style {
+  font-size: 24px;
+  color: #000000;
+  font-family: $base-font;
+  font-weight: 700;
+}
+
+@mixin center-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}

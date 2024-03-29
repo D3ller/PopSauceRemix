@@ -64,7 +64,7 @@ function joinRoom() {
 
 
 <template>
-  <div class="room_container">
+  <div id="roomContainer" class="room_container">
     <div class="room_area">
 
       <div class="room_area_first">
@@ -120,6 +120,8 @@ function joinRoom() {
 
 <style lang="scss" scoped>
 @import "@/assets/scss/_var.scss";
+@import "@/assets/scss/_mixins.scss";
+
 
 .room_container {
   display: flex;
@@ -177,22 +179,12 @@ function joinRoom() {
 }
 
 .room_area_input_container label {
-  font-size: 16px;
-  color: #000000;
-  font-family: Inter, sans-serif;
-  font-weight: 500;
-  margin-bottom: 10px;
+@include label-style;
 }
 
 .room_area_input_container input {
-  padding: 15px;
-  border: 1px solid #D7D7D9;
-  border-radius: 5px;
-  font-size: 14px;
-  background-color: #F5F5F7;
-  font-family: Raleway, sans-serif;
-  font-weight: 500;
-  margin-bottom: 20px;
+@include input-style;
+
 }
 
 .room_area_input_container input:focus {
@@ -263,19 +255,6 @@ function joinRoom() {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.create_room {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  background: $linear-blue;
-  color: white;
-  font-family: Raleway, sans-serif;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 

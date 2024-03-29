@@ -5,6 +5,7 @@ import {onMounted, onUnmounted, watch} from "vue";
 import router from "@/router/index.js";
 import LangSelect from "@/components/langSelect.vue";
 import Tr from "@/i18n/translation.js";
+import Footer from "@/components/Footer.vue";
 
 let user = localStorage.getItem('user');
 
@@ -30,6 +31,7 @@ onMounted(() => {
 
   <navbar></navbar>
   <RouterView/>
+  <Footer />
 </template>
 
 <style scoped>

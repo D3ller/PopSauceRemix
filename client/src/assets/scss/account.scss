@@ -1,2 +1,46 @@
 @import "var";
 @import "mixins";
+
+.account_input {
+  @include input-style;
+  margin-bottom: 10px;
+  &:focus {
+    outline: none;
+  }
+}
+
+.account_title {
+  @include title-style;
+}
+
+.account_div {
+  @include center-flex;
+}
+
+.account_form {
+  @include flex-container(column);
+  width: 450px;
+}
+
+.account_label {
+  @include label-style;
+
+}
+
+.bar {
+  width: 100%;
+  border: 1px solid #D7D7D9;
+  margin: 20px 0;
+}
+
+.have {
+  margin: 20px 0;
+  font-family: Raleway, sans-serif;
+  font-weight: 500;
+
+  a {
+    color: $linear-blue;
+    text-decoration: none;
+    font-weight: 600;
+  }
+}

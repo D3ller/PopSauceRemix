@@ -112,9 +112,10 @@ io.on("connection", (socket) => {
             const question = game.chooseQuestion(roomID);
             io.to(roomID).emit('question', question);
             let timeLeft = 20;
+            io.to(roomID).emit('time-left', timeLeft);
             timeInterval = setInterval(() => {
-                io.to(roomID).emit('time-left', timeLeft);
                 timeLeft--;
+                io.to(roomID).emit('time-left', timeLeft);
                 if (timeLeft === 0) {
                     clearInterval(timeInterval);
                     io.to(roomID).emit('answer', game.getAnswer(roomID));
@@ -122,6 +123,7 @@ io.on("connection", (socket) => {
                 }
             }, 1000);
         };
+
 
         sendNewQuestion();
 
