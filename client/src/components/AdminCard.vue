@@ -19,7 +19,7 @@ defineProps({
   
     <div class="card">
         <div v-if="lien === 'question'">
-        <p id="card_question">{{ capitalizeFirstLetter(cards.question) }}</p>
+        <p class="card_top">{{ capitalizeFirstLetter(cards.question) }}</p>
         <div id="card_reponse_image">
         <div v-if="cards.reponse2 ">
             <p>Reponse 1 : {{ cards.reponse1 }}</p>
@@ -34,19 +34,21 @@ defineProps({
             <p id="card_image">Image : {{ cards.image }}</p>
         </div>
     </div>
-    <hr id="card_hr">
-    <div id="card_bottom">
+    <hr class="card_hr">
+    <div class="card_bottom">
         <p>n° {{ numero }}</p>
-        <p>Thème : {{ theme.nomThemes }}</p>
-        
-
+        <p>Thème : {{  capitalizeFirstLetter(theme.nomThemes) }}</p>
     </div>
        
     </div>
     <div v-else-if="lien === 'themes'">
-        <p>n°{{ cards.originalIndex + 1 }}</p>
-        <p>Thème : {{ cards.nomThemes }}</p>
+        <p class="card_top">Thème : {{capitalizeFirstLetter(cards.nomThemes) }}</p>
+        <hr class="card_hr">
+        <div class="card_bottom_theme">
+            <p>n°{{ cards.originalIndex + 1 }}</p>
         <p>Nombre de questions : {{ cards.questions.length }}</p>
+        </div>
+       
     </div>
     </div>
 </template>
@@ -78,10 +80,8 @@ defineProps({
     transform: scale(1.05);
 }
 
-.card:active {
-    transform: scale(0.95) rotateZ(1.7deg);
-}
-#card_question {
+
+.card_top {
     font-size: 17px;
     font-weight: bold;
     text-align: start;
@@ -102,13 +102,28 @@ defineProps({
 #card_image {
     margin-left: 70px;
 }
-#card_hr {
+.card_hr {
     width: 70%;
    margin: 0 auto;
    margin-top: 20px;
     margin-bottom: 20px;
 }
-#card_bottom{
+.card_bottom_theme{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 30px;
+    margin-left: 10px;
+    font-family: $base-font;
+    margin-top: 10px;
+    text-align: start;
+    flex-direction:column-reverse;
+
+    p{
+        margin-top: 10px;
+    
+    }
+}
+.card_bottom{
     display: flex;
     justify-content: space-between;
     margin-right: 30px;

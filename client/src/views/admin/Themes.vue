@@ -113,6 +113,23 @@ await fetchthemes();
   theme_an.value = '';
   themeId.value = '';
  }
+ function findImage(themeName) {
+      console.log('themeName:', themeName);
+    if (themeName === 'Biodiversité ') {
+        return ('/src/assets/image/ours-polaire.png');
+    } else if (themeName === 'Energie-renouvelable ') {
+        return ('/src/assets/image/eolienne.png');
+    }
+    else if (themeName === 'Eco-transport ') {
+        return ('/src/assets/image/bus.png');
+    }
+    else if (themeName === 'Eco-geste') {
+        return ('/src/assets/image/recyclage.png');
+    }
+    else if (themeName === 'Commun ') {
+        return ('/src/assets/image/commun.png');
+    }
+  }
 </script>
 
 <template>
@@ -198,7 +215,8 @@ await fetchthemes();
         </div>
       </Transition>
       <div id="conteneur_card">
-        <div v-for="theme in filteredData" :key="theme.id">
+        <div class="img_conteneur" v-for="theme in filteredData" :key="theme.id">
+          <img class="img_incone_theme" :src="findImage(theme.nomThemes)" alt="Icone du thème">
           <AdminCards :cards="theme" :lien="route.name"></AdminCards>
           <div id="conteneur_card_buttons">
             <button @click="deletconfirm(theme.id)" class="button_delet"><span class="text">Delete</span><span
@@ -251,6 +269,17 @@ form {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+.img_incone_theme {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 3%;
+  right: 1%;
+}
+.img_conteneur {
+  position: relative;
+
 }
 </style>
 ```
