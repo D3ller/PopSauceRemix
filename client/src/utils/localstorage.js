@@ -1,5 +1,6 @@
 import axios from "axios";
 import router from "@/router/index.js";
+import socket from "@/socket.js";
 
 export class Store {
     constructor() {
@@ -79,14 +80,23 @@ export class Store {
     getUser() {
         const cookie = this.getCookieValue()
 
-        const res = axios.get('http://localhost:8080/api/me', {headers: {Authorization: `Bearer ${cookie}`}})
-            .then(res => {
-                return res.data.user
-            })
-            .catch(() => {
-                console.log('erreur')
-            })
+        if (cookie) {
+            const res = axios.get('http://localhost:8080/api/me', {headers: {Authorization: `Bearer ${cookie}`}})
+                .then(res => {
+                    return res.data.user
+                })
+                .catch(() => {
+                    console.log('erreur')
+                })
+            return res
+        } else {
+            if(user === undefined || user === null){
+                socket.emit('first-connexion', (user) => {
+                    localStorage.setItem('user', JSON.stringify(user))
+                    location.reload()
+                })
+            }
+        }
 
-        return res
     }
 }
