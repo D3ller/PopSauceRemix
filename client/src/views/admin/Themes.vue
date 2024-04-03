@@ -20,7 +20,7 @@ onMounted(async () => {
   await fetchthemes();
 });
 const fetchthemes = async () => {
-  const response = await fetch('http://symfony.mmi-troyes.fr:8313/api/themes');
+  const response = await fetch('http://localhost:8080/api/themes');
   const responseData = await response.json();
   data.value = responseData['hydra:member'].map((question, index) => ({
     ...question,
@@ -42,7 +42,7 @@ function themefilter() {
 }
 
 async function addtheme() {
-  await fetch('http://symfony.mmi-troyes.fr:8313/api/themes', {
+  await fetch('http://localhost:8080/api/themes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ function deletconfirm(id) {
   } else { }
 }
 async function supprimerquestion(id) {
-  await fetch(`http://symfony.mmi-troyes.fr:8313/api/themes/${id}`, {
+  await fetch(`http://localhost:8080/api/themes/${id}`, {
     method: 'DELETE',
   });
   await fetchthemes();
@@ -97,7 +97,7 @@ async function updatetheme(id) {
   const updatedtheme = theme.value;
   const updatedthemeEn = theme_an.value;
   console.log(updatethemeId, updatedtheme, updatedthemeEn);
-    const response = await fetch(`http://symfony.mmi-troyes.fr:8313/api/themes/${updatethemeId}`, {
+    const response = await fetch(`http://localhost:8080/api/themes/${updatethemeId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -130,6 +130,56 @@ await fetchthemes();
         return ('/src/assets/image/commun.png');
     }
   }
+  function onFileChange(event) {
+  const file = event.target.files[0];
+  const maxSize = 500 * 1024; // Taille maximale en octets (500 ko)
+  if (file.size > maxSize) {
+    alert("Erreur : La taille de l'image dépasse 500 ko. Veuillez sélectionner une image plus petite.");
+    event.target.value = null; // Réinitialiser l'entrée de fichier
+    return;
+  }
+
+  const themeName = theme.value.trim(); // Récupérer le nom du thème du formulaire
+  if (!themeName) {
+    alert("Veuillez saisir un nom de thème avant de télécharger une image.");
+    event.target.value = null; // Réinitialiser l'entrée de fichier
+    return;
+  }
+
+  const newName = themeName.replace(/\s+/g, '-').toLowerCase() + '.png'; // Créer un nouveau nom de fichier basé sur le nom du thème
+  const imagePath = `src/assets/image/${newName}`; // Chemin d'accès de l'image
+
+  // Créer un objet File pour le fichier renommé
+  const renamedFile = new File([file], newName, { type: file.type });
+
+  // Enregistrer le fichier dans le dossier src/assets/image
+  saveFile(renamedFile, imagePath);
+
+  // Réinitialiser l'entrée de fichier
+  event.target.value = null;
+
+  // Afficher un message de confirmation
+  alert(`L'image a été téléchargée avec succès pour le thème "${themeName}".`);
+}
+
+// Fonction pour enregistrer le fichier dans le dossier spécifié
+function saveFile(file, path) {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => {
+    const base64Data = reader.result.split(',')[1];
+    const buffer = Buffer.from(base64Data, 'base64');
+
+    // Utiliser des API de Node.js ou des bibliothèques pour enregistrer le fichier
+    // Exemple : fs.writeFileSync(path, buffer);
+    // Ici, vous devrez utiliser une méthode appropriée pour enregistrer le fichier dans le système de fichiers de votre application
+    console.log(`Le fichier a été enregistré avec succès à l'emplacement ${path}`);
+  };
+  reader.onerror = error => {
+    console.error('Une erreur s\'est produite lors de la lecture du fichier :', error);
+  };
+}
+
 </script>
 
 <template>
@@ -170,6 +220,7 @@ await fetchthemes();
                   <input class="form_input" type="text" v-model="theme" placeholder="Thème" name="theme">
                   <input class="form_input" type="text" v-model="theme_an" placeholder="Thème en anglais"
                     name="question_en">
+                  <input type="file" @change="onFileChange" accept="image/png">
                 </div>
                 <button type="button" class="button_add" @click="addtheme">
                   <span class="button__text">Add Item</span>
@@ -201,6 +252,7 @@ await fetchthemes();
                   <input class="form_input" type="text" v-model="theme" placeholder="Thème" name="theme">
                   <input class="form_input" type="text" v-model="theme_an" placeholder="Thème en anglais"
                     name="theme_en">
+                    <input type="file" @change="onFileChange" accept="image/png">
                 </div>
                 <button @click="updatetheme(theme.id)" class="Button_edit">Edit
               <svg class="svg" viewBox="0 0 512 512">

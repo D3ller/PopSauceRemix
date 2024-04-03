@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
-#[ApiResource()]
+#[ApiResource(paginationEnabled: false)]
 class Question
 {
     #[ORM\Id]
@@ -36,6 +36,21 @@ class Question
     #[ORM\ManyToOne(inversedBy: 'questions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Themes $themes = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $question_en = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $reponse_1_en = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $reponse_2_en = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $reponse_3_en = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $reponse_4_en = null;
 
    
 
@@ -124,6 +139,66 @@ class Question
     public function setThemes(?Themes $themes): self
     {
         $this->themes = $themes;
+
+        return $this;
+    }
+
+    public function getQuestionEn(): ?string
+    {
+        return $this->question_en;
+    }
+
+    public function setQuestionEn(string $question_en): self
+    {
+        $this->question_en = $question_en;
+
+        return $this;
+    }
+
+    public function getReponse1En(): ?string
+    {
+        return $this->reponse_1_en;
+    }
+
+    public function setReponse1En(string $reponse_1_en): self
+    {
+        $this->reponse_1_en = $reponse_1_en;
+
+        return $this;
+    }
+
+    public function getReponse2En(): ?string
+    {
+        return $this->reponse_2_en;
+    }
+
+    public function setReponse2En(?string $reponse_2_en): self
+    {
+        $this->reponse_2_en = $reponse_2_en;
+
+        return $this;
+    }
+
+    public function getReponse3En(): ?string
+    {
+        return $this->reponse_3_en;
+    }
+
+    public function setReponse3En(?string $reponse_3_en): self
+    {
+        $this->reponse_3_en = $reponse_3_en;
+
+        return $this;
+    }
+
+    public function getReponse4En(): ?string
+    {
+        return $this->reponse_4_en;
+    }
+
+    public function setReponse4En(?string $reponse_4_en): self
+    {
+        $this->reponse_4_en = $reponse_4_en;
 
         return $this;
     }

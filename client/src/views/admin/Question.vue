@@ -31,7 +31,7 @@ onMounted(async () => {
 
 
 onMounted(async () => {
-  const response = await fetch('http://symfony.mmi-troyes.fr:8313/api/themes');
+  const response = await fetch('http://localhost:8080/api/themes');
   const responseData = await response.json();
   themes.value = responseData['hydra:member'];
 });
@@ -41,7 +41,7 @@ const isQuestionPage = computed(() => {
 });
 
 const fetchquestion = async () => {
-  const response = await fetch('http://symfony.mmi-troyes.fr:8313/api/questions');
+  const response = await fetch('http://localhost:8080/api/questions');
   const responseData = await response.json();
   data.value = responseData['hydra:member'].map((question, index) => ({
     ...question,
@@ -62,7 +62,7 @@ function updateFilter() {
 
 
 async function ajouterquestion() {
-  const response = await fetch('http://symfony.mmi-troyes.fr:8313/api/questions', {
+  const response = await fetch('http://localhost:8080/api/questions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -104,7 +104,7 @@ function deletconfirm(id) {
   } else { }
 }
 async function supprimerquestion(id) {
-  await fetch(`http://symfony.mmi-troyes.fr:8313/api/questions/${id}`, {
+  await fetch(`http://localhost:8080/api/questions/${id}`, {
     method: 'DELETE',
   });
 
@@ -171,7 +171,7 @@ async function updateQuestion(id) {
 
 
 
-  const response = await fetch(`http://symfony.mmi-troyes.fr:8313/api/questions/${uptadtequestionId}`, {
+  const response = await fetch(`http://localhost:8080/api/questions/${uptadtequestionId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'

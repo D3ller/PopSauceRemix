@@ -1,7 +1,15 @@
 <script setup>
-
 import QBLogo from "@/components/icons/QBLogo.vue";
 import Trans from "@/i18n/translation.js";
+import {useRouter} from "vue-router";
+const router = useRouter()
+
+let navAccept = ref(true);
+
+
+watch(() => router.currentRoute.value.name, (name) => {
+  navAccept.value = name !== 'admin' && name !== 'question' && name !== 'room' && name !=='themes'
+});
 </script>
 
 <template>

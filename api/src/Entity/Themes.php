@@ -23,6 +23,12 @@ class Themes
     #[ORM\OneToMany(mappedBy: 'themes', targetEntity: Question::class)]
     private Collection $questions;
 
+    #[ORM\Column(length: 255)]
+    private ?string $en_themes = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $icone = null;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -71,6 +77,30 @@ class Themes
                 $question->setThemes(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEnThemes(): ?string
+    {
+        return $this->en_themes;
+    }
+
+    public function setEnThemes(string $en_themes): self
+    {
+        $this->en_themes = $en_themes;
+
+        return $this;
+    }
+
+    public function getIcone(): ?string
+    {
+        return $this->icone;
+    }
+
+    public function setIcone(string $icone): self
+    {
+        $this->icone = $icone;
 
         return $this;
     }
