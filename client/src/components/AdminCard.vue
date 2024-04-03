@@ -5,7 +5,7 @@ defineProps({
     numero: Number,
     lien: String,
     theme: Object,
-    
+    icone: String,
     
 })
 

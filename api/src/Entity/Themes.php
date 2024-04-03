@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ThemesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 
@@ -26,8 +27,10 @@ class Themes
     #[ORM\Column(length: 255)]
     private ?string $en_themes = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $icone = null;
+    
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $image = null;
 
     public function __construct()
     {
@@ -93,14 +96,15 @@ class Themes
         return $this;
     }
 
-    public function getIcone(): ?string
+
+    public function getImage(): ?string
     {
-        return $this->icone;
+        return $this->image;
     }
 
-    public function setIcone(string $icone): self
+    public function setImage(string $image): self
     {
-        $this->icone = $icone;
+        $this->image = $image;
 
         return $this;
     }

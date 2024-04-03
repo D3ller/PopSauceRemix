@@ -15,6 +15,8 @@ const theme_an = ref('');
 const showtheme = ref(false);
 const themeId = ref('');
 const showedit = ref(false);
+const imageData = ref('');
+
 
 onMounted(async () => {
   await fetchthemes();
@@ -41,24 +43,55 @@ function themefilter() {
   });
 }
 
+// async function addtheme() {
+//   await fetch('http://localhost:8080/api/themes', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({
+//       nomThemes: theme.value,
+//       enThemes: theme_an.value // Correction ici
+//     })
+//   });
+
+//   // Réinitialiser les valeurs des champs à une chaîne vide
+//   theme.value = '';
+//   theme_an.value = '';
+
+//   // Optionnel : effectuer une nouvelle requête pour récupérer les thèmes mis à jour
+//   await fetchthemes(); // Assurez-vous que cette fonction est correctement définie
+// }
 async function addtheme() {
-  await fetch('http://symfony.mmi-troyes.fr:8313/api/themes', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      nomThemes: theme.value,
-      themeEn: theme_an.value // Correction ici
-    })
-  });
+  if (!imageData.value) {
+    alert("Veuillez sélectionner une image.");
+    return;
+  }
 
-  // Réinitialiser les valeurs des champs à une chaîne vide
-  theme.value = '';
-  theme_an.value = '';
+  try {
+    const response = await fetch('http://localhost:8080/api/themes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        image: imageData.value, // Envoyer la chaîne de base64 directement
+        nomThemes: theme.value,
+        enThemes: theme_an.value
+      }),
+    });
 
-  // Optionnel : effectuer une nouvelle requête pour récupérer les thèmes mis à jour
-  await fetchthemes(); // Assurez-vous que cette fonction est correctement définie
+    if (response.ok) {
+      theme.value = '';
+      theme_an.value = '';
+      imageData.value = ''; // Réinitialiser l'image après l'envoi
+      await fetchthemes(); // Recharger les données après l'ajout
+    } else {
+      console.error('Erreur lors de l\'ajout du thème');
+    }
+  } catch (error) {
+    console.error('Erreur lors de la requête POST:', error);
+  }
 }
 
 function deletconfirm(id) {
@@ -67,7 +100,7 @@ function deletconfirm(id) {
   } else { }
 }
 async function supprimerquestion(id) {
-  await fetch(`http://symfony.mmi-troyes.fr:8313/api/themes/${id}`, {
+  await fetch(`http://localhost:8080/api/themes/${id}`, {
     method: 'DELETE',
   });
   await fetchthemes();
@@ -97,7 +130,7 @@ async function updatetheme(id) {
   const updatedtheme = theme.value;
   const updatedthemeEn = theme_an.value;
   console.log(updatethemeId, updatedtheme, updatedthemeEn);
-    const response = await fetch(`http://symfony.mmi-troyes.fr:8313/api/themes/${updatethemeId}`, {
+    const response = await fetch(`http://localhost:8080/api/themes/${updatethemeId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -130,6 +163,24 @@ await fetchthemes();
         return ('/src/assets/image/commun.png');
     }
   }
+  
+
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // Vérifier la taille de l'image
+  if (file.size > 500 * 1024) {
+    alert("L'image ne doit pas dépasser 500ko.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    imageData.value = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 </script>
 
 <template>
@@ -170,6 +221,7 @@ await fetchthemes();
                   <input class="form_input" type="text" v-model="theme" placeholder="Thème" name="theme">
                   <input class="form_input" type="text" v-model="theme_an" placeholder="Thème en anglais"
                     name="question_en">
+                  <input class="form_input" type="file" accept="image/png" @change="handleImageUpload" name="image">
                 </div>
                 <button type="button" class="button_add" @click="addtheme">
                   <span class="button__text">Add Item</span>
@@ -216,8 +268,8 @@ await fetchthemes();
       </Transition>
       <div id="conteneur_card">
         <div class="img_conteneur" v-for="theme in filteredData" :key="theme.id">
-          <img class="img_incone_theme" :src="findImage(theme.nomThemes)" alt="Icone du thème">
-          <AdminCards :cards="theme" :lien="route.name"></AdminCards>
+          <img class="img_incone_theme" :src="theme.image" alt="Icone du thème">
+          <AdminCards :cards="theme" :lien="route.name" ></AdminCards>
           <div id="conteneur_card_buttons">
             <button @click="deletconfirm(theme.id)" class="button_delet"><span class="text">Delete</span><span
                 class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -251,6 +303,8 @@ await fetchthemes();
 
 #main_button {
   display: flex;
+  align-items: center;
+  margin-right: 10px
 }
 
 .form {

@@ -1,19 +1,22 @@
 <script setup>
 import QBLogo from "@/components/icons/QBLogo.vue";
 import Trans from "@/i18n/translation.js";
-import {useRouter} from "vue-router";
+import { ref, watch } from "vue";
+import { useRouter } from "vue-router";
 const router = useRouter()
 
-let navAccept = ref(true);
+let isAdminPage = ref(true);
 
 
 watch(() => router.currentRoute.value.name, (name) => {
-  navAccept.value = name !== 'admin' && name !== 'question' && name !== 'room' && name !=='themes'
+  isAdminPage.value = name !== 'admin' && name !== 'question' && name !== 'room' && name !=='themes'
 });
+
+console.log(isAdminPage);
 </script>
 
 <template>
-<footer class="footer_area">
+<footer v-if="isAdminPage" class="footer_area">
 <hr class="bar">
   <div class="footer_container">
     <div class="footer_column"><router-link :to="Trans.i18nRoute({name: 'home'})">
