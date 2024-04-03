@@ -1,4 +1,62 @@
 <script setup>
+import { onMounted, ref, computed } from 'vue';
+
+let themes = ref('');
+let question = ref('');
+let question_en = ref('');
+let reponse_1 = ref('');
+let reponse_1_en = ref('');
+let reponse_2 = ref('');
+let reponse_2_en = ref('');
+let reponse_3 = ref('');
+let reponse_3_en = ref('');
+let reponse_4 = ref('');
+let reponse_4_en = ref('');
+let image = ref('');
+let theme = ref('');
+
+onMounted(async () => {
+  const response = await fetch('http://localhost:8080/api/themes');
+  const responseData = await response.json();
+  themes.value = responseData['hydra:member'];
+});
+
+const ajouterQuestion = async () => {
+  const formData = {
+    question: question.value,
+    question_en: question_en.value,
+    reponse1: reponse_1.value,
+    reponse1_en: reponse_1_en.value,
+    reponse2: reponse_2.value,
+    reponse2_en: reponse_2_en.value,
+    reponse3: reponse_3.value,
+    reponse3_en: reponse_3_en.value,
+    reponse4: reponse_4.value,
+    reponse4_en: reponse_4_en.value,
+    image: image.value,
+    theme: theme.value
+  };
+
+  const response = await fetch('http://localhost:8080/api/valid_questions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  });
+  if (response.ok) {
+    // Gérer le cas où l'ajout de la question réussit
+    console.log('Question ajoutée avec succès !');
+  } else {
+    // Gérer le cas où il y a une erreur lors de l'ajout de la question
+    console.error('Erreur lors de l\'ajout de la question.');
+  }
+};
+
+
+
+
+
 
 </script>
 <template>
@@ -17,8 +75,11 @@
           <input class="form_input" type="text" v-model="reponse_1" placeholder="Réponse 1" name="reponse1">
           <input class="form_input" type="text" v-model="reponse_1_en" placeholder="Réponse 1 en anglais" name="reponse1_en">
           <input class="form_input" type="text" v-model="reponse_2" placeholder="Réponse 2" name="reponse2">
+          <input class="form_input" type="text" v-model="reponse_2_en" placeholder="Réponse 2 en anglais" name="reponse2_en">
           <input class="form_input" type="text" v-model="reponse_3" placeholder="Réponse 3" name="reponse3">
+          <input class="form_input" type="text" v-model="reponse_2_en" placeholder="Réponse 2 en anglais" name="reponse2_en">
           <input class="form_input" type="text" v-model="reponse_4" placeholder="Réponse 4" name="reponse4">
+          <input class="form_input" type="text" v-model="reponse_2_en" placeholder="Réponse 2 en anglais" name="reponse2_en">
           <input class="form_input" type="text" v-model="image" placeholder="Image" name="image">
           <select name="theme" id="theme" v-model="theme">
             <option value="">Sélectionner un thème</option>
@@ -27,7 +88,7 @@
             </template>
           </select>
         </div>
-        <button type="button" class="button_add" @click="ajouterquestion">
+        <button type="button" class="button_add" @click="ajouterQuestion">
           <span class="button__text">Proposer</span>
           <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24"
               stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24"
@@ -105,7 +166,7 @@ input {
     border-radius: 8px;
     background-color: #fff;
     margin: 1rem 0 0.5rem;
-    width: 100%;
+    width: 300px;
   }
   
   .form-box .form-container .form_input {
