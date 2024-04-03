@@ -172,8 +172,8 @@ input {
     background: rgba(180, 83, 107, 0.11);
     border-radius: 5px;
     transition: background 0.5s;
-    left: 48%;
-    top: -1%;
+    left: 45%;
+    top: 1%;
   }
   
   .button_close:hover {
