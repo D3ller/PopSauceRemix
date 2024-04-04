@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
 
+
 let themes = ref('');
 let question = ref('');
 let question_en = ref('');
@@ -21,6 +22,22 @@ onMounted(async () => {
   themes.value = responseData['hydra:member'];
 });
 
+const handleImageUpload = (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // Vérifier la taille de l'image
+  if (file.size > 500 * 1024) {
+    alert("L'image ne doit pas dépasser 500ko.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    image.value = e.target.result; // Stocker les données de l'image téléchargée dans la variable image
+  };
+  reader.readAsDataURL(file);
+};
 
 
 const validateAndAddQuestion = () => {
@@ -103,7 +120,7 @@ const clearForm = () => {
             <input class="form_input" type="text" v-model="reponse_2_en" placeholder="Réponse 2 en anglais" name="reponse2_en">
             <input class="form_input" type="text" v-model="reponse_3" placeholder="Réponse 3" name="reponse3">
             <input class="form_input" type="text" v-model="reponse_4" placeholder="Réponse 4" name="reponse4">
-            <input class="form_input" type="text" v-model="image" placeholder="Image" name="image">
+            <input class="form_input" type="file"  @change="handleImageUpload" accept="image/png" name="image">
             <select name="theme" id="theme" v-model="theme" required>
               <option value="">Sélectionner un thème</option>
               <template v-for="theme in themes" :key="theme['@id']">
