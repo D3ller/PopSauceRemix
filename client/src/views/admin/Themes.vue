@@ -3,6 +3,9 @@ import NavbarAdmin from "@/components/NavbarAdmin.vue";
 import { onMounted, ref, computed } from 'vue';
 import AdminCards from "@/components/AdminCard.vue";
 import { useRoute } from 'vue-router';
+import { Transition } from 'vue';
+import axios from "axios";
+
 const route = useRoute();
 let data = ref('');
 let themes = ref('');
@@ -109,43 +112,101 @@ function showform() {
   showtheme.value = !showtheme.value;
   showedit.value = false;
 }
-async function edittheme(id) {
+// async function edittheme(id) {
 
+//   const themeToEdit = originalData.value.find(theme => theme.id === id);
+//   if (!themeToEdit) {
+//     console.error('Question not found for editing');
+//     return;
+//   }
+//   // Pré-remplir les champs du formulaire d'édition avec les détails de la question
+//   themeId.value = themeToEdit.id;
+//   theme.value = themeToEdit.nomThemes;
+//   theme_an.value = themeToEdit.en_themes;
+//   imageData.value= themeToEdit.image;
+//   // Afficher le formulaire d'édition
+//   console.log('themeToEdit:', themeToEdit);
+//   showedit.value = true;
+//   window.scrollTo(0, 0);
+
+// }
+// async function updatetheme(id) {
+//   const updatethemeId = themeId.value;
+//   const updatedtheme = theme.value;
+//   const updatedthemeEn = theme_an.value;
+//   const updatedimageData = imageData.value;
+//   console.log('updatethemeId:', updatethemeId);
+//   console.log('theme:', updatedtheme);
+//   console.log('theme_an:', updatedthemeEn);
+//   console.log('imageData:', updatedimageData);
+//     const response = await fetch(`http://localhost:8080/api/themes/${updatethemeId}`, {
+//     method: 'PUT',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({
+//       nomThemes: updatedtheme,
+//       en_themes: updatedthemeEn,
+//       image: updatedimageData
+//     })
+//   });
+// await fetchthemes();
+//   showedit.value = false;
+//   theme.value = '';
+//   theme_an.value = '';
+//   themeId.value = '';
+//   imageData.value = '';
+//   }
+async function edittheme(id) {
   const themeToEdit = originalData.value.find(theme => theme.id === id);
   if (!themeToEdit) {
     console.error('Question not found for editing');
     return;
   }
-  // Pré-remplir les champs du formulaire d'édition avec les détails de la question
+  
   themeId.value = themeToEdit.id;
   theme.value = themeToEdit.nomThemes;
-  theme_an.value = themeToEdit.themeEn;
-  // Afficher le formulaire d'édition
+  theme_an.value = themeToEdit.en_themes;
+  imageData.value= themeToEdit.image;
+  
+  
   showedit.value = true;
   window.scrollTo(0, 0);
-
 }
 async function updatetheme(id) {
-  const updatethemeId = themeId.value;
-  const updatedtheme = theme.value;
-  const updatedthemeEn = theme_an.value;
-  console.log(updatethemeId, updatedtheme, updatedthemeEn);
-    const response = await fetch(`http://localhost:8080/api/themes/${updatethemeId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      nomThemes: theme.value,
-      themeEn: theme_an.value
-    })
-  });
-await fetchthemes();
-  showedit.value = false;
-  theme.value = '';
-  theme_an.value = '';
-  themeId.value = '';
- }
+  try {
+    const updatethemeId = themeId.value;
+    const updatedtheme = theme.value;
+    const updatedthemeEn = theme_an.value;
+    const updatedimageData = imageData.value;
+    console.log('updatethemeId:', updatethemeId, 'theme:', updatedtheme, 'theme_an:', updatedthemeEn, 'imageData:', updatedimageData);
+    const response = await axios(`http://localhost:8080/api/themes/${updatethemeId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        nomThemes: updatedtheme,
+        enThemes: updatedthemeEn,
+        image: updatedimageData
+      })
+    });
+
+    if (response.ok) {
+      await fetchthemes();
+      theme.value = '';
+      theme_an.value = '';
+      themeId.value = '';
+      imageData.value = '';
+      showedit.value = false;
+    } else {
+      console.error('Erreur lors de la mise à jour du thème');
+    }
+  } catch (error) {
+    console.error('Erreur lors de la requête PUT:', error);
+  }
+}
+
  function findImage(themeName) {
       console.log('themeName:', themeName);
     if (themeName === 'Biodiversité ') {
@@ -253,6 +314,7 @@ function handleImageUpload(event) {
                   <input class="form_input" type="text" v-model="theme" placeholder="Thème" name="theme">
                   <input class="form_input" type="text" v-model="theme_an" placeholder="Thème en anglais"
                     name="theme_en">
+                    <!-- <input class="form_input" type="file" accept="image/png" @change="handleImageUpload" name="image"> -->
                 </div>
                 <button @click="updatetheme(theme.id)" class="Button_edit">Edit
               <svg class="svg" viewBox="0 0 512 512">
