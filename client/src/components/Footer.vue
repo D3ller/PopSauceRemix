@@ -23,10 +23,10 @@ console.log(isAdminPage);
       <QBLogo :width="108" :height="74"/></router-link></div>
     <div class="footer_column">
       <h3>Liens rapides</h3>
-      <a>Mention légales</a>
-      <a>Conditions d'utilisation</a>
-      <a>Politique de confidentialité</a>
-      <a>Cookies</a>
+      <router-link :to="Trans.i18nRoute({name: 'mentions'})">Mention Legales</router-link>
+      <router-link :to="Trans.i18nRoute({name: 'conditions'})">Conditions d'utilisation</router-link>
+      <router-link :to="Trans.i18nRoute({name: 'politique'})">Politique de confidentialité</router-link>
+      <router-link :to="Trans.i18nRoute({name: 'cookie'})">Cookies</router-link>
     </div>
     <div class="footer_column">
       <h3>QPUB et vous?</h3>
