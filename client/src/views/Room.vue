@@ -11,6 +11,8 @@ import Theme from "@/components/Theme.vue";
 import BlueButton from "@/components/Button/BlueButton.vue";
 import CopyButton from "@/components/Button/CopyButton.vue";
 let origin = ref(null)
+const { t, locale } = useI18n();
+
 
 onMounted(() => {
   origin.value = window.location.href
@@ -128,12 +130,13 @@ socket.on('owner', (isOwner) => {
 })
 
 function startGame() {
-  socket.emit('choose-theme', selected, roomID, (res) => {
+  console.log('selected ' + selected.value)
+  socket.emit('choose-theme', selected.value, roomID, (res) => {
     console.log(res)
   })
 
   setTimeout(() => {
-    socket.emit('start-game', roomID);
+    socket.emit('start-game', roomID, selected.value);
     start.value = true;
   }, 50)
 }
@@ -152,7 +155,7 @@ let user = JSON.parse(localStorage.getItem('user'))
 function sendResponse(res) {
 
   console.log(res)
-  socket.emit('reponse', res, roomID, user, (res) => {
+  socket.emit('reponse', res, roomID, user, locale.value, (res) => {
     console.log('reponse :',  res)
 
     if(question.type === "input") {
@@ -185,12 +188,10 @@ socket.on('game-over', (win) => {
 
 
 
-const { t, locale } = useI18n();
 
 </script>
 
 <template>
-
   <div v-if="!user" class="connexion">
     {{ t('pages.Room.loading') }}
   </div>
@@ -207,19 +208,19 @@ const { t, locale } = useI18n();
         <h1 class="main-title">Choissisez votre thème</h1>
 
         <div class="theme_container">
-          <Theme  @click="selected = 'B'" :color="selected === 'B' ? '#6363ff' : '#9595ff'">
+          <Theme  @click="selected = '1'" :color="selected === '1' ? '#6363ff' : '#9595ff'">
             Biodiversité
           </Theme>
 
-          <Theme @click="selected = 'Eg'" :color="selected === 'Eg' ? '#ff4242' : '#ff6565'">
+          <Theme @click="selected = '2'" :color="selected === '2' ? '#ff4242' : '#ff6565'">
             Eco-geste
           </Theme>
 
-          <Theme @click="selected = 'Er'" :color="selected === 'Er' ? '#7cff4e' : '#abff8e'">
+          <Theme @click="selected = '3'" :color="selected === '3' ? '#7cff4e' : '#abff8e'">
             Energie Renouvlable
           </Theme>
 
-          <Theme @click="selected = 'Et'" :color="selected === 'Et' ? '#9f5aff' : '#be92fd'">
+          <Theme @click="selected = '4'" :color="selected === '4' ? '#9f5aff' : '#be92fd'">
             Eco-transports
           </Theme>
 
@@ -239,7 +240,7 @@ const { t, locale } = useI18n();
 
       <div class="myroom_area_center_content" v-if="answer === null">
         <Transition name="fade">
-      <div v-if="timer && question">
+      <div v-if="timer && question.question">
       <div class="timer_info"><p>{{ t('pages.Room.timeleft') }}</p><span>00:{{timer > 9 ? timer : '0'+timer}}</span></div>
       <div  class="timer_container">
         <div v-if="timer" class="timer" :style="{ width: timer*5 + '%' }"></div>
@@ -247,14 +248,16 @@ const { t, locale } = useI18n();
       </div>
         </Transition>
 
-        <div v-if="!question && timer" class="waiting_2">
+        <div v-if="!question.question && timer" class="waiting_2">
           <p class="waiting_title">Attendez que la question suivante arrive pour rejoindre</p>
         </div>
 
         <div v-if="question.type === 'multiple'">
           <div class="question_boxes">
             <div class="questions">
-            <p class="question_text">{{ question.question }}</p>
+              <p class="question_text" v-if="locale === 'fr'">{{ question.question["fr"] }}</p>
+              <p class="question_text" v-else>{{ question.question["en"] }}</p>
+
             </div>
           </div>
           <div class="multiple">
@@ -267,7 +270,8 @@ const { t, locale } = useI18n();
       <div v-if="question.type === 'input'">
         <div class="question_boxes">
           <div class="questions">
-            <p class="question_text">{{ question.question }}</p>
+            <p class="question_text" v-if="locale === 'fr'">{{ question.question["fr"] }}</p>
+            <p class="question_text" v-else>{{ question.question["en"] }}</p>
           </div>
         </div>
         <div class="question_area">
@@ -277,7 +281,8 @@ const { t, locale } = useI18n();
 
       <div v-if="question.type === 'image'" class="question_area">
         <img class="question_image" :src="question.url_image" alt="image" />
-        <p class="question">{{ question.question }}</p>
+        <p class="question_text" v-if="locale === 'fr'">{{ question.question["fr"] }}</p>
+        <p class="question_text" v-else>{{ question.question["en"] }}</p>
         <input v-if="good" :placeholder="t('pages.Room.answer')" class="enter_input" type="text" v-model="reponse" @keyup.enter="sendResponse(reponse)" />
         <p v-else class="good_answer">{{ t('pages.Room.answered') }}</p>
       </div>
@@ -286,7 +291,8 @@ const { t, locale } = useI18n();
 
       <div v-else-if="answer !== null && winner === null" class="answer">
         <h2>{{ t('pages.Room.answeris') }}</h2>
-        <h3>{{ answer }}</h3>
+        <h3 v-if="locale === 'fr'">{{ answer['fr'] }}</h3>
+        <h3 v-else>{{ answer['en'] }}</h3>
       </div>
 
       <div v-if="winner !== null">

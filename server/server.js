@@ -99,7 +99,9 @@ io.on("connection", (socket) => {
     })
 
 
-    socket.on('start-game', (roomID, callback) => {
+    socket.on('start-game', (roomID, selected, callback) => {
+        console.log("start game", roomID, selected)
+        const all = game.getAllQuestions(roomID, selected);
         let timeInterval;
         let sendNewQuestionTimeout;
 
@@ -108,8 +110,10 @@ io.on("connection", (socket) => {
             clearTimeout(sendNewQuestionTimeout);
         };
 
-        const sendNewQuestion = () => {
-            const question = game.chooseQuestion(roomID);
+
+        async function sendNewQuestion() {
+            const question = await game.chooseQuestion(roomID);
+            console.log("question", question)
             io.to(roomID).emit('question', question);
             let timeLeft = 20;
             io.to(roomID).emit('time-left', timeLeft);
@@ -122,7 +126,7 @@ io.on("connection", (socket) => {
                     sendNewQuestionTimeout = setTimeout(sendNewQuestion, 5000);
                 }
             }, 1000);
-        };
+        }
 
 
         sendNewQuestion();
@@ -143,8 +147,9 @@ io.on("connection", (socket) => {
 
 
 
-    socket.on('reponse', (reponse, roomID, user, callback) => {
-        const res = game.checkReponse(reponse, roomID, user);
+    socket.on('reponse', (reponse, roomID, user, lang, callback) => {
+        console.log(lang)
+        const res = game.checkReponse(reponse, roomID, user, lang);
         if (res.message) {
             io.to(roomID).emit('get-points', game.getScore(roomID))
         }

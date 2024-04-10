@@ -1,3 +1,6 @@
+const axios = require('axios');
+const {json} = require("express");
+
 let multiple = [
     {
         question: "Quelle est le pourcentage d'énergie renouvelable consommée en France ?",
@@ -194,6 +197,8 @@ let image = [
                 privacy: privacy,
                 currentQuestion: null,
                 playing: false,
+                theme: null,
+                allQuestions: [],
             }
 
             console.log(room)
@@ -301,49 +306,67 @@ let image = [
         }
 
 
-        chooseQuestion(roomID) {
+        async chooseQuestion(roomID) {
             let room = this.rooms.find(x => x.id === roomID);
             room.playing = true;
             let QuestionType = ["multiple", "input", "image"];
-            let type = QuestionType[Math.floor(Math.random() * QuestionType.length)];
-            let res;
-            room.startTime = Date.now();
-            room.firstCorrectAnswerGiven = false;
+            await room.allQuestions
+            let random = Math.floor(Math.random() * room.allQuestions.length);
+            await new Promise(resolve => setTimeout(resolve, 500));
 
+            let type;
+            let res;
+
+
+            if(room.allQuestions[random].reponse_1 && room.allQuestions[random].reponse_2 && room.allQuestions[random].reponse_3 && room.allQuestions[random].reponse_4) {
+                type = "multiple";
+            }
+            if(room.allQuestions[random].reponse_1 && !room.allQuestions[random].reponse_2 && !room.allQuestions[random].reponse_3 && !room.allQuestions[random].reponse_4) {
+                type = "input";
+            }
+
+            if(room.allQuestions[random].image && room.allQuestions[random].reponse_1) {
+                type = "image";
+            }
+
+            room.startTime = Date.now();
+            room.currentQuestion = room.allQuestions[random];
 
             if (type === "multiple") {
-                room.currentQuestion = multiple[Math.floor(Math.random() * multiple.length)]
                 res = {
                     type: 'multiple',
-                    question: room.currentQuestion.question,
-                    reponses: room.currentQuestion.reponses
+                    question: {fr:room.currentQuestion.question, en: room.currentQuestion.question_en},
+                    reponses: {fr:[room.currentQuestion.reponse_1, room.currentQuestion.reponse_2, room.currentQuestion.reponse_3, room.currentQuestion.reponse_4], en:[room.currentQuestion.reponse_1_en, room.currentQuestion.reponse_2_en, room.currentQuestion.reponse_3_en, room.currentQuestion.reponse_4_en]}
                 }
             }
 
             if (type === "input") {
-                room.currentQuestion = input[Math.floor(Math.random() * input.length)]
                 res = {
                     type: 'input',
-                    question: room.currentQuestion.question
+                    question: {fr:room.currentQuestion.question, en: room.currentQuestion.question_en}
                 }
             }
 
             if (type === "image") {
-                room.currentQuestion = image[Math.floor(Math.random() * image.length)]
                 res = {
                     type: 'image',
-                    question: room.currentQuestion.question,
+                    question: {fr:room.currentQuestion.question, en: room.currentQuestion.question_en},
                     url_image: room.currentQuestion.url_image
                 }
             }
 
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            console.log(JSON.stringify(res))
+
             return res;
         }
 
-        checkReponse(reponse, roomID, user) {
+        checkReponse(reponse, roomID, user, lang) {
             let room = this.rooms.find(x => x.id === roomID);
             let currentTime = Date.now();
             let timeElapsed = (currentTime - room.startTime) / 2000;
+            let type;
 
             let accentoletter = (str) => {
                 return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -351,24 +374,59 @@ let image = [
 
             reponse = accentoletter(reponse.toUpperCase());
 
-            let answer = accentoletter(room.currentQuestion.reponse.toUpperCase());
+            if(room.currentQuestion.reponse_1 && room.currentQuestion.reponse_2 && room.currentQuestion.reponse_3 && room.currentQuestion.reponse_4) {
+                type = "multiple";
+            }
+            if(room.currentQuestion.reponse_1 && !room.currentQuestion.reponse_2 && !room.currentQuestion.reponse_3 && !room.currentQuestion.reponse_4) {
+                type = "input";
+            }
 
-            if (reponse === answer) {
-                let player = this.players.find(x => x.token === user.token);
+            if(room.currentQuestion.image && room.currentQuestion.reponse_1) {
+                type = "image";
+            }
 
-                let points = room.points.find(p => p.token === player.token)
-                points.points += Math.max(1, 10 - Math.floor(timeElapsed));
+            let answerFR = accentoletter(room.currentQuestion.bonne_reponse.toUpperCase());
+            let answerEN = accentoletter(room.currentQuestion.good_reponse.toUpperCase());
 
-                console.log(room.points)
+            console.log(reponse === answerFR, reponse === answerEN, answerFR)
 
-                let winner = this.checkGameEnd(roomID);
-                if (winner) {
-                    return {type: 'end', message: 'Game over, we have a winner!', player: winner};
+
+            if(lang === "fr") {
+                if (reponse === answerFR) {
+                    let player = this.players.find(x => x.token === user.token);
+
+                    let points = room.points.find(p => p.token === player.token)
+                    points.points += Math.max(1, 10 - Math.floor(timeElapsed));
+
+                    console.log(room.points)
+
+                    let winner = this.checkGameEnd(roomID);
+                    if (winner) {
+                        return {type: 'end', message: 'Game over, we have a winner!', player: winner};
+                    }
+
+                    return {type: 'message', message: 'congrat, good reponse', points: room.points};
+                } else {
+                    return {type: 'error', error: 'bad reponse'};
                 }
-
-                return {type: 'message', message: 'congrat, good reponse', points: room.points};
             } else {
-                return {type: 'error', error: 'bad reponse'};
+                if (reponse === answerEN) {
+                    let player = this.players.find(x => x.token === user.token);
+
+                    let points = room.points.find(p => p.token === player.token)
+                    points.points += Math.max(1, 10 - Math.floor(timeElapsed));
+
+                    console.log(room.points)
+
+                    let winner = this.checkGameEnd(roomID);
+                    if (winner) {
+                        return {type: 'end', message: 'Game over, we have a winner!', player: winner};
+                    }
+
+                    return {type: 'message', message: 'congrat, good reponse', points: room.points};
+                } else {
+                    return {type: 'error', error: 'bad reponse'};
+                }
             }
         }
 
@@ -397,7 +455,7 @@ let image = [
             if(!room) {
                 return {type: 'error', error: 'room does not exist'}
             }
-            return room.currentQuestion.reponse;
+            return {fr: room.currentQuestion.bonne_reponse, en: room.currentQuestion.good_reponse}
         }
 
         getPublicRooms() {
@@ -413,7 +471,7 @@ let image = [
             if(!room) {
                 return {type: 'error', error: 'room does not exist'}
             }
-            room.themes = theme;
+            room.theme = theme;
             return {type: 'message', message: 'theme chosen', theme: theme}
         }
 
@@ -423,6 +481,20 @@ let image = [
                 return {type: 'error', error: 'room does not exist'}
             }
             return room.playing;
+        }
+
+        async getAllQuestions(roomID, selected) {
+            let room = this.rooms.find(x => x.id === roomID);
+            if(!room) {
+                return {type: 'error', error: 'room does not exist'}
+            }
+            await axios.get('http://localhost:8080/api/questions').then(res => {
+                room.allQuestions = res.data['hydra:member'];
+                let questions = room.allQuestions.filter(x => x.themes === '/api/themes/'+selected);
+                let common = room.allQuestions.filter(x => x.themes === '/api/themes/5');
+                questions = questions.concat(common);
+                room.allQuestions = questions;
+            })
         }
 
     }
