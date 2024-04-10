@@ -6,13 +6,14 @@ defineProps({
     lien: String,
     theme: Object,
     icone: String,
+    nb_defaite: Number
     
 })
 
   function  capitalizeFirstLetter(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
     }
-   
+  
 
 </script>
 <template>
@@ -47,8 +48,18 @@ defineProps({
         <div class="card_bottom_theme">
             <p>n°{{ cards.originalIndex + 1 }}</p>
         <p>Nombre de questions : {{ cards.questions.length }}</p>
-        </div>
-       
+        </div> 
+    </div>
+    <div class="card_user" v-else-if="lien==='user'">
+    <p class="card_top_pseudo">Pseudo: {{ capitalizeFirstLetter(cards.username) }} </p>
+    <p>Email: {{ cards.email }}</p>
+    <p>Role: {{ cards.roles[0] }}</p>
+    <hr class="card_hr">
+    <div class="card_bottom_theme">
+        <p>Nombre de parties jouées : {{ cards.nb_parties }}</p>
+        <p>Nombre de parties gagnées : {{ cards.nb_gagne }}</p>
+        <p>Nombre de parties perdues : {{ nb_defaite }}</p>
+    </div>
     </div>
     </div>
 </template>
@@ -116,7 +127,7 @@ defineProps({
     font-family: $base-font;
     margin-top: 10px;
     text-align: start;
-    flex-direction:column-reverse;
+    flex-direction: column;
 
     p{
         margin-top: 10px;
@@ -133,5 +144,27 @@ defineProps({
     text-align: start;
     flex-direction: row-reverse;
 }
+.card_user{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 30px;
+    margin-left: 10px;
+    font-family: $base-font;
+    margin-top: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 25px;
 
+    p{
+        margin-top: 10px;
+    
+    }
+}
+.card_top_pseudo{
+    margin-left: 0px;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: start;
+    font-family: $base-font;
+}
 </style>

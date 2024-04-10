@@ -49,6 +49,12 @@ class ValidQuestion
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $good_reponse = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $bonne_reponse = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -182,6 +188,30 @@ class ValidQuestion
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getGoodReponse(): ?string
+    {
+        return $this->good_reponse;
+    }
+
+    public function setGoodReponse(?string $good_reponse): self
+    {
+        $this->good_reponse = $good_reponse;
+
+        return $this;
+    }
+
+    public function getBonneReponse(): ?string
+    {
+        return $this->bonne_reponse;
+    }
+
+    public function setBonneReponse(?string $bonne_reponse): self
+    {
+        $this->bonne_reponse = $bonne_reponse;
 
         return $this;
     }

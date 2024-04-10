@@ -9,6 +9,7 @@ import Admin from '@/views/admin/Admin.vue'
 import Question from '@/views/admin/Question.vue'
 import User_question from '@/views/user_question.vue'
 import Themes from '@/views/admin/Themes.vue'
+import User from '@/views/admin/User.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -68,6 +69,11 @@ const router = createRouter({
       path: 'admin/themes',
       name: 'themes',
       component: Themes
+    },
+    {
+      path: 'admin/user',
+      name: 'user',
+      component: User
     },
     {
       path: 'user_question',

@@ -332,7 +332,7 @@ function handleImageUpload(event) {
         <div class="img_conteneur" v-for="theme in filteredData" :key="theme.id">
           <img class="img_incone_theme" :src="theme.image" alt="Icone du thème">
           <AdminCards :cards="theme" :lien="route.name" ></AdminCards>
-          <div id="conteneur_card_buttons">
+          <div class="conteneur_card_buttons">
             <button @click="deletconfirm(theme.id)" class="button_delet"><span class="text">Delete</span><span
                 class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path

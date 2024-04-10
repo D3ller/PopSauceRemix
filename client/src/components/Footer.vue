@@ -9,7 +9,7 @@ let isAdminPage = ref(true);
 
 
 watch(() => router.currentRoute.value.name, (name) => {
-  isAdminPage.value = name !== 'admin' && name !== 'question' && name !== 'room' && name !=='themes'
+  isAdminPage.value = name !== 'admin' && name !== 'question' && name !== 'room' && name !=='themes' && name !=='user'
 });
 
 console.log(isAdminPage);
