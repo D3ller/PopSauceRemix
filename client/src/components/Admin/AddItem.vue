@@ -3,6 +3,7 @@ import axios from "axios";
 import {onMounted, ref} from "vue";
 
 const props = defineProps(['showform', 'getData'])
+const emit = defineEmits(['refresh'])
 
 const theme = ref('')
 const theme_en =ref()
@@ -14,7 +15,9 @@ function addtheme() {
     enThemes: theme_en.value,
     image: imageData.value
   })
-      .then(() => {getData()})
+      .then(() => {
+        emit('refresh')
+      })
 }
 
 function handleImageUpload(event) {

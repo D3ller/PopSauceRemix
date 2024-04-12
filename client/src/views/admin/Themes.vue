@@ -9,10 +9,10 @@ import ThemesCard from "@/components/Admin/ThemesCard.vue";
 const route = useRouter()
 const data = ref()
 const showform = ref(false)
-const showformUpdate = ref(false)
+// const showformUpdate = ref(false)
 
-const theme = ref('')
-const theme_en =ref()
+// const theme = ref('')
+// const theme_en =ref()
 
 onMounted(() => {
   getData()
@@ -63,7 +63,7 @@ const getData = () => {
       </main>
       <div id="dashbord">
         <Transition>
-          <AddItem :showform="showform"/>
+          <AddItem :showform="showform" @refresh="getData"/>
         </Transition>
         <div class="grid_cards">
           <ThemesCard v-for="theme in data" :data="theme" @delete="handleDelete"/>

@@ -44,9 +44,9 @@ function updatetheme() {
     enThemes: theme_en.value,
     image: 'test'
   })
-      .then(() => {
-        route
-      })
+      // .then(() => {
+      //   route
+      // })
 }
 </script>
 
