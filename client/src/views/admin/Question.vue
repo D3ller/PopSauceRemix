@@ -1,7 +1,7 @@
 <script setup>
 import NavbarAdmin from "@/components/NavbarAdmin.vue";
 import { onMounted, ref, computed } from 'vue';
-import AdminCard from "@/components/AdminCard.vue";
+import AdminCard from "@/components/Admin/AdminCard.vue";
 import { useRoute } from 'vue-router';
 const route = useRoute();
 let data = ref('');

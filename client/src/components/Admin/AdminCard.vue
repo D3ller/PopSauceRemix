@@ -6,13 +6,13 @@ defineProps({
     lien: String,
     theme: Object,
     icone: String,
-    
+
 })
 
   function  capitalizeFirstLetter(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
     }
-   
+
 
 </script>
 <template>
@@ -53,7 +53,7 @@ defineProps({
     </div>
 </template>
 <style lang="scss">
-@import "@/assets/scss/_var.scss";
+@import "@/assets/scss/var";
 .card {
     box-sizing: border-box;
     width: 470px;
