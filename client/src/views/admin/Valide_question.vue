@@ -4,8 +4,9 @@ import axios from "axios";
 import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import AddItem from "@/components/Admin/AddItem.vue";
-import AdminCard from "@/components/Admin/AdminCard.vue";
+
 import AddQuestion from "@/components/Admin/AddQuestion.vue";
+import ValideCard from "@/components/Admin/ValideCard.vue";
 const route = useRoute();
 const data = ref();
 const showform = ref(false);
@@ -27,7 +28,7 @@ onMounted(() => {
 function handleDelete(id) {
   const result = confirm("Es-tu sûr de vouloir supprimer ?");
   if (result) {
-    axios.delete(`http://apiplateform.karibsen.fr/api/questions/${id}`)
+    axios.delete(`http://apiplateform.karibsen.fr/api/valid_questions/${id}`)
         .then(() => {
           getData();
         })
@@ -37,7 +38,7 @@ function handleDelete(id) {
   }
 }
 const getData = () => {
-  axios.get('http://apiplateform.karibsen.fr/api/questions')
+  axios.get('http://apiplateform.karibsen.fr/api/valid_questions')
     .then(res => {
       data.value = res.data["hydra:member"];
       originalData.value = data.value;
@@ -46,7 +47,7 @@ const getData = () => {
     .catch(error => {
       console.error("Erreur lors de la récupération des données :", error);
     });
-    console.log(data)
+    console.log(filteredData)
 };
 console.log(originalData)
 const getData_theme = () => {
@@ -64,7 +65,7 @@ const updateFilter = () => {
     );
   });
 };
-console.log(filteredData)
+
 
 </script>
 
@@ -75,7 +76,7 @@ console.log(filteredData)
     </header>
     <div class="right_block">
       <main class="main_admin">
-        <h2 class="h2_admin">Question</h2>
+        <h2 class="h2_admin"> Valider une Question</h2>
         <div id="main_button">
           <div class="input-wrapper">
             <input v-model="reponse" placeholder="Rechercher" class="input" @input="updateFilter">
@@ -97,8 +98,8 @@ console.log(filteredData)
           <div v-for="question in filteredData" :key="question.id">
           <div v-for="theme in data_themes" :key="theme.id">
             <div  v-if="question.themes === theme['@id']">
-          <AdminCard :cards="question"  :theme="theme"  @delete="handleDelete"  />
-        </div>
+          <ValideCard :cards="question"  :theme="theme"  @delete="handleDelete"  />
+            </div>
           </div>
           </div>
         </div>

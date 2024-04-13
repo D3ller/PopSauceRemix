@@ -25,7 +25,7 @@ defineProps({
         <router-link :to="({ name: 'user' })" :class="{ nav_active: lien === 'user' }">Utilisateur</router-link></div>
       <div class="navbar_items">
         <img class="img_navbar_admin" src="@/assets/image/verifie.png" alt="icone des verifie">
-        <router-link :to="({ name: 'question' })" :class="{ nav_active: lien === 'valider une question' }">Valider une question</router-link></div>
+        <router-link :to="({ name: 'valide_question' })" :class="{ nav_active: lien === 'valide_question' }">Valider une question</router-link></div>
     </nav>
   </div>
 </template>
