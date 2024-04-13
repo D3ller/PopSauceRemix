@@ -52,12 +52,6 @@ class Question
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $reponse_4_en = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $good_reponse = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $bonne_reponse = null;
-
    
 
     public function getId(): ?int
@@ -205,30 +199,6 @@ class Question
     public function setReponse4En(?string $reponse_4_en): self
     {
         $this->reponse_4_en = $reponse_4_en;
-
-        return $this;
-    }
-
-    public function getGoodReponse(): ?string
-    {
-        return $this->good_reponse;
-    }
-
-    public function setGoodReponse(?string $good_reponse): self
-    {
-        $this->good_reponse = $good_reponse;
-
-        return $this;
-    }
-
-    public function getBonneReponse(): ?string
-    {
-        return $this->bonne_reponse;
-    }
-
-    public function setBonneReponse(?string $bonne_reponse): self
-    {
-        $this->bonne_reponse = $bonne_reponse;
 
         return $this;
     }

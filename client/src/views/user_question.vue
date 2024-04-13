@@ -17,7 +17,7 @@ let image = ref('');
 let theme = ref('');
 
 onMounted(async () => {
-  const response = await fetch('http://localhost:8080/api/themes');
+  const response = await fetch('http://apiplateform.karibsen.fr/api/themes');
   const responseData = await response.json();
   themes.value = responseData['hydra:member'];
 });
@@ -66,7 +66,7 @@ const ajouterQuestion = async () => {
     theme: theme.value
   };
 
-  const response = await fetch('http://localhost:8080/api/valid_questions', {
+  const response = await fetch('http://apiplateform.karibsen.fr/api/valid_questions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

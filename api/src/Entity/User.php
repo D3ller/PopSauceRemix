@@ -41,12 +41,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $nb_parties = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $nb_gagne = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -125,30 +119,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
-
-        return $this;
-    }
-
-    public function getNbParties(): ?int
-    {
-        return $this->nb_parties;
-    }
-
-    public function setNbParties(?int $nb_parties): self
-    {
-        $this->nb_parties = $nb_parties;
-
-        return $this;
-    }
-
-    public function getNbGagne(): ?int
-    {
-        return $this->nb_gagne;
-    }
-
-    public function setNbGagne(?int $nb_gagne): self
-    {
-        $this->nb_gagne = $nb_gagne;
 
         return $this;
     }

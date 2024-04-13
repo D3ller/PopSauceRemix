@@ -9,11 +9,10 @@ import Admin from '@/views/admin/Admin.vue'
 import Question from '@/views/admin/Question.vue'
 import User_question from '@/views/user_question.vue'
 import Themes from '@/views/admin/Themes.vue'
-import User from '@/views/admin/User.vue'
-import Mentions from  '@/views/legals/mention-legals.vue'
-import Condition from '@/views/legals/cgu.vue'
-import Politique from '@/views/legals/politique-confidentialité.vue'
-import Cookie from '@/views/legals/cookies.vue'
+import ThemeView from '@/views/admin/ThemeView.vue'
+import QuestionView from '@/views/admin/QuestionView.vue'
+import user from '@/views/admin/User.vue'
+import valide_question from '@/views/admin/Valide_question.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -77,32 +76,27 @@ const router = createRouter({
     {
       path: 'admin/user',
       name: 'user',
-      component: User
+      component: user
+    },
+    {
+      path: 'admin/valide_question',
+      name: 'valide_question',
+      component: valide_question
+    },
+    {
+      path: 'admin/themes/:id',
+      name: 'themes_id',
+      component: ThemeView
+    },
+    {
+      path: 'admin/question/:id',
+      name: 'question_id',
+      component: QuestionView
     },
     {
       path: 'user_question',
       name: 'user_question',
       component: User_question
-    },
-    {
-      path: 'mentions',
-      name:'mentions',
-      component: Mentions
-    },
-    {
-      path:'conditions',
-      name:'conditions',
-      component: Condition
-    },
-    {
-      path:'politique',
-      name:'politique',
-      component: Politique
-    },
-    {
-      path:'cookie',
-      name:'cookie',
-      component: Cookie
     }
   ]
 }
