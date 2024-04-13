@@ -13,6 +13,10 @@ import ThemeView from '@/views/admin/ThemeView.vue'
 import QuestionView from '@/views/admin/QuestionView.vue'
 import user from '@/views/admin/User.vue'
 import valide_question from '@/views/admin/Valide_question.vue'
+import Mentions from  '@/views/legals/mention-legals.vue'
+import Condition from '@/views/legals/cgu.vue'
+import Politique from '@/views/legals/politique-confidentialité.vue'
+import Cookie from '@/views/legals/cookies.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -97,7 +101,27 @@ const router = createRouter({
       path: 'user_question',
       name: 'user_question',
       component: User_question
-    }
+    },
+  {
+    path: 'mentions',
+    name:'mentions',
+    component: Mentions
+  },
+  {
+    path:'conditions',
+    name:'conditions',
+    component: Condition
+  },
+  {
+    path:'politique',
+    name:'politique',
+    component: Politique
+  },
+  {
+    path:'cookie',
+    name:'cookie',
+    component: Cookie
+  }
   ]
 }
   ]
