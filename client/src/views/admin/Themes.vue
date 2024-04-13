@@ -2,13 +2,17 @@
 import NavbarAdmin from "@/components/NavbarAdmin.vue";
 import axios from "axios";
 import {onMounted, ref} from "vue";
-import {useRouter} from "vue-router";
+import {useRoute} from "vue-router";
 import AddItem from "@/components/Admin/AddItem.vue";
 import ThemesCard from "@/components/Admin/ThemesCard.vue";
+import Footer from "@/components/Footer.vue";
 
-const route = useRouter()
+const route = useRoute()
 const data = ref()
 const showform = ref(false)
+const reponse = ref('')
+const originalData = ref()
+const filteredData = ref()
 // const showformUpdate = ref(false)
 
 // const theme = ref('')
@@ -21,7 +25,7 @@ onMounted(() => {
 function handleDelete(id) {
   const result = confirm("Es-tu sûr de vouloir supprimer ?");
   if (result) {
-    axios.delete(`http://localhost:8080/api/themes/${id}`)
+    axios.delete(`http://apiplateform.karibsen.fr/api/themes/${id}`)
         .then(() => {
           getData();
         })
@@ -32,12 +36,23 @@ function handleDelete(id) {
 }
 
 const getData = () => {
-  axios.get('http://localhost:8080/api/themes')
+  axios.get('http://apiplateform.karibsen.fr/api/themes')
       .then(res => {
         data.value = res.data["hydra:member"]
+        originalData.value = data.value;
+        filteredData.value = data.value;
       })
+    console.log(data)
 }
-
+console.log(route)
+const updateFilter = () => {
+  filteredData.value = originalData.value.filter(themes => {
+    return (
+      themes.nomThemes.toLowerCase().includes(reponse.value.toLowerCase()) ||
+      themes.id.toString().toLowerCase().includes(reponse.value.toLowerCase())
+    );
+  });
+};
 </script>
 
 <template>
@@ -50,10 +65,10 @@ const getData = () => {
         <h2 class="h2_admin">Thèmes</h2>
         <div id="main_button">
           <div class="input-wrapper">
-            <input v-model="reponse" placeholder="Type here..." class="input" @input="themefilter">
+            <input v-model="reponse" placeholder="Rechercher" class="input" @input="updateFilter">
           </div>
           <button type="button" class="button_add" @click="showform = !showform">
-            <span class="button__text">Add Item</span>
+            <span class="button__text">Ajouter</span>
             <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
               <line y2="19" y1="5" x2="12" x1="12"></line>
               <line y2="12" y1="12" x2="19" x1="5"></line>
@@ -63,12 +78,13 @@ const getData = () => {
       </main>
       <div id="dashbord">
         <Transition>
-          <AddItem :showform="showform" @refresh="getData"/>
+          <AddItem v-model:showform="showform" @refresh="getData"/>
         </Transition>
         <div class="grid_cards">
-          <ThemesCard v-for="theme in data" :data="theme" @delete="handleDelete"/>
+          <ThemesCard v-for="theme in filteredData" :data="theme" @delete="handleDelete"/>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   </div>
 </template>
@@ -76,7 +92,9 @@ const getData = () => {
 @import "@/assets/scss/admin.scss";
 
 .right_block {
-  width: 100%;
+  width: 75%;
+  position: absolute;
+  right: 0;
 }
 
 .grid_cards {
@@ -84,7 +102,7 @@ const getData = () => {
   grid-template-columns: repeat(2, 1fr);
   gap: 25px;
   width: 90%;
-  margin: 0 auto;
+  margin: 0 auto 50px auto;
 }
 
 .grid_cards>div {

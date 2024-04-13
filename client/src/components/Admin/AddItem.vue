@@ -3,21 +3,30 @@ import axios from "axios";
 import {onMounted, ref} from "vue";
 
 const props = defineProps(['showform', 'getData'])
-const emit = defineEmits(['refresh'])
+const emit = defineEmits(['refresh', ])
 
 const theme = ref('')
 const theme_en =ref()
 const imageData = ref()
 
 function addtheme() {
-  axios.post('http://localhost:8080/api/themes', {
+  if (!theme.value || !theme_en.value || !imageData.value) {
+    return ;
+  }
+  axios.post('http://apiplateform.karibsen.fr/api/themes', {
     nomThemes: theme.value,
     enThemes: theme_en.value,
     image: imageData.value
   })
       .then(() => {
-        emit('refresh')
+        emit('refresh');
+        emit('update:showform', false);
+        
       })
+    theme.value = ''
+    theme_en.value = ''
+    imageData.value = ''
+    props.showform = !props.showform
 }
 
 function handleImageUpload(event) {
@@ -43,19 +52,19 @@ function handleImageUpload(event) {
     <div id="formulaire_question">
       <div class="form-box">
         <form class="form" @submit.prevent>
-          <button @click="showform = !showform" class="button_close_themes">
+          <button @click="showform = !showform" class="button_close">
             <span class="X"></span>
             <span class="Y"></span>
           </button>
           <span class="title">Ajouter un themes</span>
           <span class="subtitle">Veuillez remplir le formulaire pour ajouter un theme.</span>
           <div class="form-container">
-            <input class="form_input" type="text" v-model="theme" placeholder="Thème" name="theme">
-            <input class="form_input" type="text" v-model="theme_en" placeholder="Thème en anglais" name="question_en">
-            <input class="form_input" type="file" accept="image/png" @change="handleImageUpload" name="image">
+            <input class="form_input" type="text" v-model="theme" placeholder="Thème" name="theme" required>
+            <input class="form_input" type="text" v-model="theme_en" placeholder="Thème en anglais" name="question_en" required>
+            <input class="form_input" type="file" accept="image/png" @change="handleImageUpload" name="image" required>
           </div>
-          <button type="button" class="button_add" @click="addtheme">
-            <span class="button__text">Add Item</span>
+          <button type="submit" class="button_add" @click="addtheme">
+            <span class="button__text">Ajouter</span>
             <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
                       <line y2="19" y1="5" x2="12" x1="12"></line>
                       <line y2="12" y1="12" x2="19" x1="5"></line>

@@ -4,6 +4,7 @@ import { h } from "vue";
 import Graphique from "@/components/Graphique.vue";
 import { useRoute } from 'vue-router';
 const route = useRoute();
+console.log(route)
 </script>
 <template>
   <div id="block">
