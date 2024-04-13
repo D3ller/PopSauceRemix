@@ -38,7 +38,9 @@
             "start": "Start",
             "answeris": "The answer is",
             "end": "The game has ended",
-            "answered": "Good job! You answered correctly"
+            "answered": "Good job! You answered correctly",
+            "back": "Back to the home"
+
         },
         "Account": {
             "stats": "Stats",
