@@ -19,7 +19,6 @@ defineProps({
 <template>
   
     <div class="card">
-        <img class="icone" :src="theme.image" alt="icone du thème">
         <p class="card_top">{{ capitalizeFirstLetter(cards.question) }}</p>
         <div id="card_reponse_image">
         <div v-if="cards.reponse2 ">
@@ -48,7 +47,6 @@ defineProps({
     <hr class="card_hr">
     <div class="card_bottom">
         <p class="numero_question">n° {{ cards.id }}</p>
-        <p>Thème : {{  capitalizeFirstLetter(theme.nomThemes) }}</p>
     </div>   
     <div class="conteneur_card_buttons">
       <button @click="handleDelete(cards.id)" class="button_delet">

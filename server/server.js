@@ -99,7 +99,9 @@ io.on("connection", (socket) => {
     })
 
 
-    socket.on('start-game', (roomID, callback) => {
+    socket.on('start-game', (roomID, selected, callback) => {
+        console.log("start game", roomID, selected)
+        const all = game.getAllQuestions(roomID, selected);
         let timeInterval;
         let sendNewQuestionTimeout;
 
@@ -108,10 +110,16 @@ io.on("connection", (socket) => {
             clearTimeout(sendNewQuestionTimeout);
         };
 
-        const sendNewQuestion = () => {
-            const question = game.chooseQuestion(roomID);
+
+        async function sendNewQuestion() {
+            const question = await game.chooseQuestion(roomID);
+            if(question.type === "no-questions") {
+                io.to(roomID).emit('game-over', { winner: 'no-question' });
+                return;
+            }
+            console.log("question", question)
             io.to(roomID).emit('question', question);
-            let timeLeft = 20;
+            let timeLeft = 1;
             io.to(roomID).emit('time-left', timeLeft);
             timeInterval = setInterval(() => {
                 timeLeft--;
@@ -119,10 +127,10 @@ io.on("connection", (socket) => {
                 if (timeLeft === 0) {
                     clearInterval(timeInterval);
                     io.to(roomID).emit('answer', game.getAnswer(roomID));
-                    sendNewQuestionTimeout = setTimeout(sendNewQuestion, 5000);
+                    sendNewQuestionTimeout = setTimeout(sendNewQuestion, 1);
                 }
             }, 1000);
-        };
+        }
 
 
         sendNewQuestion();
@@ -143,8 +151,8 @@ io.on("connection", (socket) => {
 
 
 
-    socket.on('reponse', (reponse, roomID, user, callback) => {
-        const res = game.checkReponse(reponse, roomID, user);
+    socket.on('reponse', (reponse, roomID, user, lang, callback) => {
+        const res = game.checkReponse(reponse, roomID, user, lang);
         if (res.message) {
             io.to(roomID).emit('get-points', game.getScore(roomID))
         }
@@ -152,8 +160,12 @@ io.on("connection", (socket) => {
     });
 
     socket.on('get-rooms-info', (roomID, callback) => {
-      const res = game.getRoomInfo(roomID)
+        const res = game.getRoomInfo(roomID)
         callback(res)
+    })
+
+    socket.on('send-end', (roomID, user) => {
+        io.to(roomID).emit('game-over', { winner: user });
     })
 
 
@@ -161,3 +173,4 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Le serveur écoute sur le port ${PORT}`));
+

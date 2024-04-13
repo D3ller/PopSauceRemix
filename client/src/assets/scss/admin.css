@@ -1,17 +1,407 @@
-/* Error: Can't find stylesheet to import.
- *   ,
- * 1 | @import "@/assets/scss/_var.scss";
- *   |         ^^^^^^^^^^^^^^^^^^^^^^^^^
- *   '
- *   src/assets/scss/admin.scss 1:9  root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: "Error: Can't find stylesheet to import.\a   \2577 \a 1 \2502  @import \"@/assets/scss/_var.scss\";\a   \2502          ^^^^^^^^^^^^^^^^^^^^^^^^^\a   \2575 \a   src/assets/scss/admin.scss 1:9  root stylesheet";
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap"); /* color palette from <https://github.com/vuejs/theme> */
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+#block {
+  display: flex;
+  height: 100vh;
+  position: relative;
 }
+
+.header_admin {
+  position: fixed;
+  background-color: #222222;
+  height: 100%;
+  width: 25%;
+  max-width: 380px;
+  min-width: 250px;
+}
+
+#dashbord {
+  width: 100%;
+}
+
+.main_admin {
+  margin-top: 30px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  height: 120px;
+}
+
+.button_delet {
+  width: 150px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: red;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  background: #e62222;
+  transition: 200ms;
+}
+.button_delet:hover {
+  background: #ff3636;
+}
+.button_delet:focus {
+  outline: none;
+}
+.button_delet .text {
+  transform: translateX(35px);
+  color: white;
+  font-weight: bold;
+  transition: transform 200ms;
+}
+.button_delet .icon {
+  position: absolute;
+  border-left: 1px solid #c41b1b;
+  transform: translateX(110px);
+  height: 20px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 200ms, transform 200ms;
+}
+.button_delet svg {
+  width: 15px;
+  fill: #eee;
+}
+.button_delet:hover .text {
+  color: transparent;
+}
+.button_delet:hover .icon {
+  width: 150px;
+  border-left: none;
+  transform: translateX(0);
+}
+.button_delet:active .icon svg {
+  transform: scale(0.8);
+}
+
+.button_add {
+  position: relative;
+  width: 150px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 1px solid #34974d;
+  background-color: #3aa856;
+  border-radius: 5px;
+  margin: 5px;
+}
+.button_add,
+.button_add .button__icon,
+.button_add .button__text {
+  transition: all 0.3s;
+}
+.button_add .button__text {
+  transform: translateX(30px);
+  color: #fff;
+  font-weight: 600;
+}
+.button_add .button__icon {
+  position: absolute;
+  transform: translateX(109px);
+  height: 100%;
+  width: 34px;
+  background-color: #34974d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+.button_add .button__icon .svg {
+  width: 30px;
+  stroke: #fff;
+}
+.button_add:hover {
+  background: #34974d;
+}
+.button_add:hover .button__text {
+  color: transparent;
+}
+.button_add:hover .button__icon {
+  width: 140px;
+  transform: translateX(0);
+}
+.button_add:active {
+  border: 1px solid #2e8644;
+}
+.button_add:active .button__icon {
+  background-color: #2e8644;
+}
+
+.input-wrapper input {
+  background-color: #eee;
+  border: none;
+  padding: 8px;
+  font-size: 1rem;
+  width: 150px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 12px 1px #c1bcbc;
+  cursor: pointer;
+  height: 30px;
+  margin-right: 10px;
+}
+.input-wrapper input input:focus {
+  outline-color: rgba(34, 34, 34, 0.1333333333);
+}
+
+#formulaire_question {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-box {
+  max-width: 500px;
+  background: rgba(217, 217, 217, 0.58);
+  overflow: hidden;
+  border-radius: 10px;
+  color: #010101;
+  display: flex;
+  font-family: "Raleway", sans-serif;
+  box-shadow: rgba(0, 0, 0, 0.43) 1px 1px 20px 1px;
+  justify-content: center;
+  margin: 20px;
+}
+.form-box .form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 24px 24px;
+  gap: 16px;
+  text-align: center;
+  align-items: center;
+  width: 100%;
+}
+.form-box .form .title {
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+.form-box .form .subtitle {
+  font-size: 1rem;
+  color: #666;
+}
+.form-box .form-container {
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #fff;
+  margin: 1rem 0 0.5rem;
+  width: 100%;
+}
+.form-box .form-container .form_input {
+  background: none;
+  border: 0;
+  outline: 0;
+  height: 40px;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+  padding: 8px 15px;
+}
+.form-box .form-container select {
+  background: none;
+  border: 0;
+  outline: 0;
+  height: 40px;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+  padding: 8px 15px;
+}
+.form-box .form-section {
+  padding: 16px;
+  font-size: 0.85rem;
+  background-color: #e0ecfb;
+  box-shadow: rgba(0, 0, 0, 0.08) 0 -1px;
+}
+.form-box .form-section a {
+  font-weight: bold;
+  color: #0066ff;
+  transition: color 0.3s ease;
+}
+.form-box .form-section a:hover {
+  color: #005ce6;
+  text-decoration: underline;
+}
+.form-box #form_button {
+  background-color: #0066ff;
+  color: #fff;
+  border: 0;
+  border-radius: 24px;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.form-box #form_button:hover {
+  background-color: #005ce6;
+}
+
+.button_close {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: rgba(180, 83, 107, 0.11);
+  border-radius: 5px;
+  transition: background 0.5s;
+  left: 95%;
+  top: -3%;
+}
+.button_close:hover {
+  background-color: rgb(211, 21, 21);
+}
+.button_close:active {
+  background-color: #a51010;
+}
+.button_close > .close {
+  position: absolute;
+  display: flex;
+  padding: 0.8rem 1.5rem;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-50%);
+  top: -70%;
+  left: 50%;
+  width: 3em;
+  height: 1.7em;
+  font-size: 12px;
+  background-color: rgb(19, 22, 24);
+  color: rgb(187, 229, 236);
+  border: none;
+  border-radius: 3px;
+  pointer-events: none;
+  opacity: 0;
+  animation: close 0.2s forwards 0.25s;
+}
+.button_close:hover > .close {
+  animation: close 0.2s forwards 0.25s;
+}
+
+.X,
+.Y {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 1.5px;
+  background-color: #fff;
+  transform: translateX(-50%);
+}
+
+.X {
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.Y {
+  transform: translateX(-50%) rotate(-45deg);
+}
+
+@keyframes close {
+  100% {
+    opacity: 1;
+  }
+}
+.select_theme_filter {
+  background-color: #eee;
+  border: none;
+  padding: 2px;
+  font-size: 14px;
+  width: 170px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 12px 1px #c1bcbc;
+  cursor: pointer;
+  height: 30px;
+  margin-right: 10px;
+}
+.select_theme_filter input:focus {
+  outline-color: rgba(34, 34, 34, 0.1333333333);
+}
+
+.Button_edit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 120px;
+  height: 30px;
+  border: none;
+  padding: 0px 20px;
+  background-color: rgb(168, 38, 255);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 10px;
+  transition-duration: 0.3s;
+}
+.Button_edit .svg {
+  width: 13px;
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+  fill: white;
+  transition-duration: 0.3s;
+}
+.Button_edit:hover {
+  color: transparent;
+}
+.Button_edit:hover .svg {
+  right: 43%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  transition-duration: 0.3s;
+}
+.Button_edit:active {
+  transform: translate(3px, 3px);
+  transition-duration: 0.3s;
+  box-shadow: 2px 2px 0px rgb(140, 32, 212);
+}
+
+#conteneur_card_buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.h2_admin {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 20px;
+  font-family: "Raleway", sans-serif;
+}
+
+.X,
+.Y {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 1.5px;
+  background-color: #fff;
+  transform: translateX(-50%);
+}
+
+.X {
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.Y {
+  transform: translateX(-50%) rotate(-45deg);
+}
+
+@keyframes close {
+  100% {
+    opacity: 1;
+  }
+}
+
+/*# sourceMappingURL=admin.css.map */

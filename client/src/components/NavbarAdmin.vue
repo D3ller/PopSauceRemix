@@ -18,13 +18,14 @@ defineProps({
         <router-link :to="({ name: 'question' })" :class="{ nav_active: lien === 'question' }">Question</router-link></div>
       <div class="navbar_items">
         <img class="img_navbar_admin" src="@/assets/image/bibliotheque.png" alt="icone des thèmes">
-        <router-link :to="({ name: 'themes' })" :class="{ nav_active: lien === 'themes' }">Thèmes</router-link></div>
+        <router-link :to="{ name: 'themes' }" :class="{ 'nav_active': lien === 'themes' || lien === 'themes/id' }">Thèmes</router-link>
+      </div>
       <div class="navbar_items">
         <img class="img_navbar_admin" src="@/assets/image/utilisateur.png" alt="icone des utilisateurs">
-        <router-link :to="({ name: 'question' })" :class="{ nav_active: lien === 'utilisateur' }">Utilisateur</router-link></div>
+        <router-link :to="({ name: 'user' })" :class="{ nav_active: lien === 'user' }">Utilisateur</router-link></div>
       <div class="navbar_items">
         <img class="img_navbar_admin" src="@/assets/image/verifie.png" alt="icone des verifie">
-        <router-link :to="({ name: 'question' })" :class="{ nav_active: lien === 'valider une question' }">Valider une question</router-link></div>
+        <router-link :to="({ name: 'valide_question' })" :class="{ nav_active: lien === 'valide_question' }">Valider une question</router-link></div>
     </nav>
   </div>
 </template>

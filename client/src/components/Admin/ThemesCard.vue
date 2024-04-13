@@ -1,4 +1,3 @@
-
 <template>
   <div class="card">
     <img :src="data.image" />

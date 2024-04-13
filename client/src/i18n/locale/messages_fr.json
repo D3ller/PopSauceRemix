@@ -39,7 +39,8 @@
             "start": "Démarrer",
             "answeris": "La réponse est",
             "end": "La partie est terminée",
-            "answered": "Bien joué ! Vous avez répondu correctement"
+            "answered": "Bien joué ! Vous avez répondu correctement",
+            "back": "Revenir à l'accueil"
         },
         "Account": {
             "stats": "Statistiques",
