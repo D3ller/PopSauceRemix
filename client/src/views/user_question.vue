@@ -1,5 +1,7 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
+import {useI18n} from "vue-i18n";
+const {t, locale} = useI18n();
 
 
 let themes = ref('');
@@ -28,7 +30,7 @@ const handleImageUpload = (event) => {
 
   // Vérifier la taille de l'image
   if (file.size > 500 * 1024) {
-    alert("L'image ne doit pas dépasser 500ko.");
+    alert(t('pages.user_question.more_than_500ko'));
     return;
   }
 
@@ -102,47 +104,48 @@ const clearForm = () => {
 
 </script>
 <template>
-    <div id="formulaire_question">
-      <div class="form-box">
-        <form class="forms" @submit.prevent="validateAndAddQuestion">
-          <button @click="showform" class="button_close">
-            <span class="X"></span>
-            <span class="Y"></span>
-          </button>
-          <span class="title">Proposition de question</span>
-          <span class="subtitle">Veuillez remplir le formulaire pour proposer une question <span class="required">*</span></span>
-          <div class="form-container">
-            <input class="form_input" type="text" v-model="question" placeholder="* Question" name="question" required>
-            <input class="form_input" type="text" v-model="question_en" placeholder="* Question en anglais" name="question_en" required>
-            <input class="form_input required" type="text" v-model="reponse_1" placeholder="* Réponse 1" name="reponse1" required>
-            <input class="form_input required" type="text" v-model="reponse_1_en" placeholder="* Réponse 1 en anglais" name="reponse1_en" required>
-            <input class="form_input" type="text" v-model="reponse_2" placeholder="Réponse 2" name="reponse2">
-            <input class="form_input" type="text" v-model="reponse_2_en" placeholder="Réponse 2 en anglais" name="reponse2_en">
-            <input class="form_input" type="text" v-model="reponse_3" placeholder="Réponse 3" name="reponse3">
-            <input class="form_input" type="text" v-model="reponse_4" placeholder="Réponse 4" name="reponse4">
-            <input class="form_input" type="file"  @change="handleImageUpload" accept="image/png" name="image">
-            <select name="theme" id="theme" v-model="theme" required>
-              <option value="">Sélectionner un thème</option>
-              <template v-for="theme in themes" :key="theme['@id']">
-                <option v-if="theme.nomThemes" :value="theme['@id']">{{ theme.nomThemes }}</option>
-              </template>
-            </select>
-          </div>
-          <button type="submit" class="button_add">
-            <span class="button__text">Proposer</span>
-            <span class="button__icon">
+  <div id="formulaire_question">
+    <div class="form-box">
+      <form class="forms" @submit.prevent="validateAndAddQuestion">
+        <button @click="showform" class="button_close">
+          <span class="X"></span>
+          <span class="Y"></span>
+        </button>
+        <span class="title">{{ t('pages.user_question.submit') }}</span>
+        <span class="subtitle">{{ t('pages.user_question.fill')}}<span class="required">*</span></span>
+        <div class="form-container">
+          <input class="form_input" type="text" v-model="question" :placeholder="t('pages.user_question.question_in_french')" name="question" required>
+          <input class="form_input" type="text" v-model="question_en" :placeholder="t('pages.user_question.question_in_english')" name="question_en" required>
+          <input class="form_input required" type="text" v-model="reponse_1" :placeholder="t('pages.user_question.answer_1')" name="reponse1" required>
+          <input class="form_input required" type="text" v-model="reponse_1_en" :placeholder="t('pages.user_question.answer_1') + ' en anglais'" name="reponse1_en" required>
+          <input class="form_input" type="text" v-model="reponse_2" :placeholder="t('pages.user_question.answer_2')" name="reponse2">
+          <input class="form_input" type="text" v-model="reponse_2_en" :placeholder="t('pages.user_question.answer_2') + ' en anglais'" name="reponse2_en">
+          <input class="form_input" type="text" v-model="reponse_3" :placeholder="t('pages.user_question.answer_3')" name="reponse3">
+          <input class="form_input" type="text" v-model="reponse_4" :placeholder="t('pages.user_question.answer_4')" name="reponse4">
+          <input class="form_input" type="file" @change="handleImageUpload" accept="image/png" name="image">
+          <select name="theme" id="theme" v-model="theme" required>
+            <option value="">{{ t('pages.user_question.choose_theme') }}</option>
+            <template v-for="theme in themes" :key="theme['@id']">
+              <option v-if="theme.nomThemes" :value="theme['@id']">{{ theme.nomThemes }}</option>
+            </template>
+          </select>
+        </div>
+        <button type="submit" class="button_add">
+          <span class="button__text">{{ t('pages.user_question.propose') }}</span>
+          <span class="button__icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24"
-                  stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24"
-                  fill="none" class="svg">
+                   stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24"
+                   fill="none" class="svg">
                   <line y2="19" y1="5" x2="12" x1="12"></line>
                   <line y2="12" y1="12" x2="19" x1="5"></line>
               </svg>
             </span>
-          </button>
-        </form>
-      </div>
+        </button>
+      </form>
     </div>
-  </template>
+  </div>
+</template>
+
   
   
   

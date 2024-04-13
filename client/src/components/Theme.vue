@@ -1,10 +1,14 @@
 <script setup>
+import {useI18n} from "vue-i18n";
+
 defineProps({
   color: {
     type: String,
     default: 'black'
   }
 })
+
+const {t, locale} = useI18n()
 </script>
 
 <template>
@@ -13,7 +17,7 @@ defineProps({
 
     <hr class="bar">
 
-    <p>20 questions sur : <b><slot></slot></b></p>
+    <p>{{t('theme.20')}}<b><slot></slot></b></p>
   </div>
 </template>
 

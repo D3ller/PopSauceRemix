@@ -1,29 +1,33 @@
 <template>
-    <div class="card">
-      <div class="card_top">
-        <h2>Pseudo :{{capitalizeFirstLetter(data.username) }}</h2>
-      <h2>Mail : {{capitalizeFirstLetter(data.email) }}</h2>
-      </div>
-      <hr class="card_hr">
-          <div class="card_bottom_theme">
-              <p>n°{{ data.id }}</p>
-          </div>
-      <div class="conteneur_card_buttons">
-        <button @click="handleDelete(data.id)" class="button_delet">
-          <span class="text">Supprimer</span>
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-              <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path>
-            </svg>
-          </span>
-        </button>
-      </div>
+  <div class="card">
+    <div class="card_top">
+      <h2>{{ t('user_card.pseudo_label') }} : {{ capitalizeFirstLetter(data.username) }}</h2>
+      <h2>{{ t('user_card.email_label') }} : {{ capitalizeFirstLetter(data.email) }}</h2>
     </div>
-  </template>
-  
-  <script setup>
+    <hr class="card_hr">
+    <div class="card_bottom_theme">
+      <p>{{ t('user_card.user_number') }}{{ data.id }}</p>
+    </div>
+    <div class="conteneur_card_buttons">
+      <button @click="handleDelete(data.id)" class="button_delet">
+        <span class="text">{{ t('user_card.delete_button') }}</span>
+        <span class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</template>
+
+
+<script setup>
+  import {useI18n} from "vue-i18n";
+
   const props = defineProps(["data"]);
   const emit = defineEmits(['delete']);
+  const { t } = useI18n();
   
   function handleDelete(id) {
     emit('delete', id);

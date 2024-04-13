@@ -203,7 +203,8 @@ socket.on('game-over', (win) => {
   </div>
 
   <div v-if="!waiting && !owner" class="waiting">
-    <p class="waiting_title">Le propriétaire est entrain de configurer la room</p>
+    <p class="waiting_title">    {{ t('pages.Room.config') }}
+    </p>
   </div>
 
   <div class="myroom_area">
@@ -211,23 +212,26 @@ socket.on('game-over', (win) => {
 
       <div v-if="owner && !start && !waiting">
 
-        <h1 class="main-title">Choissisez votre thème</h1>
+        <h1 class="main-title">    {{ t('pages.Room.choose-theme') }}
+        </h1>
 
         <div class="theme_container">
           <Theme  @click="selected = '1'" :color="selected === '1' ? '#6363ff' : '#9595ff'">
-            Biodiversité
+            {{ t('theme.bio.title') }}
+
           </Theme>
 
           <Theme @click="selected = '2'" :color="selected === '2' ? '#ff4242' : '#ff6565'">
-            Eco-geste
+            {{ t('theme.eco-geste.title') }}
           </Theme>
 
           <Theme @click="selected = '3'" :color="selected === '3' ? '#7cff4e' : '#abff8e'">
-            Energie Renouvlable
+            {{ t('theme.renewable.title') }}
           </Theme>
 
           <Theme @click="selected = '4'" :color="selected === '4' ? '#9f5aff' : '#be92fd'">
-            Eco-transports
+            {{ t('theme.transport.title') }}
+
           </Theme>
 
 
@@ -238,7 +242,7 @@ socket.on('game-over', (win) => {
 
         <hr class="main-hr">
 
-        <h2 class="submain-title">Partager votre lien avec vos amis</h2>
+        <h2 class="submain-title">{{ t('pages.Room.share-link') }}</h2>
 
         <CopyButton v-if="origin" :link="`${origin}`" />
 
@@ -255,7 +259,7 @@ socket.on('game-over', (win) => {
         </Transition>
 
         <div v-if="!question && timer" class="waiting_2">
-          <p class="waiting_title">Attendez que la question suivante arrive pour rejoindre</p>
+          <p class="waiting_title">{{ t('pages.Room.wait_next_question') }}</p>
         </div>
 
         <div v-if="question.type === 'multiple'">
@@ -303,7 +307,7 @@ socket.on('game-over', (win) => {
 
       <div v-if="winner !== null" class="end">
         <p>    {{ t('pages.Room.end') }}</p>
-        <p v-if="winner.winner === 'no-questions'">Il n'y a plus de question, personne n'a gagné</p>
+        <p v-if="winner.winner === 'no-questions'">{{ t('pages.Room.no_more_question') }}</p>
         <p v-else>{{ winner.winner.name }}</p>
         <BlueButton class="bb" @click="router.push(Trans.i18nRoute({ name: 'home' }))">{{ t('pages.Room.back') }}</BlueButton>
       </div>

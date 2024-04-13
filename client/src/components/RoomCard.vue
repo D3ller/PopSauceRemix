@@ -15,7 +15,7 @@ console.log(themes)
 
       <img class="images" :src="t('theme.bio.image')" alt="room image" v-if="themes === String(1)">
       <img class="images" :src="t('theme.eco-geste.image')" alt="room image" v-if="themes === String(2)">
-      <img class="images" :src="t('theme.renouvlable.image')" alt="room image" v-if="themes === String(3)">
+      <img class="images" :src="t('theme.renewable.image')" alt="room image" v-if="themes === String(3)">
       <img class="images" :src="t('theme.transport.image')" alt="room image" v-if="themes === String(4)">
 
         <div class="card_left">
@@ -26,7 +26,7 @@ console.log(themes)
             <div class="flex">
   <span v-if="themes === String(1)">{{ t('theme.bio.title')}}</span>
   <span v-if="themes === String(2)">{{ t('theme.eco-geste.title')}}</span>
-  <span v-if="themes === String(3)">{{ t('theme.renouvlable.title')}}</span>
+  <span v-if="themes === String(3)">{{ t('theme.renewable.title')}}</span>
   <span v-if="themes === String(4)">{{ t('theme.transport.title')}}</span>
 </div>
           </div>

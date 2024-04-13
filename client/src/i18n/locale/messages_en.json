@@ -2,22 +2,134 @@
     "message": {
         "hello": "Hello World"
     },
+    "footer": {
+        "quick_links": "Quick Links",
+        "legal_mention": "Legal Mention",
+        "terms_of_use": "Terms of Use",
+        "privacy_policy": "Privacy Policy",
+        "cookies": "Cookies",
+        "qpub_and_you": "QPUB and You?",
+        "play": "Play",
+        "create_account": "Create Account",
+        "propose_question": "Propose Question",
+        "login": "Log In",
+        "find_game": "Find a Game"
+    },
+    "navbar": {
+        "admin": "Admin",
+        "question": "Question",
+        "themes": "Themes",
+        "user": "User",
+        "validate_question": "Validate Question",
+        "icons": {
+            "admin": "admin icon",
+            "question": "question icon",
+            "themes": "themes icon",
+            "user": "user icon",
+            "validate": "validate icon"
+        }
+    },
+    "add_theme_form": {
+        "add_theme": "Add Theme",
+        "fill_form_to_add_theme": "Please fill out the form to add a theme.",
+        "theme_label": "Theme",
+        "theme_placeholder": "Theme",
+        "theme_en_label": "Theme in English",
+        "theme_en_placeholder": "Theme in English",
+        "image_upload": "Upload Image",
+        "add_button": "Add"
+    },
+    "add_question_form": {
+        "add_question": "Add Question",
+        "fill_form_to_add_question": "Please fill out the form to add a question.",
+        "question_label": "Question",
+        "question_placeholder": "Question",
+        "question_en_placeholder": "Question in English",
+        "response_1_placeholder": "Response 1",
+        "response_1_en_placeholder": "Response 1 in English",
+        "multiple_responses_label": "Multiple Responses",
+        "image_label": "Image",
+        "response_2_placeholder": "Response 2",
+        "response_2_en_placeholder": "Response 2 in English",
+        "response_3_placeholder": "Response 3",
+        "response_3_en_placeholder": "Response 3 in English",
+        "response_4_placeholder": "Response 4",
+        "response_4_en_placeholder": "Response 4 in English",
+        "correct_response_placeholder": "Correct Response",
+        "correct_response_en_placeholder": "Correct Response in English",
+        "select_theme": "Select Theme",
+        "add_button": "Add"
+    },
+    "question_card": {
+        "add_question": "Add a Question",
+        "fill_form": "Please fill out the form to add a question.",
+        "response_label": "Response",
+        "response": "Response",
+        "multiple_responses": "Multiple Responses",
+        "image_label": "Image",
+        "good_response": "Correct Response",
+        "question_number": "No.",
+        "theme": "Theme",
+        "delete_button": "Delete",
+        "edit_button": "Edit"
+    },
+    "user_card": {
+        "pseudo_label": "Username",
+        "email_label": "Email",
+        "user_number": "No.",
+        "delete_button": "Delete"
+    },
+    "question_cards": {
+        "response": "Response",
+        "good_response": "Correct Response",
+        "image_label": "Image",
+        "question_number": "No.",
+        "delete_button": "Delete",
+        "edit_button": "Edit"
+    },
+    "theme_card": {
+        "theme_label": "Theme",
+        "theme_en_label": "Theme in English",
+        "question_count_label": "Number of Questions",
+        "delete_button": "Delete",
+        "edit_button": "Edit",
+        "theme_number": "No."
+    },
+    "theme": {
+        "20": "20 questions on: ",
+        "bio": {
+            "title": "Biodiversity",
+            "image": "https://maxsteel.karibsen.fr/image/979e185c3d5935a3eab8fb2f383d41cf.webp"
+        },
+        "eco-geste": {
+            "title": "Eco-gesture",
+            "image": "https://maxsteel.karibsen.fr/image/92081ca2603bc638ad937bdbec41cc20.webp"
+        },
+        "renewable": {
+            "title": "Renewable Energy",
+            "image": "https://maxsteel.karibsen.fr/image/f916b734f44b1716d1d11ea24b9f087a.webp"
+        },
+        "transport": {
+            "title": "Eco-transport",
+            "image": "https://maxsteel.karibsen.fr/image/6e1fdafec05559600ca3f12f4c07eb99.webp"
+        }
+    },
     "layout": {
         "navbar": {
             "home": "Home",
             "account": "Account",
-            "find": "Find a game"
+            "find": "Find a Game"
         }
     },
     "components": {
         "RoomArea": {
-            "create": "Create a room",
-            "join": "Join a room",
-            "name": "Name of the room",
-            "namePlaceholder": "Ex: Gaming Room",
+            "create": "Create a Game",
+            "join": "Join a Game",
+            "name": "Game Name",
+            "namePlaceholder": "Eg: Playroom",
             "public": "Public",
             "private": "Private",
-            "inviteCode": "Invite code",
+            "inviteCode": "Invitation Code",
             "username": "Username"
         },
         "RoomCard": {
@@ -27,25 +139,105 @@
         "SideChatAndPlayers": {
             "scoreboard": "Scoreboard",
             "sendchat": "Send",
-            "writechat": "Write a message"
+            "writechat": "Write a Message"
         }
     },
     "pages": {
         "Room": {
             "loading": "Loading...",
-            "timeleft": "Time left",
+            "timeleft": "Time Left",
             "answer": "Answer",
             "start": "Start",
             "answeris": "The answer is",
-            "end": "The game has ended",
-            "answered": "Good job! You answered correctly",
-            "back": "Back to the home"
-
+            "end": "The game is over",
+            "answered": "Well done! You answered correctly",
+            "back": "Back to Home",
+            "config": "The owner is configuring the room",
+            "choose-theme": "Choose a Theme",
+            "share-link": "Share your link with your friends",
+            "wait_next_question": "Wait for the next question to join",
+            "no_more_question": "No more questions, nobody won"
         },
         "Account": {
-            "stats": "Stats",
-            "create": "Create an account",
-            "login": "Login"
+            "stats": "Statistics",
+            "create": "Create an Account",
+            "login": "Log In"
+        },
+        "Find": {
+            "player": "player(s)"
+        },
+        "user_question": {
+            "submit": "Question Submission",
+            "fill": "Fill in the following fields to propose a question",
+            "question_in_english": "Question in English",
+            "question_in_french": "Question in French",
+            "answer_1": "Answer 1",
+            "answer_2": "Answer 2",
+            "answer_3": "Answer 3",
+            "answer_4": "Answer 4",
+            "choose_theme": "Choose a Theme",
+            "propose": "Propose",
+            "more_than_500ko": "The image must not exceed 500ko",
+            "error_fill": "Please fill all fields"
+        },
+        "admin_page": {
+            "page_title": "Admin",
+            "welcome_message": "Welcome to the admin section of the site Question for a Bush",
+            "dashboard_title": "Dashboard"
+        },
+        "admin_interface": {
+            "header_title": "Question",
+            "search_placeholder": "Search",
+            "add_button": "Add"
+        },
+        "modify_question_page": {
+            "header_title": "Modify Question",
+            "form_title": "Modify the Question",
+            "form_subtitle": "Please fill out the form to modify the question.",
+            "multiple_answers_label": "Multiple Answers",
+            "image_label": "Image",
+            "select_theme_prompt": "Select a Theme",
+            "edit_button_text": "Edit"
+        },
+        "themes_page": {
+            "header_title": "Themes",
+            "search_placeholder": "Search",
+            "add_button_text": "Add"
+        },
+        "theme_modification_page": {
+            "header_title": "Modify Theme",
+            "form_title": "Modify the Theme",
+            "form_subtitle": "Please fill out the form to modify the theme.",
+            "label_theme": "Theme",
+            "label_theme_en": "Theme in English",
+            "edit_button_text": "Edit"
+        },
+        "validate_question_page": {
+            "header_title": "Validate a Question",
+            "search_placeholder": "Search",
+            "add_button_text": "Add"
+        },
+        "account_creation_page": {
+            "title": "Create an Account",
+            "email_label": "Email Address",
+            "email_placeholder": "Email Address",
+            "username_label": "Username",
+            "username_placeholder": "Username",
+            "password_label": "Password",
+            "password_placeholder": "Password",
+            "existing_account": "Already have an account?",
+            "login_link": "Log In",
+            "create_account_button": "Create Account"
+        },
+        "login_page": {
+            "title": "Log In",
+            "email_label": "Email Address",
+            "email_placeholder": "Email",
+            "password_label": "Password",
+            "password_placeholder": "Password",
+            "no_account": "Don't have an account?",
+            "register_link": "Create an Account",
+            "login_button": "Login"
         }
     }
 }

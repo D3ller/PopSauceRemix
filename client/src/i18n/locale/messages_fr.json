@@ -3,7 +3,109 @@
         "hello": "Bonjour Monde"
     },
 
+    "footer": {
+        "quick_links": "Liens rapides",
+        "legal_mention": "Mention Légales",
+        "terms_of_use": "Conditions d'utilisation",
+        "privacy_policy": "Politique de confidentialité",
+        "cookies": "Cookies",
+        "qpub_and_you": "QPUB et vous?",
+        "play": "Jouer",
+        "create_account": "Créer un compte",
+        "propose_question": "Proposer Question",
+        "login": "Se connecter",
+        "find_game": "Trouver une partie"
+    },
+
+    "navbar": {
+        "admin": "Admin",
+        "question": "Question",
+        "themes": "Thèmes",
+        "user": "Utilisateur",
+        "validate_question": "Valider une question",
+        "icons": {
+            "admin": "icone des questions",
+            "question": "icone des questions",
+            "themes": "icone des thèmes",
+            "user": "icone des utilisateurs",
+            "validate": "icone des vérifie"
+        }
+    },
+
+    "add_theme_form": {
+        "add_theme": "Ajouter un thème",
+        "fill_form_to_add_theme": "Veuillez remplir le formulaire pour ajouter un thème.",
+        "theme_label": "Thème",
+        "theme_placeholder": "Thème",
+        "theme_en_label": "Thème en anglais",
+        "theme_en_placeholder": "Thème en anglais",
+        "image_upload": "Télécharger une image",
+        "add_button": "Ajouter"
+    },
+
+    "add_question_form": {
+        "add_question": "Ajouter une Question",
+        "fill_form_to_add_question": "Veuillez remplir le formulaire pour ajouter une question.",
+        "question_label": "Question",
+        "question_placeholder": "Question",
+        "question_en_placeholder": "Question en anglais",
+        "response_1_placeholder": "Réponse 1",
+        "response_1_en_placeholder": "Réponse 1 en anglais",
+        "multiple_responses_label": "Plusieurs réponses",
+        "image_label": "Image",
+        "response_2_placeholder": "Réponse 2",
+        "response_2_en_placeholder": "Réponse 2 en anglais",
+        "response_3_placeholder": "Réponse 3",
+        "response_3_en_placeholder": "Réponse 3 en anglais",
+        "response_4_placeholder": "Réponse 4",
+        "response_4_en_placeholder": "Réponse 4 en anglais",
+        "correct_response_placeholder": "bonne réponse",
+        "correct_response_en_placeholder": "bonne réponse en anglais",
+        "select_theme": "Sélectionner un thème",
+        "add_button": "Ajouter"
+    },
+
+    "question_card": {
+        "add_question": "Ajouter une Question",
+        "fill_form": "Veuillez remplir le formulaire pour ajouter une question.",
+        "response_label": "Réponse",
+        "response": "Réponse",
+        "multiple_responses": "Plusieurs réponses",
+        "image_label": "Image",
+        "good_response": "Bonne réponse",
+        "question_number": "n°",
+        "theme": "Thème",
+        "delete_button": "Supprimer",
+        "edit_button": "Modifier"
+    },
+
+    "user_card": {
+        "pseudo_label": "Pseudo",
+        "email_label": "Mail",
+        "user_number": "n°",
+        "delete_button": "Supprimer"
+    },
+
+    "question_cards": {
+        "response": "Réponse",
+        "good_response": "Bonne réponse",
+        "image_label": "Image",
+        "question_number": "n°",
+        "delete_button": "Supprimer",
+        "edit_button": "Modifier"
+    },
+
+    "theme_card": {
+        "theme_label": "Thème",
+        "theme_en_label": "Thème en",
+        "question_count_label": "Nombre de questions",
+        "delete_button": "Supprimer",
+        "edit_button": "Modifier",
+        "theme_number": "n°"
+    },
+
     "theme": {
+        "20": "20 questions sur : ",
         "bio": {
             "title": "Bio-diversité",
             "image": "https://maxsteel.karibsen.fr/image/979e185c3d5935a3eab8fb2f383d41cf.webp"
@@ -14,7 +116,7 @@
 
         },
 
-        "renouvlable": {
+        "renewable": {
             "title": "Energie renouvelable",
             "image": "https://maxsteel.karibsen.fr/image/f916b734f44b1716d1d11ea24b9f087a.webp"
         },
@@ -65,12 +167,95 @@
             "answeris": "La réponse est",
             "end": "La partie est terminée",
             "answered": "Bien joué ! Vous avez répondu correctement",
-            "back": "Revenir à l'accueil"
+            "back": "Revenir à l'accueil",
+            "config": "Le propriétaire est entrain de configurer la room",
+            "choose-theme": "Choisissez un thème",
+            "share-link": "Partager votre lien avec vos amis",
+            "wait_next_question": "Attendez que la question suivante arrive pour rejoindre",
+            "no_more_question": "Il n'y a plus de question, personne n'a gagné"
         },
         "Account": {
             "stats": "Statistiques",
             "create": "Créer un compte",
             "login": "Se connecter"
+        },
+        "Find": {
+            "player": "joueur(s)"
+        },
+"user_question": {
+    "submit": "Proposition de question",
+    "fill": "Remplissez les champs suivants pour proposer une question",
+    "question_in_english": "Question en anglais",
+    "question_in_french": "Question en français",
+    "answer_1": "Réponse 1",
+    "answer_2": "Réponse 2",
+    "answer_3": "Réponse 3",
+    "answer_4": "Réponse 4",
+    "choose_theme": "Choisissez un thème",
+    "propose": "Proposer",
+    "more_than_500ko": "L'image ne doit pas dépasser 500ko",
+    "error_fill": "Veuillez remplir tous les champs"
+},
+        "admin_page": {
+            "page_title": "Admin",
+            "welcome_message": "Bienvenue sur la partie admin du site question pour un buisson",
+            "dashboard_title": "Dashbord"
+        },
+    "admin_interface": {
+        "header_title": "Question",
+        "search_placeholder": "Rechercher",
+        "add_button": "Ajouter"
+    },
+        "modify_question_page": {
+            "header_title": "Modification Question",
+            "form_title": "Modifier la Question",
+            "form_subtitle": "Veuillez remplir le formulaire pour modifier la question.",
+            "multiple_answers_label": "Plusieurs réponses",
+            "image_label": "Image",
+            "select_theme_prompt": "Sélectionner un thème",
+            "edit_button_text": "Modifier"
+        },
+        "themes_page": {
+            "header_title": "Thèmes",
+            "search_placeholder": "Rechercher",
+            "add_button_text": "Ajouter"
+        },
+        "theme_modification_page": {
+            "header_title": "Modification thème",
+            "form_title": "Modifier le thème",
+            "form_subtitle": "Veuillez remplir le formulaire pour modifier le thème.",
+            "label_theme": "Thème",
+            "label_theme_en": "Thème en anglais",
+            "edit_button_text": "Modifier"
+        },
+        "validate_question_page": {
+            "header_title": "Valider une Question",
+            "search_placeholder": "Rechercher",
+            "add_button_text": "Ajouter"
+        },
+        "account_creation_page": {
+            "title": "Crée un compte",
+            "email_label": "Adresse email",
+            "email_placeholder": "Adresse mail",
+            "username_label": "Nom d'utilisateur",
+            "username_placeholder": "Nom d'utilisateur",
+            "password_label": "Mot de passe",
+            "password_placeholder": "Mot de passe",
+            "existing_account": "Vous avez un compte ?",
+            "login_link": "Connectez-vous",
+            "create_account_button": "Créer compte"
+        },
+        "login_page": {
+            "title": "Se connecter",
+            "email_label": "Adresse email",
+            "email_placeholder": "Email",
+            "password_label": "Mot de passe",
+            "password_placeholder": "Mot de passe",
+            "no_account": "Vous n'avez pas de compte ?",
+            "register_link": "Créez un compte",
+            "login_button": "Connexion"
         }
-    }
+
+
+}
 }

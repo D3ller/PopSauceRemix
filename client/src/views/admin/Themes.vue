@@ -6,6 +6,7 @@ import {useRoute} from "vue-router";
 import AddItem from "@/components/Admin/AddItem.vue";
 import ThemesCard from "@/components/Admin/ThemesCard.vue";
 import Footer from "@/components/Footer.vue";
+import {useI18n} from "vue-i18n";
 
 const route = useRoute()
 const data = ref()
@@ -13,6 +14,8 @@ const showform = ref(false)
 const reponse = ref('')
 const originalData = ref()
 const filteredData = ref()
+const { t } = useI18n();
+
 // const showformUpdate = ref(false)
 
 // const theme = ref('')
@@ -62,13 +65,13 @@ const updateFilter = () => {
     </header>
     <div class="right_block">
       <main class="main_admin">
-        <h2 class="h2_admin">Thèmes</h2>
+        <h2 class="h2_admin">{{ t('pages.themes_page.header_title') }}</h2>
         <div id="main_button">
           <div class="input-wrapper">
-            <input v-model="reponse" placeholder="Rechercher" class="input" @input="updateFilter">
+            <input v-model="reponse" :placeholder="t('pages.themes_page.search_placeholder')" class="input" @input="updateFilter">
           </div>
           <button type="button" class="button_add" @click="showform = !showform">
-            <span class="button__text">Ajouter</span>
+            <span class="button__text">{{ t('pages.themes_page.add_button_text') }}</span>
             <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
               <line y2="19" y1="5" x2="12" x1="12"></line>
               <line y2="12" y1="12" x2="19" x1="5"></line>
@@ -88,6 +91,7 @@ const updateFilter = () => {
     </div>
   </div>
 </template>
+
 <style>
 @import "@/assets/scss/admin.scss";
 

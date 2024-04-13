@@ -3,6 +3,8 @@ import QBLogo from "@/components/icons/QBLogo.vue";
 import Trans from "@/i18n/translation.js";
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
+import {useI18n} from "vue-i18n";
+const {t, locale} = useI18n();
 const router = useRouter()
 
 let isAdminPage = ref(true);
@@ -16,29 +18,32 @@ console.log(isAdminPage);
 </script>
 
 <template>
-<footer v-if="isAdminPage" class="footer_area">
-<hr class="bar">
-  <div class="footer_container">
-    <div class="footer_column"><router-link :to="Trans.i18nRoute({name: 'home'})">
-      <QBLogo :width="108" :height="74"/></router-link></div>
-    <div class="footer_column">
-      <h3>Liens rapides</h3>
-      <router-link :to="Trans.i18nRoute({name: 'mentions'})">Mention Legales</router-link>
-      <router-link :to="Trans.i18nRoute({name: 'conditions'})">Conditions d'utilisation</router-link>
-      <router-link :to="Trans.i18nRoute({name: 'politique'})">Politique de confidentialité</router-link>
-      <router-link :to="Trans.i18nRoute({name: 'cookie'})">Cookies</router-link>
+  <footer v-if="isAdminPage" class="footer_area">
+    <hr class="bar">
+    <div class="footer_container">
+      <div class="footer_column">
+        <router-link :to="Trans.i18nRoute({name: 'home'})">
+          <QBLogo :width="108" :height="74"/></router-link>
+      </div>
+      <div class="footer_column">
+        <h3>{{ t('footer.quick_links') }}</h3>
+        <router-link :to="Trans.i18nRoute({name: 'mentions'})">{{ t('footer.legal_mention') }}</router-link>
+        <router-link :to="Trans.i18nRoute({name: 'conditions'})">{{ t('footer.terms_of_use') }}</router-link>
+        <router-link :to="Trans.i18nRoute({name: 'politique'})">{{ t('footer.privacy_policy') }}</router-link>
+        <router-link :to="Trans.i18nRoute({name: 'cookie'})">{{ t('footer.cookies') }}</router-link>
+      </div>
+      <div class="footer_column">
+        <h3>{{ t('footer.qpub_and_you') }}</h3>
+        <router-link :to="Trans.i18nRoute({name: 'home'})">{{ t('footer.play') }}</router-link>
+        <router-link :to="Trans.i18nRoute({name: 'register'})">{{ t('footer.create_account') }}</router-link>
+        <router-link :to="Trans.i18nRoute({name: 'user_question'})">{{ t('footer.propose_question') }}</router-link>
+        <router-link :to="Trans.i18nRoute({name: 'login'})">{{ t('footer.login') }}</router-link>
+        <router-link :to="Trans.i18nRoute({name: 'find'})">{{ t('footer.find_game') }}</router-link>
+      </div>
     </div>
-    <div class="footer_column">
-      <h3>QPUB et vous?</h3>
-      <router-link :to="Trans.i18nRoute({name: 'home'})">Jouer</router-link>
-      <router-link :to="Trans.i18nRoute({name: 'register'})">Créer un compte</router-link>
-      <router-link :to="Trans.i18nRoute({name: 'user_question'})">Proposer Question</router-link>
-      <router-link :to="Trans.i18nRoute({name: 'login'})">Se connecter</router-link>
-      <router-link :to="Trans.i18nRoute({name: 'find'})">Trouver une partie</router-link>
-    </div>
-  </div>
-</footer>
+  </footer>
 </template>
+
 
 <style scoped lang="scss">
 @import "@/assets/scss/_var.scss";

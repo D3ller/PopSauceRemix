@@ -5,6 +5,8 @@ import {Store} from "@/utils/localstorage.js";
 import BlueButton from "@/components/Button/BlueButton.vue";
 import axios from "axios";
 import router from "@/router/index.js";
+import {useI18n} from "vue-i18n";
+const {t, locale} = useI18n();
 
   const form = ref({
     username: "",
@@ -61,19 +63,20 @@ function handleLogin(form) {
 <template>
   <div class="account_div">
     <form class="account_form" @submit.prevent="handleLogin(form)">
-        <h1 class="account_title">Se connecter</h1>
-        <hr class="bar">
+      <h1 class="account_title">{{ t('pages.login_page.title') }}</h1>
+      <hr class="bar">
 
-        <label class="account_label" for="email">Adresse email</label>
-        <input class="account_input" type="email" placeholder="Email" v-model="form.username">
-        <label class="account_label" for="password">Mot de passe</label>
-        <input class="account_input" type="password" placeholder="Mot de passe" v-model="form.password">
+      <label class="account_label" for="email">{{ t('pages.login_page.email_label') }}</label>
+      <input class="account_input" type="email" :placeholder="t('pages.login_page.email_placeholder')" v-model="form.username">
+      <label class="account_label" for="password">{{ t('pages.login_page.password_label') }}</label>
+      <input class="account_input" type="password" :placeholder="t('pages.login_page.password_placeholder')" v-model="form.password">
 
-        <p class="have">Vous n'avez pas de compte ? <router-link :to="Trans.i18nRoute({name: 'register'})">Créez un compte</router-link></p>
-        <BlueButton>Connexion</BlueButton>
+      <p class="have">{{ t('pages.login_page.no_account') }} <router-link :to="Trans.i18nRoute({name: 'register'})">{{ t('pages.login_page.register_link') }}</router-link></p>
+      <BlueButton>{{ t('pages.login_page.login_button') }}</BlueButton>
     </form>
-</div>
+  </div>
 </template>
+
 
 <style lang="scss" scoped>
 @import "@/assets/scss/account.scss";

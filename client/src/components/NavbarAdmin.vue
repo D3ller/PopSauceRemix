@@ -1,5 +1,7 @@
 <script setup>
 import QBLogo from "@/components/icons/QBLogo.vue";
+import {useI18n} from "vue-i18n";
+const { t } = useI18n();
 defineProps({
     lien: String,
 })
@@ -7,28 +9,35 @@ defineProps({
 <template>
   <div class="nav_area">
     <nav class="navbar">
-      <div class="navbar_items"><router-link :to="({ name: 'home' })">
+      <div class="navbar_items">
+        <router-link :to="({ name: 'home' })">
           <QBLogo />
-        </router-link></div>
-        <div class="navbar_items">
-        <img class="img_navbar_admin" src="@/assets/image/tableau-de-bord.png" alt="icone des questions">
-        <router-link :to="({ name: 'admin' })" :class="{ nav_active: lien === 'admin' }">Admin</router-link></div>
-      <div class="navbar_items">
-        <img class="img_navbar_admin" src="@/assets/image/entrevue.png" alt="icone des questions">
-        <router-link :to="({ name: 'question' })" :class="{ nav_active: lien === 'question' }">Question</router-link></div>
-      <div class="navbar_items">
-        <img class="img_navbar_admin" src="@/assets/image/bibliotheque.png" alt="icone des thèmes">
-        <router-link :to="{ name: 'themes' }" :class="{ 'nav_active': lien === 'themes' || lien === 'themes/id' }">Thèmes</router-link>
+        </router-link>
       </div>
       <div class="navbar_items">
-        <img class="img_navbar_admin" src="@/assets/image/utilisateur.png" alt="icone des utilisateurs">
-        <router-link :to="({ name: 'user' })" :class="{ nav_active: lien === 'user' }">Utilisateur</router-link></div>
+        <img class="img_navbar_admin" src="@/assets/image/tableau-de-bord.png" :alt="t('navbar.icons.admin')">
+        <router-link :to="({ name: 'admin' })" :class="{ nav_active: lien === 'admin' }">{{ t('navbar.admin') }}</router-link>
+      </div>
       <div class="navbar_items">
-        <img class="img_navbar_admin" src="@/assets/image/verifie.png" alt="icone des verifie">
-        <router-link :to="({ name: 'valide_question' })" :class="{ nav_active: lien === 'valide_question' }">Valider une question</router-link></div>
+        <img class="img_navbar_admin" src="@/assets/image/entrevue.png" :alt="t('navbar.icons.question')">
+        <router-link :to="({ name: 'question' })" :class="{ nav_active: lien === 'question' }">{{ t('navbar.question') }}</router-link>
+      </div>
+      <div class="navbar_items">
+        <img class="img_navbar_admin" src="@/assets/image/bibliotheque.png" :alt="t('navbar.icons.themes')">
+        <router-link :to="{ name: 'themes' }" :class="{ 'nav_active': lien === 'themes' || lien === 'themes/id' }">{{ t('navbar.themes') }}</router-link>
+      </div>
+      <div class="navbar_items">
+        <img class="img_navbar_admin" src="@/assets/image/utilisateur.png" :alt="t('navbar.icons.user')">
+        <router-link :to="({ name: 'user' })" :class="{ nav_active: lien === 'user' }">{{ t('navbar.user') }}</router-link>
+      </div>
+      <div class="navbar_items">
+        <img class="img_navbar_admin" src="@/assets/image/verifie.png" :alt="t('navbar.icons.validate')">
+        <router-link :to="({ name: 'valide_question' })" :class="{ nav_active: lien === 'valide_question' }">{{ t('navbar.validate_question') }}</router-link>
+      </div>
     </nav>
   </div>
 </template>
+
 <style lang="scss" scoped>
 @import "@/assets/scss/_var.scss";
 @import "@/assets/scss/_mixins.scss";
