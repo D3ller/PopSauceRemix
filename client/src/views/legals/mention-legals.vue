@@ -95,19 +95,5 @@
   background-color: #f8f8f8;
 }
 
-h1, h2 {
-  color: #333;
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-}
 
-section {
-  margin-bottom: 15px;
-}
-
-p {
-  font-size: 12px;
-
-}
 </style>

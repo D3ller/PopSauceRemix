@@ -87,23 +87,5 @@ margin-top: 100px;
   border-radius: 10px;
 }
 
-h1, h2 {
-  color: #333;
-  font-family: Arial, sans-serif;
-  text-align: center;
-}
 
-section {
-  margin-bottom: 20px;
-}
-
-ul {
-  margin-top: 0;
-}
-
-p {
-  font-size: 12px;
-
-  text-align: left;
-}
 </style>

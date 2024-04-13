@@ -99,9 +99,10 @@ io.on("connection", (socket) => {
     })
 
 
-    socket.on('start-game', (roomID, selected, callback) => {
+    socket.on('start-game', async (roomID, selected, callback) => {
         console.log("start game", roomID, selected)
         const all = game.getAllQuestions(roomID, selected);
+        await all
         let timeInterval;
         let sendNewQuestionTimeout;
 
@@ -119,7 +120,7 @@ io.on("connection", (socket) => {
             }
             console.log("question", question)
             io.to(roomID).emit('question', question);
-            let timeLeft = 1;
+            let timeLeft = 20;
             io.to(roomID).emit('time-left', timeLeft);
             timeInterval = setInterval(() => {
                 timeLeft--;
@@ -127,7 +128,7 @@ io.on("connection", (socket) => {
                 if (timeLeft === 0) {
                     clearInterval(timeInterval);
                     io.to(roomID).emit('answer', game.getAnswer(roomID));
-                    sendNewQuestionTimeout = setTimeout(sendNewQuestion, 1);
+                    sendNewQuestionTimeout = setTimeout(sendNewQuestion, 3000);
                 }
             }, 1000);
         }
@@ -168,6 +169,9 @@ io.on("connection", (socket) => {
         io.to(roomID).emit('game-over', { winner: user });
     })
 
+    socket.on('get-public-room', (callback) => {
+        callback(game.getPublicRooms())
+    })
 
 });
 

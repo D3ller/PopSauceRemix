@@ -6,21 +6,36 @@ import BlueButton from "@/components/Button/BlueButton.vue";
 const { roomName, players, types, roomId, themes } = defineProps(['roomName', 'players', 'types', 'roomId', 'themes']);
 const { t, locale } = useI18n();
 
-let theme = ['Nature', 'Natural', "Test", 'Natural', "Test"]
+console.log(themes)
 
 </script>
 
 <template>
     <div class="card_wrapper">
+
+      <img class="images" :src="t('theme.bio.image')" alt="room image" v-if="themes === String(1)">
+      <img class="images" :src="t('theme.eco-geste.image')" alt="room image" v-if="themes === String(2)">
+      <img class="images" :src="t('theme.renouvlable.image')" alt="room image" v-if="themes === String(3)">
+      <img class="images" :src="t('theme.transport.image')" alt="room image" v-if="themes === String(4)">
+
         <div class="card_left">
-            <h3>{{ roomName }}</h3>
-<div class="flex">
-  <span v-for="t in theme">{{ t }} players</span>
+            <h2>{{ roomName }}</h2>
+
+          <div class="flex">
+
+            <div class="flex">
+  <span v-if="themes === String(1)">{{ t('theme.bio.title')}}</span>
+  <span v-if="themes === String(2)">{{ t('theme.eco-geste.title')}}</span>
+  <span v-if="themes === String(3)">{{ t('theme.renouvlable.title')}}</span>
+  <span v-if="themes === String(4)">{{ t('theme.transport.title')}}</span>
 </div>
+          </div>
         </div>
+      <h3 class="players">            {{players}} joueurs
+      </h3>
         <div class="card_right">
             <div>
-                <router-link :to="Tr.i18nRoute({ name: 'room', params: {id:roomId} })"><BlueButton>{{ t('components.RoomCard.join') }}</BlueButton>
+                <router-link :to="Tr.i18nRoute({ name: 'room', params: {id:roomId} })"><BlueButton style="width: 100%">{{ t('components.RoomCard.join') }}</BlueButton>
                     </router-link>
             </div>
         </div>
@@ -33,7 +48,6 @@ let theme = ['Nature', 'Natural', "Test", 'Natural', "Test"]
 
 .card_wrapper {
     width: 400px;
-    height: 220px;
     border-radius: 10px;
     padding: 15px;
   background: #ffffff;
@@ -41,6 +55,15 @@ let theme = ['Nature', 'Natural', "Test", 'Natural', "Test"]
   font-family: Poppins, sans-serif;
   overflow: hidden;
 
+}
+
+.players {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.images {
+  width: 100%; height: 100px; object-fit: cover; border-radius: 10px;
 }
 
 .flex {
@@ -55,6 +78,7 @@ let theme = ['Nature', 'Natural', "Test", 'Natural', "Test"]
     text-transform: capitalize;
     color: #000000;
     font-weight: 600;
+  font-size: 18px;
 }
 
 .card_left p {
@@ -86,7 +110,7 @@ let theme = ['Nature', 'Natural', "Test", 'Natural', "Test"]
     border-radius: 10px;
   color: white;
   text-decoration: none;
-  width: auto;
+  width: 100%;
 }
 
 .card_left div span {

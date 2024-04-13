@@ -2,13 +2,38 @@
     "message": {
         "hello": "Bonjour Monde"
     },
+
+    "theme": {
+        "bio": {
+            "title": "Bio-diversité",
+            "image": "https://maxsteel.karibsen.fr/image/979e185c3d5935a3eab8fb2f383d41cf.webp"
+},
+        "eco-geste": {
+            "title": "Eco-geste",
+            "image": "https://maxsteel.karibsen.fr/image/92081ca2603bc638ad937bdbec41cc20.webp"
+
+        },
+
+        "renouvlable": {
+            "title": "Energie renouvelable",
+            "image": "https://maxsteel.karibsen.fr/image/f916b734f44b1716d1d11ea24b9f087a.webp"
+        },
+
+        "transport": {
+            "title": "Eco-transport",
+            "image": "https://maxsteel.karibsen.fr/image/6e1fdafec05559600ca3f12f4c07eb99.webp"
+        }
+    },
+
     "layout": {
         "navbar": {
             "home": "Accueil",
             "account": "Compte",
             "find": "Trouver une partie"
         }
+
     },
+
     "components": {
         "RoomArea": {
             "create": "Cr\u00e9er une partie",

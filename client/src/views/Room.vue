@@ -182,6 +182,7 @@ function sendResponse(res) {
 
 socket.on('answer', (answers) => {
   answer.value = answers
+  console.log(answers)
   timer.value = null
 })
 

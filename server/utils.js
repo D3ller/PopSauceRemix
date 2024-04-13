@@ -161,10 +161,6 @@ const {json} = require("express");
             let type;
             let res;
 
-            if(room.allQuestions.length === 0) {
-                return {type: 'no-questions', error: 'no more questions'}
-            }
-
             if(room.allQuestions[random].reponse_1 && room.allQuestions[random].reponse_2 && room.allQuestions[random].reponse_3 && room.allQuestions[random].reponse_4) {
                 type = "multiple";
             }
@@ -198,7 +194,7 @@ const {json} = require("express");
                 res = {
                     type: 'image',
                     question: {fr:room.currentQuestion.question, en: room.currentQuestion.question_en},
-                    url_image: room.currentQuestion.url_image
+                    url_image: room.currentQuestion.image
                 }
             }
 
@@ -221,6 +217,10 @@ const {json} = require("express");
             }
 
             reponse = accentoletter(reponse.toUpperCase());
+
+            if(room.allQuestions.length === 0) {
+                return {type: 'no-questions', error: 'no more questions'}
+            }
 
             if(room.currentQuestion.reponse_1 && room.currentQuestion.reponse_2 && room.currentQuestion.reponse_3 && room.currentQuestion.reponse_4) {
                 type = "multiple";
@@ -308,13 +308,14 @@ const {json} = require("express");
             let index = room.allQuestions.indexOf(room.currentQuestion);
             room.allQuestions.splice(index, 1);
             console.log(room.allQuestions.length)
+            console.log(room.currentQuestion)
             return {fr: room.currentQuestion.bonne_reponse, en: room.currentQuestion.good_reponse}
         }
 
         getPublicRooms() {
             let room = this.rooms.filter(x => x.privacy === false);
             let rooms = room.map(x => {
-                return {id: x.id, name: x.name, players: x.players.length}
+                return {id: x.id, name: x.name, players: x.players.length, themes: x.themes}
             });
             return rooms;
         }
@@ -348,6 +349,7 @@ const {json} = require("express");
                 let common = room.allQuestions.filter(x => x.themes === '/api/themes/5');
                 questions = questions.concat(common);
                 room.allQuestions = questions;
+                console.log(room.allQuestions)
             })
         }
 
