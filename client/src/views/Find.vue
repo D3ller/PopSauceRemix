@@ -20,7 +20,7 @@ onUnmounted(() => {
 
 <template>
 
-  
+
 
   <div class="room_cards_area">
     {{rooms}}
