@@ -11,6 +11,7 @@ import User_question from '@/views/user_question.vue'
 import Themes from '@/views/admin/Themes.vue'
 import ThemeView from '@/views/admin/ThemeView.vue'
 import QuestionView from '@/views/admin/QuestionView.vue'
+import user from '@/views/admin/User.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -70,6 +71,11 @@ const router = createRouter({
       path: 'admin/themes',
       name: 'themes',
       component: Themes
+    },
+    {
+      path: 'admin/user',
+      name: 'user',
+      component: user
     },
     {
       path: 'admin/themes/:id',

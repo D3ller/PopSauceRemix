@@ -32,7 +32,7 @@ function getToken() {
 }
 
 function handleLogin(form) {
-  axios.post('http://localhost:8080/api/login_check', {
+  axios.post('http://apiplateform.karibsen.fr/api/login_check', {
     username: form.username,
     password: form.password
   })
@@ -48,7 +48,7 @@ function handleLogin(form) {
           let token = await getToken();
           console.log(token);
 
-          const userResponse = await axios.get('http://localhost:8080/api/me', {
+          const userResponse = await axios.get('http://apiplateform.karibsen.fr/api/me', {
             headers: {Authorization: `Bearer ${token}`}
           });
 
@@ -61,7 +61,7 @@ function handleLogin(form) {
 
 function handleRegister(user) {
   try {
-    axios.post('http://localhost:8080/api/users', user)
+    axios.post('http://apiplateform.karibsen.fr/api/users', user)
         .then(async (res) => {
           if (res.status === 201) {
             console.log(res.data)
