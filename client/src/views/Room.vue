@@ -288,6 +288,7 @@ socket.on('game-over', (win) => {
         </div>
         <div class="question_area">
         <input v-if="good" class="enter_input" :placeholder="t('pages.Room.answer')" type="text" @keyup.enter="sendResponse(reponse)" v-model="reponse" />
+          <p v-else class="good_answer">{{ t('pages.Room.answered') }}</p>
         </div>
       </div>
 
@@ -646,6 +647,7 @@ socket.on('game-over', (win) => {
 
 .good_answer {
   margin-top: 20px;
+  font-family: Inter, sans-serif;
 }
 
 .end {
