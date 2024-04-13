@@ -23,14 +23,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-
-<<<<<<< Updated upstream
-
-=======
   <main>
     <div class="flat_header">
       <div class="room_cards_area" v-if="loaded">
->>>>>>> Stashed changes
 
         <div v-if="rooms.length > 0" v-for="room in rooms" :key="room.id">
 
