@@ -19,6 +19,7 @@
           </svg>
         </span>
       </button>
+
       <button @click="$router.push('themes/'+data.id)" class="Button_edit">Modifier
         <svg class="svg" viewBox="0 0 512 512">
           <path
