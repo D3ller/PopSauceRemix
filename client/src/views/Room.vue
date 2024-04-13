@@ -3,6 +3,7 @@ import {onMounted, onUnmounted, ref} from 'vue';
 import socket from '@/socket';
 import { useRoute } from "vue-router";
 console.log(useRoute())
+const { t, locale } = useI18n();
 import SideChatAndPlayers from "@/components/room/SideChatAndPlayers.vue";
 import router from "@/router/index.js";
 import Trans from "@/i18n/translation.js";
@@ -128,12 +129,12 @@ socket.on('owner', (isOwner) => {
 })
 
 function startGame() {
-  socket.emit('choose-theme', selected, roomID, (res) => {
+  socket.emit('choose-theme', selected.value, roomID, (res) => {
     console.log(res)
   })
 
   setTimeout(() => {
-    socket.emit('start-game', roomID);
+    socket.emit('start-game', roomID, selected.value);
     start.value = true;
   }, 50)
 }
@@ -149,11 +150,17 @@ socket.on('question', (questions) => {
 });
 
 let user = JSON.parse(localStorage.getItem('user'))
+let lang = locale.value
 function sendResponse(res) {
 
   console.log(res)
-  socket.emit('reponse', res, roomID, user, (res) => {
+  socket.emit('reponse', res, roomID, user, lang, (res) => {
+    console.log(lang)
     console.log('reponse :',  res)
+
+    if(res.type === 'end') {
+      socket.emit('send-end', roomID, user)
+    }
 
     if(question.type === "input") {
       reponse.value = ''
@@ -185,7 +192,6 @@ socket.on('game-over', (win) => {
 
 
 
-const { t, locale } = useI18n();
 
 </script>
 
@@ -207,19 +213,19 @@ const { t, locale } = useI18n();
         <h1 class="main-title">Choissisez votre thème</h1>
 
         <div class="theme_container">
-          <Theme  @click="selected = 'B'" :color="selected === 'B' ? '#6363ff' : '#9595ff'">
+          <Theme  @click="selected = '1'" :color="selected === '1' ? '#6363ff' : '#9595ff'">
             Biodiversité
           </Theme>
 
-          <Theme @click="selected = 'Eg'" :color="selected === 'Eg' ? '#ff4242' : '#ff6565'">
+          <Theme @click="selected = '2'" :color="selected === '2' ? '#ff4242' : '#ff6565'">
             Eco-geste
           </Theme>
 
-          <Theme @click="selected = 'Er'" :color="selected === 'Er' ? '#7cff4e' : '#abff8e'">
+          <Theme @click="selected = '3'" :color="selected === '3' ? '#7cff4e' : '#abff8e'">
             Energie Renouvlable
           </Theme>
 
-          <Theme @click="selected = 'Et'" :color="selected === 'Et' ? '#9f5aff' : '#be92fd'">
+          <Theme @click="selected = '4'" :color="selected === '4' ? '#9f5aff' : '#be92fd'">
             Eco-transports
           </Theme>
 
@@ -254,12 +260,16 @@ const { t, locale } = useI18n();
         <div v-if="question.type === 'multiple'">
           <div class="question_boxes">
             <div class="questions">
-            <p class="question_text">{{ question.question }}</p>
+            <p v-if="locale === 'fr'" class="question_text">{{ question.question['fr'] }}</p>
+            <p v-else class="question_text">{{ question.question['en'] }}</p>
             </div>
           </div>
           <div class="multiple">
-      <div v-for="res in question.reponses">
-        <button @click="sendResponse(res)" class="multiple_answer" :disabled="check">{{ res }}</button>
+      <div v-if="locale === 'fr'" v-for="res in question.reponses['fr']">
+        <button @click="sendResponse(res, locale.value)" class="multiple_answer" :disabled="check">{{ res }}</button>
+      </div>
+      <div v-else v-for="res in question.reponses['en']">
+        <button @click="sendResponse(res, locale.value)" class="multiple_answer" :disabled="check">{{ res }}</button>
       </div>
           </div>
         </div>
@@ -267,7 +277,8 @@ const { t, locale } = useI18n();
       <div v-if="question.type === 'input'">
         <div class="question_boxes">
           <div class="questions">
-            <p class="question_text">{{ question.question }}</p>
+            <p class="question_text" v-if="locale === 'fr'">{{ question.question['fr'] }}</p>
+            <p class="question_text" v-else>{{ question.question['en'] }}</p>
           </div>
         </div>
         <div class="question_area">
@@ -281,16 +292,19 @@ const { t, locale } = useI18n();
         <input v-if="good" :placeholder="t('pages.Room.answer')" class="enter_input" type="text" v-model="reponse" @keyup.enter="sendResponse(reponse)" />
         <p v-else class="good_answer">{{ t('pages.Room.answered') }}</p>
       </div>
-
     </div>
 
       <div v-else-if="answer !== null && winner === null" class="answer">
         <h2>{{ t('pages.Room.answeris') }}</h2>
-        <h3>{{ answer }}</h3>
+        <h3 v-if="locale === 'fr'">{{ answer['fr'] }}</h3>
+        <h3 v-else>{{ answer['en'] }}</h3>
       </div>
 
-      <div v-if="winner !== null">
+      <div v-if="winner !== null" class="end">
         <p>    {{ t('pages.Room.end') }}</p>
+        <p v-if="winner.winner === 'no-questions'">Il n'y a plus de question, personne n'a gagné</p>
+        <p v-else>{{ winner.winner.name }}</p>
+        <BlueButton class="bb" @click="router.push(Trans.i18nRoute({ name: 'home' }))">{{ t('pages.Room.back') }}</BlueButton>
       </div>
 
     </div>
@@ -334,13 +348,14 @@ const { t, locale } = useI18n();
   margin: 10px 20px;
   overflow: hidden;
   border-radius: 20px;
-}
 
-.timer {
-  height: 100%;
-  background-color: #52ca2a;
-  border-radius: 20px;
-  transition: width 1s linear;
+  .timer {
+    height: 100%;
+    background-color: #52ca2a;
+    border-radius: 20px;
+    transition: width 1s linear;
+
+  }
 
 }
 
@@ -625,6 +640,27 @@ const { t, locale } = useI18n();
 }
 
 .good_answer {
+  margin-top: 20px;
+}
+
+.end {
+  position: fixed;
+  width: calc(100vw - 360px);
+  height: 100vh;
+  z-index: 100000000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgb(0, 0, 0);
+  color: white;
+  font-size: 30px;
+  font-weight: 700;
+  font-family: 'Raleway', sans-serif;
+  text-align: center;
+}
+
+.bb {
   margin-top: 20px;
 }
 </style>

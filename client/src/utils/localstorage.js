@@ -29,7 +29,7 @@ export class Store {
 
     handleLogin(form) {
         try {
-            axios.post('http://localhost:8080/api/login_check', {
+            axios.post('http://apiplateform.karibsen.fr/api/login_check', {
                 username: form.username,
                 password: form.password
             }).then(async (res) => {
