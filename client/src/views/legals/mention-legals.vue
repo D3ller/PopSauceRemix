@@ -78,7 +78,7 @@
 </template>
 
 
-<style>
+<style scoped>
 .mentions {
   display: flex;
   justify-content: center;
@@ -95,16 +95,16 @@
   background-color: #f8f8f8;
 }
 
-h1, h2 {
+.cadre h1, h2 {
   color: #333;
   font-family: Arial, sans-serif;
   text-align: center;
 }
 
-section {
+.cadre section {
   margin-bottom: 20px;
 }
-p {
+.cadre p {
   font-size: 12px;
   text-align: left;
 }
