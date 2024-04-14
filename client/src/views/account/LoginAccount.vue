@@ -43,11 +43,12 @@ function handleLogin(form) {
           document.cookie = `token=${res.data.token};expires=${dateUTC};path=/`;
 
           let token = await getToken();
-          console.log(token);
+          // console.log(token);
 
           const userResponse = await axios.get('http://apiplateform.karibsen.fr/api/me', {
             headers: {Authorization: `Bearer ${token}`}
           });
+          console.log(userResponse)
 
           localStorage.setItem('user', JSON.stringify(userResponse.data.user))
 

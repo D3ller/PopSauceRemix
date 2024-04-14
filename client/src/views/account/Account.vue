@@ -2,14 +2,16 @@
 import {onMounted, ref} from 'vue';
 import {Store} from "@/utils/localstorage.js";
 import axios from "axios";
+import socket from "@/socket.js";
 
 const user = ref(null)
-const store = new Store()
 
 onMounted(async () => {
-  user.value = await store.getUser()
-  if (localStorage.getItem('user') != user.name) {
-    localStorage.setItem('user', JSON.stringify(user.value))
+
+  if (localStorage.getItem('user')) {
+    // localStorage.setItem('user', JSON.stringify(user.value))
+    user.value = JSON.parse(localStorage.getItem('user'))
+    console.log(user.value)
   }
 })
 
