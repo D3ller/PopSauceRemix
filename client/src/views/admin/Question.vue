@@ -3,7 +3,6 @@ import NavbarAdmin from "@/components/NavbarAdmin.vue";
 import axios from "axios";
 import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
-import AddItem from "@/components/Admin/AddItem.vue";
 import AdminCard from "@/components/Admin/AdminCard.vue";
 import AddQuestion from "@/components/Admin/AddQuestion.vue";
 import {useI18n} from "vue-i18n";

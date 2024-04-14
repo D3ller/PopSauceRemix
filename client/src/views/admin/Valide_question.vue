@@ -3,6 +3,7 @@ import NavbarAdmin from "@/components/NavbarAdmin.vue";
 import axios from "axios";
 import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
+import AddItem from "@/components/Admin/AddItem.vue";
 import AddQuestion from "@/components/Admin/AddQuestion.vue";
 import ValideCard from "@/components/Admin/ValideCard.vue";
 import {useI18n} from "vue-i18n";
@@ -15,7 +16,6 @@ const originalData = ref();
 const filteredData = ref();
 const {t} = useI18n();
 // const showformUpdate = ref(false)
-
 // const theme = ref('')
 // const theme_en =ref()
 console.log(route)
@@ -24,7 +24,6 @@ onMounted(() => {
   getData_theme()
   
 })
-
 function handleDelete(id) {
   const result = confirm("Es-tu sûr de vouloir supprimer ?");
   if (result) {
@@ -65,10 +64,7 @@ const updateFilter = () => {
     );
   });
 };
-
-
 </script>
-
 <template>
   <div id="block">
     <header class="header_admin">
@@ -107,16 +103,13 @@ const updateFilter = () => {
     </div>
   </div>
 </template>
-
 <style>
 @import "@/assets/scss/admin.scss";
-
 .right_block {
   width: 75%;
   position: absolute;
   right: 0;
 }
-
 .grid_cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -124,11 +117,9 @@ const updateFilter = () => {
   width: 90%;
   margin: 0 auto 50px auto;
 }
-
 .grid_cards>div {
   //width: 50%;
 }
-
 #conteneur_card {
   display: flex;
   flex-wrap: wrap;
@@ -136,13 +127,11 @@ const updateFilter = () => {
   gap: 20px;
   margin-bottom: 30px;
 }
-
 #main_button {
   display: flex;
   align-items: center;
   margin-right: 10px
 }
-
 .form {
   display: flex;
   flex-direction: column;
@@ -150,12 +139,10 @@ const updateFilter = () => {
   margin: 20px;
   width: 300px
 }
-
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;
 }
-
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
@@ -169,6 +156,5 @@ const updateFilter = () => {
 }
 .img_conteneur {
   position: relative;
-
 }
 </style>

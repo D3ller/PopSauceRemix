@@ -1,15 +1,7 @@
 <script setup>
-
-import Addpropose from '@/components/Admin/Addpropose.vue';
-
+  import addpropose from "@/components/Admin/Addpropose.vue";
 </script>
 <template>
-<Addpropose/>
+  <addpropose/>
 </template>
-
-<style scoped>
-
-
-  
-
-</style>
+<style></style>

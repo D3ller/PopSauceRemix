@@ -29,6 +29,7 @@ onMounted(() => {
   getData_themes()
 })
 function addquestion() {
+  console.log("addquestion method called");
   if (!question.value || !question_en.value || !reponse_1.value || !reponse_1_en.value || !theme.value) {
     return ;
   }
@@ -76,7 +77,9 @@ function addquestion() {
     good_reponse.value = ''
     theme.value = ''
     imageData.value = ''
-    props.showform = !props.showform
+    .catch(error => {
+    console.error('Erreur lors de l\'ajout de la question :', error);
+  });
 }
 const getData_themes = () => {
   axios.get('http://apiplateform.karibsen.fr/api/themes')
@@ -108,7 +111,7 @@ function handleImageUpload(event) {
   <div v-if="showform">
     <div id="formulaire_question">
       <div class="form-box">
-        <form class="form">
+        <form class="form" @submit.prevent>
           <button @click="showform = !showform" class="button_close">
             <span class="X"></span>
             <span class="Y"></span>

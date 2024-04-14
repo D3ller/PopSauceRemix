@@ -27,7 +27,7 @@ const {t, locale} = useI18n()
 onMounted(() => {
   getData_themes()
 })
-function addquestion() {
+function addpropose() {
   if (!question.value || !question_en.value || !reponse_1.value || !reponse_1_en.value || !theme.value) {
     return ;
   }
@@ -41,38 +41,45 @@ function addquestion() {
       return ;
     }
   }
+  console.log('ajouter' )
   axios.post('http://apiplateform.karibsen.fr/api/valid_questions', {
     question: question.value,
       questionEn: question_en.value,
       reponse1: reponse_1.value,
-      reponse_en: reponse_1_en.value,
+      reponseEn: reponse_1_en.value,
       reponse2: reponse_2.value,
-      reponse2_en: reponse_2_en.value,
+      reponse2En: reponse_2_en.value,
       reponse3: reponse_3.value,
-      reponse3_en: reponse_3_en.value,
+      reponse3En: reponse_3_en.value,
       reponse4: reponse_4.value,
-      reponse4_en: reponse_4_en.value,
+      reponse4En: reponse_4_en.value,
       image: imageData.value,
-      bonne_reponse: bonne_reponse.value,
-      good_reponse: good_reponse.value,
-      themes_id: theme.value
-  })
-     
-    question.value = ''
-    question_en.value = ''
-    reponse_1.value = ''
-    reponse_1_en.value = ''
-    reponse_2.value = ''
-    reponse_2_en.value = ''
-    reponse_3.value = ''
-    reponse_3_en.value = ''
-    reponse_4.value = ''
-    reponse_4_en.value = ''
-    bonne_reponse.value = ''
-    good_reponse.value = ''
-    theme.value = ''
-    imageData.value = ''
-    
+      bonneReponse: bonne_reponse.value,
+      goodReponse: good_reponse.value,
+      themes_id_id: theme.value
+  }).then(() => {
+    // Réinitialisation des valeurs des champs
+    question.value = '';
+    question_en.value = '';
+    reponse_1.value = '';
+    reponse_1_en.value = '';
+    reponse_2.value = '';
+    reponse_2_en.value = '';
+    reponse_3.value = '';
+    reponse_3_en.value = '';
+    reponse_4.value = '';
+    reponse_4_en.value = '';
+    bonne_reponse.value = '';
+    good_reponse.value = '';
+    theme.value = '';
+    imageData.value = '';
+
+    // Redirection vers la page d'accueil après l'ajout de la question
+    closeForm();
+  }).catch(error => {
+  console.error('Erreur lors de l\'ajout de la question :', error);
+  // Gérer l'erreur ici (par exemple, afficher un message d'erreur à l'utilisateur)
+});
 }
 const getData_themes = () => {
   axios.get('http://apiplateform.karibsen.fr/api/themes')
@@ -100,6 +107,7 @@ function handleImageUpload(event) {
 }
 function closeForm() {
      router.push({ name: 'home' });
+     console.log('close')
    }
 </script>
 
@@ -107,7 +115,7 @@ function closeForm() {
     <div id="formulaire_question">
     <div class="form_propose">
         <div class="form-box">
-        <form class="form">
+        <form class="form" @submit.prevent>
           <button @click="closeForm" class="button_close">
             <span class="X"></span>
             <span class="Y"></span>
@@ -149,7 +157,7 @@ function closeForm() {
               </template>
             </select>
           </div>
-          <button type="submit" class="button_add" @click="addquestion">
+          <button type="button" class="button_add" @click="addpropose">
             <span class="button__text">{{ t('add_question_form.add_button') }}</span>
             <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24"
                                             stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24"
