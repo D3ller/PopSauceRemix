@@ -67,7 +67,7 @@ const updateFilter = () => {
   });
 };
 console.log(filteredData)
-
+console.log(route.path)
 </script>
 
 <template>
@@ -99,7 +99,7 @@ console.log(filteredData)
           <div v-for="question in filteredData" :key="question.id">
             <div v-for="theme in data_themes" :key="theme.id">
               <div  v-if="question.themes === theme['@id']">
-                <AdminCard :cards="question" :theme="theme" @delete="handleDelete"  />
+                <AdminCard :cards="question" :theme="theme" :lien="route.path" @delete="handleDelete"  />
               </div>
             </div>
           </div>
