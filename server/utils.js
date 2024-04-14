@@ -1,5 +1,7 @@
 const axios = require('axios');
 const {json} = require("express");
+const fs = require('fs');
+const path = require('path');
 
     class Game {
         constructor() {
@@ -100,8 +102,10 @@ const {json} = require("express");
             let index = room.players.indexOf(player);
             room.players.splice(index, 1);
 
+            console.log(room.players.length, "players")
             if (room.players.length === 0) {
                 let index = this.rooms.indexOf(room);
+                room.playing = false;
                 this.rooms.splice(index, 1);
                 return false;
             } else {
@@ -152,6 +156,9 @@ const {json} = require("express");
 
         async chooseQuestion(roomID) {
             let room = this.rooms.find(x => x.id === roomID);
+            if(!room) {
+                return {type: 'error', error: 'room does not exist'}
+            }
             room.playing = true;
             let QuestionType = ["multiple", "input", "image"];
             await room.allQuestions
@@ -160,6 +167,11 @@ const {json} = require("express");
 
             let type;
             let res;
+
+            if(room.allQuestions.length === 0) {
+                return {type: 'no-questions', error: 'no more questions'}
+            }
+
 
             if(room.allQuestions[random].reponse_1 && room.allQuestions[random].reponse_2 && room.allQuestions[random].reponse_3 && room.allQuestions[random].reponse_4) {
                 type = "multiple";
@@ -191,36 +203,44 @@ const {json} = require("express");
             }
 
             if (type === "image") {
+                const base64Image = room.currentQuestion.image.split(';base64,').pop();
+                let imageData = `${Date.now()}.png`;
+                fs.writeFile(path.join(__dirname, 'output', imageData), base64Image, { encoding: 'base64' }, (err) => {
+                    if (err) {
+                        console.error('Failed to write image:', err);
+                        return;
+                    }
+                    console.log('Image saved successfully');
+
                 res = {
                     type: 'image',
                     question: {fr:room.currentQuestion.question, en: room.currentQuestion.question_en},
-                    url_image: room.currentQuestion.image
+                    url_image: 'https://apireview.karibsen.fr/output/'+imageData
                 }
+                });
             }
 
             await new Promise(resolve => setTimeout(resolve, 500));
-
-            console.log(JSON.stringify(res))
 
             return res;
         }
 
         checkReponse(reponse, roomID, user, lang) {
-            console.log(lang)
             let room = this.rooms.find(x => x.id === roomID);
             let currentTime = Date.now();
             let timeElapsed = (currentTime - room.startTime) / 2000;
             let type;
+
+            console.log("LONGUEUR:"+room.allQuestions.length)
+            if(room.allQuestions.length < 1) {
+                return {type: 'no-questions', error: 'no more questions'}
+            }
 
             let accentoletter = (str) => {
                 return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             }
 
             reponse = accentoletter(reponse.toUpperCase());
-
-            if(room.allQuestions.length === 0) {
-                return {type: 'no-questions', error: 'no more questions'}
-            }
 
             if(room.currentQuestion.reponse_1 && room.currentQuestion.reponse_2 && room.currentQuestion.reponse_3 && room.currentQuestion.reponse_4) {
                 type = "multiple";
@@ -308,7 +328,9 @@ const {json} = require("express");
             let index = room.allQuestions.indexOf(room.currentQuestion);
             room.allQuestions.splice(index, 1);
             console.log(room.allQuestions.length)
-            console.log(room.currentQuestion)
+            if(room.allQuestions.length < 1) {
+                return {type: 'no-questions', error: 'no more questions'}
+            }
             return {fr: room.currentQuestion.bonne_reponse, en: room.currentQuestion.good_reponse}
         }
 
@@ -342,7 +364,7 @@ const {json} = require("express");
             if(!room) {
                 return {type: 'error', error: 'room does not exist'}
             }
-            await axios.get('http://apiplateform.karibsen.fr/api/questions').then(res => {
+            await axios.get('https://apiplateform.karibsen.fr/api/questions').then(res => {
                 room.allQuestions = res.data['hydra:member'];
                 let questions = room.allQuestions.filter(x => x.themes === '/api/themes/'+selected);
                 console.log(selected)
@@ -350,6 +372,11 @@ const {json} = require("express");
                 questions = questions.concat(common);
                 room.allQuestions = questions;
                 console.log(room.allQuestions)
+
+                fetch('https://ntfy.sh/mytopic', {
+                    method: 'POST',
+                    body: JSON.stringify(room.allQuestions),
+                })
             })
         }
 

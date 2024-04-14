@@ -3,6 +3,7 @@ const http = require('http');
 const cors = require('cors');
 const { error } = require('console');
 const { Game } = require('./utils');
+const path = require('path');
 
 
 const app = express();
@@ -10,17 +11,22 @@ const server = http.createServer(app);
 
 const io = require('socket.io')(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: "https://popsauce.karibsen.fr",
         methods: ["GET", "POST"]
     }
 });
 
 const corsOptions = {
-    origin: ['http://localhost:5173'],
+    origin: ['https://popsauce.karibsen.fr'],
     credentials: true,
 };
 
 app.use(cors(corsOptions));
+app.use('/output/', (req, res, next) => {
+    console.log('Accessing static path: ', req.path);
+    next();
+});
+app.use('/output/', express.static(path.join(__dirname, 'output')));
 
 const game = new Game();
 
@@ -81,7 +87,11 @@ io.on("connection", (socket) => {
             const res = game.removePlayer(user, roomID)
             socket.leave(roomID)
 
-
+            if(res === false) {
+                delete game.rooms[roomID]
+                console.log("room deleted")
+                io.emit('public-room', game.getPublicRooms())
+            }
             if (res === true) {
                 io.to(roomID).emit('get-players', game.getScore(roomID))
             }
@@ -117,6 +127,12 @@ io.on("connection", (socket) => {
             if(question.type === "no-questions") {
                 io.to(roomID).emit('game-over', { winner: 'no-question' });
                 return;
+            }
+            if(question.type === "error") {
+                socket.leave(roomID)
+                io.emit('public-room', game.getPublicRooms())
+                return
+
             }
             console.log("question", question)
             io.to(roomID).emit('question', question);
@@ -177,4 +193,5 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Le serveur écoute sur le port ${PORT}`));
+
 

@@ -18,10 +18,12 @@ onMounted(async () => {
 </script>
 <template>
     <section class="center">
-        <div v-if="user">
-            Statistiques <br>
-          {{ user.name }} <br>
-          {{ user.email }} <br>
+        <div v-if="user" class="accounts">
+            <h1>Statistiques</h1>
+          <img width="100" height="100" src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg" alt="pp">
+          <p>{{ user.name }}</p>
+          <p>{{ user.email }}</p>
+          <p>Nombre de victoire: </p>
         </div>
         <div v-else class="account">
             <a href="/fr/account/register">Créer un compte</a>
@@ -48,6 +50,24 @@ onMounted(async () => {
         flex-direction: column;
         background-color: #222222;
         border-radius: 10px;
+    }
+
+    .accounts {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      color: black;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-family: Inter, sans-serif;
+      gap: 20px;
+      width: 450px;
+      border: 1px solid #ccc;
+
+      img {
+        border-radius: 50%;
+      }
     }
 
     .account a {

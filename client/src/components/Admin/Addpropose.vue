@@ -41,8 +41,12 @@ function addpropose() {
       return ;
     }
   }
+<<<<<<< Updated upstream
   console.log('ajouter' )
   axios.post('http://apiplateform.karibsen.fr/api/valid_questions', {
+=======
+  axios.post('https://apiplateform.karibsen.fr/api/valid_questions', {
+>>>>>>> Stashed changes
     question: question.value,
       questionEn: question_en.value,
       reponse1: reponse_1.value,
@@ -82,7 +86,7 @@ function addpropose() {
 });
 }
 const getData_themes = () => {
-  axios.get('http://apiplateform.karibsen.fr/api/themes')
+  axios.get('https://apiplateform.karibsen.fr/api/themes')
       .then(res => {
         data_themes.value = res.data["hydra:member"]
       })

@@ -15,7 +15,7 @@ function addtheme() {
   if (!theme.value || !theme_en.value || !imageData.value) {
     return ;
   }
-  axios.post('http://apiplateform.karibsen.fr/api/themes', {
+  axios.post('https://apiplateform.karibsen.fr/api/themes', {
     nomThemes: theme.value,
     enThemes: theme_en.value,
     image: imageData.value

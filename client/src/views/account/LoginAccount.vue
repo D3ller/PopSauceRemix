@@ -29,7 +29,7 @@ function getToken() {
 }
 
 function handleLogin(form) {
-  axios.post('http://apiplateform.karibsen.fr/api/login_check', {
+  axios.post('https://apiplateform.karibsen.fr/api/login_check', {
     username: form.username,
     password: form.password
   })
@@ -45,7 +45,7 @@ function handleLogin(form) {
           let token = await getToken();
           // console.log(token);
 
-          const userResponse = await axios.get('http://apiplateform.karibsen.fr/api/me', {
+          const userResponse = await axios.get('https://apiplateform.karibsen.fr/api/me', {
             headers: {Authorization: `Bearer ${token}`}
           });
           console.log(localStorage.getItem('token'))

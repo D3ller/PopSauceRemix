@@ -29,7 +29,7 @@ export class Store {
 
     handleLogin(form) {
         try {
-            axios.post('http://apiplateform.karibsen.fr/api/login_check', {
+            axios.post('https://apiplateform.karibsen.fr/api/login_check', {
                 username: form.username,
                 password: form.password
             }).then(async (res) => {
@@ -43,7 +43,7 @@ export class Store {
                     let token = this.getToken();
                     console.log(token);
 
-                    const userResponse = await axios.get('http://localhost:8080/api/me', {
+                    const userResponse = await axios.get('https://apiplateform.karibsen.fr/api/me', {
                         headers: {Authorization: `Bearer ${token}`}
                     });
 
@@ -60,7 +60,7 @@ export class Store {
     handleRegister(user)
     {
         try {
-            axios.post('http://localhost:8080/api/users', user)
+            axios.post('https://apiplateform.karibsen.fr/api/users', user)
                 .then(async (res) => {
                     if (res.status === 201) {
                         console.log(res.data)
@@ -81,7 +81,7 @@ export class Store {
         const cookie = this.getCookieValue()
 
         if (cookie) {
-            const res = axios.get('http://localhost:8080/api/me', {headers: {Authorization: `Bearer ${cookie}`}})
+            const res = axios.get('https://apiplateform.karibsen.fr/api/me', {headers: {Authorization: `Bearer ${cookie}`}})
                 .then(res => {
                     return res.data.user
                 })

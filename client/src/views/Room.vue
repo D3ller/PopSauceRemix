@@ -294,7 +294,8 @@ socket.on('game-over', (win) => {
 
       <div v-if="question.type === 'image'" class="question_area">
         <img class="question_image" :src="question.url_image" alt="image" />
-        <p class="question">{{ question.question }}</p>
+        <p class="question" v-if="locale === 'fr'">{{ question.question["fr"] }}</p>
+        <p class="question" v-else>{{ question.question["en"] }}</p>
         <input v-if="good" :placeholder="t('pages.Room.answer')" class="enter_input" type="text" v-model="reponse" @keyup.enter="sendResponse(reponse)" />
         <p v-else class="good_answer">{{ t('pages.Room.answered') }}</p>
       </div>
@@ -380,6 +381,7 @@ socket.on('game-over', (win) => {
   height:450px;
   border: 7px solid #e5e5e5;
   border-radius: 20px;
+  object-fit: cover;
 }
 
 .question {

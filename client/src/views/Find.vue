@@ -9,16 +9,14 @@ let loaded = ref(false)
 
 onMounted( () => {
   console.log('mounted')
-  socket.emit('get-public-room', (res) => {
-    console.log(res + 'res')
+  setTimeout(() => {
+    socket.emit('get-public-room', (res) => {
+      console.log(res + 'res')
 
-    rooms.value = res
-    loaded.value = true
-  })
-})
-
-onUnmounted(() => {
-  socket.off('public-room')
+      rooms.value = res
+      loaded.value = true
+    })
+  }, 500)
 })
 </script>
 
@@ -41,20 +39,17 @@ onUnmounted(() => {
 
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .flat_header {
   min-height: 100vh;
-  background: url('../assets/image/flat.webp') center center/cover;
+  background: url('@/assets/image/flat.webp') center center/cover;
 }
 
 .room_cards_area {
-  padding-top: 120px;
-  padding-left: 20px;
-  padding-right: 20px;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
-  padding-bottom: 20px;
+  padding: 120px 20px 20px;
 }
 </style>

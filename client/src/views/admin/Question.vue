@@ -28,7 +28,7 @@ onMounted(() => {
 function handleDelete(id) {
   const result = confirm("Es-tu sûr de vouloir supprimer ?");
   if (result) {
-    axios.delete(`http://apiplateform.karibsen.fr/api/questions/${id}`)
+    axios.delete(`https://apiplateform.karibsen.fr/api/questions/${id}`)
         .then(() => {
           getData();
         })
@@ -38,7 +38,7 @@ function handleDelete(id) {
   }
 }
 const getData = () => {
-  axios.get('http://apiplateform.karibsen.fr/api/questions')
+  axios.get('https://apiplateform.karibsen.fr/api/questions')
     .then(res => {
       data.value = res.data["hydra:member"];
       originalData.value = data.value;
@@ -51,7 +51,7 @@ const getData = () => {
 };
 console.log(originalData)
 const getData_theme = () => {
-  axios.get('http://apiplateform.karibsen.fr/api/themes')
+  axios.get('https://apiplateform.karibsen.fr/api/themes')
       .then(res => {
         data_themes.value = res.data["hydra:member"]
       })

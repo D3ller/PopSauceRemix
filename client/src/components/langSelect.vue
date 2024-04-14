@@ -30,12 +30,12 @@ const vL = () => {
 <template>
 
   <div class="language">
-  <img class="lang" alt="" :src="'/src/assets/image/flag-'+Tr.currentLocale+'.png'"  @click="vL">
+  <img class="lang" alt="" :src="`/assets/flag-${$i18n.locale}.png`"  @click="vL">
 
 
   <div v-if="viewLanguage" class="col">
 
-      <img class="lang" alt="" :src="'/src/assets/image/flag-'+lang+'.png'" v-for="lang in supportedLanguage" @click="switchLanguage(lang)" :key="lang">{{ lang }}
+      <img class="lang" alt="" :src="`/assets/flag-${lang}.png`" v-for="lang in supportedLanguage" @click="switchLanguage(lang)" :key="lang">{{ lang }}
     </div>
   </div>
 </template>

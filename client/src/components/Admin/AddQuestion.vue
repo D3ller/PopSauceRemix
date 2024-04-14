@@ -43,7 +43,7 @@ function addquestion() {
       return ;
     }
   }
-  axios.post('http://apiplateform.karibsen.fr/api/questions', {
+  axios.post('https://apiplateform.karibsen.fr/api/questions', {
     question: question.value,
       questionEn: question_en.value,
       reponse1: reponse_1.value,
@@ -82,7 +82,7 @@ function addquestion() {
   });
 }
 const getData_themes = () => {
-  axios.get('http://apiplateform.karibsen.fr/api/themes')
+  axios.get('https://apiplateform.karibsen.fr/api/themes')
       .then(res => {
         data_themes.value = res.data["hydra:member"]
       })

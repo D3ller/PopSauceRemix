@@ -61,7 +61,7 @@ const {t, locale} = useI18n()
 onMounted(async(id) => {
   function getData() {
     const id = route.params.id
-    axios.get(`http://apiplateform.karibsen.fr/api/themes/${id}`)
+    axios.get(`https://apiplateform.karibsen.fr/api/themes/${id}`)
         .then(res => {
           data.value = res.data
           // console.log(data.value)
@@ -77,7 +77,7 @@ function updatetheme() {
   }
   console.log(theme.value, theme_en.value)
   const id = route.params.id
-  axios.put(`http://apiplateform.karibsen.fr/api/themes/${id}`, {
+  axios.put(`https://apiplateform.karibsen.fr/api/themes/${id}`, {
     nomThemes: theme.value,
     enThemes: theme_en.value,
     image: data.value.image
