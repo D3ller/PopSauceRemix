@@ -48,9 +48,25 @@ function handleLogin(form) {
           const userResponse = await axios.get('http://apiplateform.karibsen.fr/api/me', {
             headers: {Authorization: `Bearer ${token}`}
           });
-          console.log(userResponse)
+          console.log(localStorage.getItem('token'))
 
-          localStorage.setItem('user', JSON.stringify(userResponse.data.user))
+          const tokenStorage = localStorage.getItem('token')
+
+          // userResponse + "token" : token
+
+          const user = {
+            "name" : userResponse.data.user.name,
+            "email" : userResponse.data.user.email,
+            "games_win" : userResponse.data.user.games_win,
+            "token" : tokenStorage
+          }
+
+          console.log(userResponse.data.user)
+          // const userWithTokenJSON = JSON.stringify(user);
+
+          localStorage.setItem('user', JSON.stringify(user));
+
+          // localStorage.setItem('user', JSON.stringify(userResponse.data.user) + "token : "+token)
 
           await router.push('/fr/account');
         }
