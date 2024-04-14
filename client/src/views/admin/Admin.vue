@@ -1,7 +1,6 @@
 <script setup>
 import NavbarAdmin from "@/components/NavbarAdmin.vue";
 import { h } from "vue";
-import Graphique from "@/components/Graphique.vue";
 import { useRoute } from 'vue-router';
 import {useI18n} from "vue-i18n";
 const route = useRoute();
@@ -20,8 +19,6 @@ const { t } = useI18n();
       <div id="dashbord">
         <div class="contenu_admin">
           <h2>{{ t('pages.admin_page.welcome_message') }}</h2><br>
-          <h4>{{ t('pages.admin_page.dashboard_title') }}</h4>
-          <Graphique></Graphique>
         </div>
       </div>
     </div>
