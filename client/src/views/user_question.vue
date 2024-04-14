@@ -17,6 +17,8 @@ let reponse_4 = ref('');
 let reponse_4_en = ref('');
 let image = ref('');
 let theme = ref('');
+let bonneReponse = ref('');
+let bonneReponseEn = ref('');
 
 onMounted(async () => {
   const response = await fetch('http://apiplateform.karibsen.fr/api/themes');
@@ -64,6 +66,8 @@ const ajouterQuestion = async () => {
     reponse3En: reponse_3_en.value,
     reponse4: reponse_4.value,
     reponse4En: reponse_4_en.value,
+    bonneReponse: bonneReponse.value,
+    bonneReponseEn: bonneReponseEn.value,
     image: image.value,
     theme: theme.value
   };
@@ -122,6 +126,8 @@ const clearForm = () => {
           <input class="form_input" type="text" v-model="reponse_2_en" :placeholder="t('pages.user_question.answer_2') + ' en anglais'" name="reponse2_en">
           <input class="form_input" type="text" v-model="reponse_3" :placeholder="t('pages.user_question.answer_3')" name="reponse3">
           <input class="form_input" type="text" v-model="reponse_4" :placeholder="t('pages.user_question.answer_4')" name="reponse4">
+          <input class="form_input required" type="text" v-model="bonneReponse" :placeholder="t('pages.user_question.good_answer')" name="bonneReponse" required>
+          <input class="form_input required" type="text" v-model="bonneReponseEn" :placeholder="t('pages.user_question.good_answer') + ' en anglais'" name="bonneReponseEn" required>
           <input class="form_input" type="file" @change="handleImageUpload" accept="image/png" name="image">
           <select name="theme" id="theme" v-model="theme" required>
             <option value="">{{ t('pages.user_question.choose_theme') }}</option>
