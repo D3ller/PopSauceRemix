@@ -87,6 +87,18 @@
     border: 1px solid #333;
     border-radius: 10px;
   }
+  .cadre h1, h2 {
+  color: #333;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
 
+.cadre section {
+  margin-bottom: 20px;
+}
+.cadre p {
+  font-size: 12px;
+  text-align: left;
+}
 
   </style>
