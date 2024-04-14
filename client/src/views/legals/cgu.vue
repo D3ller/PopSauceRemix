@@ -76,9 +76,18 @@
     border-radius: 10px;
     text-align: center;
   }
-  
-  section {
-    margin-bottom: 20px;
-  }
+  h1, h2 {
+  color: #333;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+section {
+  margin-bottom: 20px;
+}
+p {
+  font-size: 12px;
+  text-align: left;
+}
 
   </style>

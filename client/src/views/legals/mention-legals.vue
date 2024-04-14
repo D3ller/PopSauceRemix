@@ -83,8 +83,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 105vh;
-  margin-top: 100px;
+  height: 115vh;
+  margin-top: 110px;
 }
 
 .cadre {
@@ -95,5 +95,18 @@
   background-color: #f8f8f8;
 }
 
+h1, h2 {
+  color: #333;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+section {
+  margin-bottom: 20px;
+}
+p {
+  font-size: 12px;
+  text-align: left;
+}
 
 </style>
